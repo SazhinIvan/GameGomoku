@@ -28,3 +28,13 @@ C:\Users\sazhi\Desktop\GameGomoku\obj\Debug\WindowsFormsApp1.csproj.GenerateReso
 C:\Users\sazhi\Desktop\GameGomoku\obj\Debug\WindowsFormsApp1.csproj.CoreCompileInputs.cache
 C:\Users\sazhi\Desktop\GameGomoku\obj\Debug\WindowsFormsApp1.exe
 C:\Users\sazhi\Desktop\GameGomoku\obj\Debug\WindowsFormsApp1.pdb
+C:\GameGomoku\bin\Debug\WindowsFormsApp1.exe.config
+C:\GameGomoku\bin\Debug\WindowsFormsApp1.exe
+C:\GameGomoku\bin\Debug\WindowsFormsApp1.pdb
+C:\GameGomoku\obj\Debug\WindowsFormsApp1.Form1.resources
+C:\GameGomoku\obj\Debug\WindowsFormsApp1.Properties.Resources.resources
+C:\GameGomoku\obj\Debug\WindowsFormsApp1.csproj.GenerateResource.cache
+C:\GameGomoku\obj\Debug\WindowsFormsApp1.csproj.CoreCompileInputs.cache
+C:\GameGomoku\obj\Debug\WindowsFormsApp1.exe
+C:\GameGomoku\obj\Debug\WindowsFormsApp1.pdb
+C:\GameGomoku\obj\Debug\WindowsFormsApp1.csprojAssemblyReference.cache

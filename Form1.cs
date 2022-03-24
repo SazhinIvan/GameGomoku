@@ -50,6 +50,26 @@ namespace WindowsFormsApp1
                 _arrm[i] =item.n;
                 i += 1;
             }
+
+           
+
+            bool result = false;
+            int _count = _arrm.Count();
+            if (_count>=5)
+            {
+                for (int ii = 0; ii < _count - 4; ii++)
+                {
+                    int a = 3;
+                    if (_arrm[ii] + 1 == _arrm[ii + 1] &&
+                        _arrm[ii + 1] + 1 == _arrm[ii + 2] &&
+                        _arrm[ii + 2] + 1 == _arrm[ii + 3] &&
+                        _arrm[ii + 3] + 1 == _arrm[ii + 4])
+                        
+                    {
+                        result = true;
+                    }
+                }
+            }
         }
 
         public void button_color(Button button)
