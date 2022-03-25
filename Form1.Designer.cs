@@ -74,6 +74,7 @@ namespace WindowsFormsApp1
             _buttons = new Button[m * n];
 
             _pole = new pole[15 * 15];
+            _pole2 = new pole[15, 15];
 
             int num = 0;
             for (int i = 0; i < m; i++)
@@ -89,10 +90,15 @@ namespace WindowsFormsApp1
                     int y = j+1;
 
                     _pole[num] = new pole();
-
                     _pole[num].m = i + 1;
                     _pole[num].n = j + 1;
                     _pole[num].zn = 0;
+                    
+
+                    _pole2[i, j] = new pole();
+                    _pole2[i, j].m = i + 1;
+                    _pole2[i, j].n = j + 1;
+                    _pole2[i, j].zn = 0;
 
                     _buttons[num].Location = new System.Drawing.Point(_buttons[num].Width * x, _buttons[num].Height * y);
                     _buttons[num].Text = (num + 1).ToString();

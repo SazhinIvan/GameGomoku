@@ -22,7 +22,7 @@ namespace WindowsFormsApp1
         }
 
         public pole[] _pole;
-
+        public pole[,] _pole2; 
         public bool player1 = true;
 
         public Form1()
@@ -53,7 +53,7 @@ namespace WindowsFormsApp1
 
            
 
-            bool result = false;
+            bool win = false;
             int _count = _arrm.Count();
             if (_count>=5)
             {
@@ -66,7 +66,7 @@ namespace WindowsFormsApp1
                         _arrm[ii + 3] + 1 == _arrm[ii + 4])
                         
                     {
-                        result = true;
+                        win = true;
                     }
                 }
             }
