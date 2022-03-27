@@ -33,37 +33,20 @@ namespace WindowsFormsApp1
         }
 
         public void obr_pole(pole item_pole)
-        {
-
-            //var _obr = (from Item in _pole
-            //            where Item.zn == 1 & Item.player == 1
-            //            select Item) ;
-
-
-            //int[] _arrm = new int[_obr.Count()];
-            //int i = 0;    
-            //foreach (var item in _obr)
-            //{
-            //    _arrm[i] =item.n;
-            //    i += 1;
-            //}
+        {           
 
             //по вертикали
             var _obr_h = (from Item in _pole
                           where Item.zn == 1 && Item.player == item_pole.player && Item.n == item_pole.n
                           select Item);
 
-
-            int[] _arrm_h = new int[15]; // = new int[_obr.Count()];
-
+            int[] _arrm_h = new int[15];
 
             int i_h = 0;
             int i_sum = 0;
             int b = 0;
-            bool five_h = false;
-            bool more_five_h = false;
-
-
+            bool five_h = false;       
+            
             foreach (var item in _obr_h)
             {
                 int a = item.m;
@@ -82,13 +65,15 @@ namespace WindowsFormsApp1
                     i_sum = 1;
                     _arrm_h[i_h] = i_sum;
                 }
-                b = a;
+                b = a;                                
+                               
+            }
 
+            foreach (var item in _arrm_h)
+            {
                 if (i_sum == 5)
                 { five_h = true; }
 
-                if (i_sum > 5)
-                { more_five_h = true; }
             }
 
             // по горизонтали
@@ -102,8 +87,7 @@ namespace WindowsFormsApp1
             int j_w = 0;
             int j_sum = 0;
             b = 0;
-            bool five_w = false;
-            bool more_five_w = false;
+            bool five_w = false;           
 
             foreach (var item in _obr_w)
             {
@@ -125,14 +109,14 @@ namespace WindowsFormsApp1
                 }
                 b = a;
 
-                if (j_sum == 5)
+            }
+            foreach (var item in _arrm_w)
+            {
+                if (item == 5)
                 { five_w = true; }
 
-                if (j_sum > 5)
-                { more_five_w = true; }
             }
-
-            // по диагонали            
+            // по диагонали  "/"           
 
             int h = item_pole.m; // строки m
             int w = item_pole.n; // столбцы n
@@ -141,61 +125,57 @@ namespace WindowsFormsApp1
 
             int ij_wh = 0;
             int ij_sum = 0;
-            b = 0;
+            int b_m = 0;
+            int b_n = 0;
             bool five_wh = false;
-            bool more_five_wh = false;
-
-            int h_min = 1;
-            int h_max = 15;
-            int w_min = 1;
-            int w_max = 15;
+            
             int max = 0;
             int m_a = 0;
             int n_a = 0;
-            //первая четверть
-            if (h < 8 & w < 8)
-            {
-                //слева вверх
-                if (h >= w)
-                {
+
+            
+            //перед диоганалью "/"
+            if (h + w <= 16)
+            {               
                     max = h + w - 1;
-
-
                     m_a = h + w - 1;
                     n_a = 1;
 
-                }
-
-                if (w > h)
-                {
-                    max = h + w - 1;
-                    //n_a = h + w - 1;
-                    //m_a = 1;
-
-                    m_a = h + w - 1;
-                    n_a = 1;
-
-                }
+                int d2 = 0;
 
 
                 for (int i = 1; i < max; i++)
                 {
                     var che = (from Item in _pole
-                               where /*Item.zn == 1  && Item.player == item_pole.player && */  Item.m == m_a && Item.n == n_a
+                               where Item.m == m_a && Item.n == n_a
                                select Item);
 
 
-                    int a = che.ElementAt(0).n;
+                    int a_n = che.ElementAt(0).n;
+                    int a_m = che.ElementAt(0).m;
+
                     var c = che.ElementAt(0).zn;
                     var d = che.ElementAt(0).player;
 
+                    if (d == d2)
+                    {
+                        d2 = d;
+                    }
 
-                    if (b + 1 == a && c == 1 && d == item_pole.player)
+                    if (b_m - 1 == a_m &&
+                        b_n + 1 == a_n &&
+                        c == 1 &&
+                        d2 == d &&
+                        d == item_pole.player
+                        )
                     {
                         ij_sum += 1;
                         _arrm_wh[ij_wh] = ij_sum;
                     }
-                    else
+                    else if(
+                        c == 1 &&
+                        d == item_pole.player
+                        )
                     {
                         if (ij_sum == 0)
                         { ij_wh = 0; }
@@ -205,65 +185,257 @@ namespace WindowsFormsApp1
                         ij_sum = 1;
                         _arrm_wh[ij_wh] = ij_sum;
                     }
-                    b = a;
 
-                    if (ij_sum == 5)
-                    { five_wh = true; }
-
-                    if (ij_sum > 5)
-                    { more_five_wh = true; }
-
+                    b_m = a_m;
+                    b_n = a_n;
+                    d2 = d;
 
                     m_a -= 1;
                     n_a += 1;
 
+                }
+                foreach (var item in _arrm_wh)
+                {
+                    if (item == 5)
+                { five_wh = true; }
 
+                }              
+
+
+            }
+
+            //после диагонали "/"
+            if (h + w > 16)
+            {
+                max = 2*15 - (h + w - 1);
+                m_a = h + w - 15;
+                n_a = 15;
+
+
+                int d2 = 0;
+
+
+                for (int i = 1; i < max; i++)
+                {
+                    var che = (from Item in _pole
+                               where Item.m == m_a && Item.n == n_a
+                               select Item);
+
+
+                    int a_n = che.ElementAt(0).n;
+                    int a_m = che.ElementAt(0).m;
+
+
+                    var c = che.ElementAt(0).zn;
+                    var d = che.ElementAt(0).player;
+
+
+                    if (d == d2)
+                    {
+                        d2 = d;
+                    }
+
+                    if (b_m + 1 == a_m &&
+                       b_n - 1 == a_n &&
+                       c == 1 &&
+                       d2 == d &&
+                       d == item_pole.player
+                       )
+                    {
+                        ij_sum += 1;
+                        _arrm_wh[ij_wh] = ij_sum;
+                    }
+                    else if(
+                        c == 1 &&
+                        d == item_pole.player
+                        )
+
+                    {
+                        if (ij_sum == 0)
+                        { ij_wh = 0; }
+                        else
+                        { ij_wh += 1; }
+
+                        ij_sum = 1;
+                        _arrm_wh[ij_wh] = ij_sum;
+                    }
+                    b_m = a_m;
+                    b_n = a_n;
+                    d2 = d;
+                                        
+                    m_a += 1;
+                    n_a -= 1;
+                                       
+                }
+                foreach (var item in _arrm_wh)
+                {
+                    if (item == 5)
+                    { five_wh = true; }
 
                 }
-                //слвева вниз
-
 
             }
 
-            //Вторая четверть
-            if (h < 8 & w > 8)
+
+            // по диагонали  "\" 
+
+           h = item_pole.m; // строки m
+            w = item_pole.n; // столбцы n
+
+            int[]  _arrm_wh_b = new int[15];
+
+            ij_wh = 0;
+            ij_sum = 0;
+            b_m = 0;
+            b_n = 0;
+            bool five_wh_b = false;
+
+            max = 0;
+            m_a = 0;
+            n_a = 0;
+            // до диагонали "\"
+
+
+            if (h >= w)
             {
+                m_a = h -  w + 1;
+                n_a = 1;
+                max = 15 - m_a + 1;
+
+                int d2 = 0;
+
+                for (int i = 1; i < max; i++)
+                {
+                    var che = (from Item in _pole
+                               where Item.m == m_a && Item.n == n_a
+                               select Item);
+
+
+                    int a_n = che.ElementAt(0).n;
+                    int a_m = che.ElementAt(0).m;
+
+                    var c = che.ElementAt(0).zn;
+                    var d = che.ElementAt(0).player;
+
+                    if (d == d2)
+                    {
+                        d2 = d;
+                    }
+
+                    if (b_m + 1 == a_m &&
+                        b_n + 1 == a_n &&
+                        c == 1 &&
+                        d2 == d &&
+                        d == item_pole.player
+                        )
+                    {
+                        ij_sum += 1;
+                        _arrm_wh_b[ij_wh] = ij_sum;
+                    }
+                    else if (
+                        c == 1 &&
+                        d == item_pole.player
+                        )
+                    {
+                        if (ij_sum == 0)
+                        { ij_wh = 0; }
+                        else
+                        { ij_wh += 1; }
+
+                        ij_sum = 1;
+                        _arrm_wh_b[ij_wh] = ij_sum;
+                    }
+
+                    b_m = a_m;
+                    b_n = a_n;
+                    d2 = d;
+
+                    m_a += 1;
+                    n_a += 1;
+
+                }
+                foreach (var item in _arrm_wh_b)
+                {
+                    if (item == 5)
+                    { five_wh_b = true; }
+
+                }
+
 
             }
-            //третья четверть
 
-            if (h > 8 & w < 8)
+            // после диагонали "\"
+            if (h < w)
             {
+                m_a = 1;
+                n_a = w - h + 1;
+                max = 15 - n_a + 1;
+
+                int d2 = 0;
+
+                for (int i = 1; i < max; i++)
+                {
+                    var che = (from Item in _pole
+                               where Item.m == m_a && Item.n == n_a
+                               select Item);
+
+
+                    int a_n = che.ElementAt(0).n;
+                    int a_m = che.ElementAt(0).m;
+
+
+                    var c = che.ElementAt(0).zn;
+                    var d = che.ElementAt(0).player;
+
+                    if (d == d2)
+                    {
+                        d2 = d;
+                    }
+
+                    if (b_m + 1 == a_m &&
+                       b_n + 1 == a_n &&
+                       c == 1 &&
+                       d2 == d &&
+                       d == item_pole.player
+                       )
+                    {
+                        ij_sum += 1;
+                        _arrm_wh_b[ij_wh] = ij_sum;
+                    }
+                    else if (
+                        c == 1 &&
+                        d == item_pole.player
+                        )
+
+                    {
+                        if (ij_sum == 0)
+                        { ij_wh = 0; }
+                        else
+                        { ij_wh += 1; }
+
+                        ij_sum = 1;
+                        _arrm_wh_b[ij_wh] = ij_sum;
+                    }
+                    b_m = a_m;
+                    b_n = a_n;
+                    d2 = d;
+
+                    m_a += 1;
+                    n_a += 1;
+
+                }
+                foreach (var item in _arrm_wh_b)
+                {
+                    if (item == 5)
+                    { five_wh_b = true; }
+
+                }
 
             }
+            // проверка на победу
+            win = five_h | five_w | five_wh | five_wh_b;
 
-            //четвертая четверть
-            if (h > 8 & w > 8)
-            {
-
-            }
-
-
-
-            win = five_h | five_w | five_wh;
-
-            //int _count = _arrm.Count();
-
-            //if (_count>=5)
-            //{
-            //    for (int ii = 0; ii < _count - 4; ii++)
-            //    {
-            //        int a = 3;
-            //        if (_arrm[ii] + 1 == _arrm[ii + 1] &&
-            //            _arrm[ii + 1] + 1 == _arrm[ii + 2] &&
-            //            _arrm[ii + 2] + 1 == _arrm[ii + 3] &&
-            //            _arrm[ii + 3] + 1 == _arrm[ii + 4])
-                        
-            //        {
-            //            win = true;
-            //        }
-            //    }
-            //}
+           
         }
 
         public void button_color(Button button)
