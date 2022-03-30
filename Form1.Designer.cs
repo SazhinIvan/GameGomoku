@@ -43,18 +43,18 @@ namespace WindowsFormsApp1
         /// </summary>
         private void InitializeComponent()
         {
-
-            height_y = 15;
-            width_x = 15;
+            size_pole = 15;
+            height_y = size_pole;
+            width_x = size_pole;
 
             this.Width =  800;
             this.Height = 800;
             
             //_buttons = new Button[width_x * height_y];
 
-            _buttonsPosition = new GamePole[width_x * height_y];
+            _buttonsPosition = new buttonsPosition[width_x * height_y];
             _GamePole = new GamePole[width_x, height_y];
-            _GamePole_test = new GamePole[width_x, height_y];
+            _GamePole = new GamePole[width_x, height_y];
 
             int space_x = 0;
             int num = 0;
@@ -66,24 +66,24 @@ namespace WindowsFormsApp1
 
                     Button _buttons = new Button();
 
-                    _buttons.Width =30;
-                    _buttons.Height = 30;
+                    _buttons.Width = 35;
+                    _buttons.Height = 35;
 
                     int x = i+1;
                     int y = j+1;
 
                     ///////////////////////////////////////
-                    _GamePole_test[i, j] = new GamePole();
-                    _GamePole_test[i, j].x_gamePole = x;
-                    _GamePole_test[i, j].y_gamePole = y;
-                    _GamePole_test[i, j].busy_cell = 0;
+                    _GamePole[i, j] = new GamePole();
+                    _GamePole[i, j].x_gamePole = x;
+                    _GamePole[i, j].y_gamePole = y;
+                    _GamePole[i, j].busy_cell = 0;
 
                     ///////////////////////////////
                     ///
-                    _buttonsPosition[num] = new GamePole();
+                    _buttonsPosition[num] = new buttonsPosition();
                     _buttonsPosition[num].y_gamePole = y;
                     _buttonsPosition[num].x_gamePole = x;
-                    _buttonsPosition[num].busy_cell = 0;                    
+                    //_buttonsPosition[num].busy_cell = 0;                    
 
                     _GamePole[i, j] = new GamePole();
                     _GamePole[i, j].y_gamePole = y;
