@@ -45,22 +45,24 @@ namespace WindowsFormsApp1
         private void InitializeComponent()
         {           
 
-            this.Width =  600;
-            this.Height = 600;
+            this.Width =  800;
+            this.Height = 800;
             
             _buttons = new Button[m * n];
 
             _pole = new pole[15 * 15];
             _pole2 = new pole[15, 15];
 
+            int otstup_x = 0;
             int num = 0;
             for (int i = 0; i < m; i++)
             {
+                int otstup_y = 0;
                 for (int j = 0; j < n; j++) { 
 
                     _buttons[num] = new Button();
 
-                    _buttons[num].Width = 30;
+                    _buttons[num].Width =30;
                     _buttons[num].Height = 30;
 
                     int x = i+1;
@@ -77,7 +79,7 @@ namespace WindowsFormsApp1
                     _pole2[i, j].n = x;
                     _pole2[i, j].zn = 0;
 
-                    _buttons[num].Location = new System.Drawing.Point(_buttons[num].Width * x, _buttons[num].Height * y);
+                    _buttons[num].Location = new System.Drawing.Point(_buttons[num].Width * x+ otstup_x, _buttons[num].Height * y+ otstup_y);
                     _buttons[num].Text = (num + 1).ToString();
                     _buttons[num].Name = (num + 1).ToString();
                     _buttons[num].Tag = num;
@@ -86,7 +88,10 @@ namespace WindowsFormsApp1
 
                     this.Controls.Add(_buttons[num]);
                     num += 1;
+                    
+                    otstup_y += 10;
                 }
+                otstup_x += 10;
             }
 
            
