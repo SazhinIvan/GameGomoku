@@ -12,19 +12,197 @@ namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
-        public class pole
+        public class GamePole
         {
-            public int m { get; set; }
-            public int n { get; set; }
-            public int zn { get; set; }
-            public int player { get; set; }
-            
+            public int y_gamePole { get; set; }
+            public int x_gamePole { get; set; }
+            public int busy_cell { get; set; }
+            public int playerNumber { get; set; }            
         }
 
-        public pole[] _pole;
-        public pole[,] _pole2; 
+        public class buttonsPosition
+        {
+            public int y_gamePole { get; set; }
+            public int x_gamePole { get; set; } 
+        }
+
+        public int size_pole;
+        public int height_y;
+        public int width_x;
+        public buttonsPosition[] _buttonsPosition;
+
+        public GamePole[,] _GamePole;
+
         public bool player1 = true;
         public bool win =false;
+
+        public bool checkFive(int[] array)
+        {
+            bool result = false;
+            foreach (var item in array)
+            {
+                if (item == 5)
+                { result = true; }
+
+            }
+            return result;
+        }
+        
+        public int[] checkLine(GamePole item_pole, int[]  array_tmp,int y_pole, int x_pole, int y_delta, int x_delta)
+        {
+            int arrayItem = 0;
+            int SummStones = 0;
+            int y_gamePolePrevious = 0;
+            int x_gamePolePrevious = 0;
+            int playerNumberPrevious = 0;
+
+            for (int i = 1; i < array_tmp.Count(); i++)
+            {
+                var cellCurrent = _GamePole[x_pole - 1, y_pole - 1];
+
+                int x_gamePoleCurrent = cellCurrent.x_gamePole;
+                int y_gamePoleCurrent = cellCurrent.y_gamePole;
+                var busy_cellCurrent = cellCurrent.busy_cell;
+                var playerNumberCurrent = cellCurrent.playerNumber;
+
+                if (playerNumberCurrent == playerNumberPrevious)
+                {
+                    playerNumberPrevious = playerNumberCurrent;
+                }
+
+                if (y_gamePolePrevious + y_delta == y_gamePoleCurrent &&
+                    x_gamePolePrevious + x_delta == x_gamePoleCurrent &&
+                    busy_cellCurrent == 1 &&
+                    playerNumberPrevious == playerNumberCurrent &&
+                    playerNumberCurrent == item_pole.playerNumber)
+                {
+                    SummStones += 1;
+                    array_tmp[arrayItem] = SummStones;
+                }
+                else if (busy_cellCurrent == 1 &&
+                    playerNumberCurrent == item_pole.playerNumber)
+                {
+                    if (SummStones == 0)
+                    { arrayItem = 0; }
+                    else
+                    { arrayItem += 1; }
+
+                    SummStones = 1;
+                    array_tmp[arrayItem] = SummStones;
+                }
+
+                y_gamePolePrevious = y_gamePoleCurrent;
+                x_gamePolePrevious = x_gamePoleCurrent;
+                playerNumberPrevious = playerNumberCurrent;
+
+                y_pole = y_pole + y_delta;
+                x_pole = x_pole + x_delta;
+            }
+            return array_tmp;
+        }
+
+        public bool checkVertical(GamePole item_pole) //по вертикали
+        {
+            int y_SelectPole = item_pole.y_gamePole; // строки m
+            int x_SelectPole = item_pole.x_gamePole; // столбцы n
+
+            int[] array_tmp; //временный массив
+            int size_array = 0;
+            int y_pole = 0, x_pole = 0, y_delta = 0, x_delta = 0;            
+            size_array = size_pole;
+            y_pole = 1;
+            x_pole = x_SelectPole;
+            y_delta = 1;
+            x_delta = 0;           
+
+            array_tmp = new int[size_array];
+            array_tmp = checkLine(item_pole, array_tmp, y_pole, x_pole, y_delta, x_delta);
+            return checkFive(array_tmp); // проверка на 5  
+        }
+
+        public bool checkHorizontal(GamePole item_pole)
+        {
+            int y_SelectPole = item_pole.y_gamePole; // строки m
+            int x_SelectPole = item_pole.x_gamePole; // столбцы n
+
+            int[] array_tmp;
+            int size_array = 0;
+            int y_pole = 0, x_pole = 0, y_delta = 0, x_delta = 0;
+            size_array = size_pole;
+            y_pole = y_SelectPole;
+            x_pole = 1;
+            y_delta = 0;
+            x_delta = 1;
+
+            array_tmp = new int[size_array];
+            array_tmp = checkLine(item_pole, array_tmp, y_pole, x_pole, y_delta, x_delta);
+            return checkFive(array_tmp); // проверка на 5  
+        }
+
+        public bool checkDiagonal_1(GamePole item_pole) // по диагонали  "/"   
+        {
+            int y_SelectPole = item_pole.y_gamePole; // строки m
+            int x_SelectPole = item_pole.x_gamePole; // столбцы n
+
+            int[] array_tmp; //временный массив
+            int size_array = 0;
+            int y_pole = 0, x_pole = 0, y_delta = 0, x_delta = 0;                      
+
+            if (y_SelectPole + x_SelectPole <= size_pole + 1) //до диоганалью "/"
+            {
+                size_array = y_SelectPole + x_SelectPole - 1;
+                y_pole = y_SelectPole + x_SelectPole - 1;
+                x_pole = 1;
+                y_delta = -1;
+                x_delta = 1;
+            }
+            else if (y_SelectPole + x_SelectPole > size_pole + 1) //после диагонали "/"
+            {
+                size_array = 2 * size_pole - (y_SelectPole + x_SelectPole - 1);
+                y_pole = size_pole;                
+                x_pole = y_SelectPole + x_SelectPole - size_pole;
+                y_delta = -1;
+                x_delta = 1;
+            }
+
+            array_tmp = new int[size_array];
+            array_tmp = checkLine(item_pole, array_tmp, y_pole, x_pole,  y_delta, x_delta);      
+            return checkFive(array_tmp); // проверка на 5         
+        }
+
+        public bool checkDiagonal_2(GamePole item_pole)// по диагонали  "\" 
+        {
+            int y_SelectPole = item_pole.y_gamePole; // строки m
+            int x_SelectPole = item_pole.x_gamePole; // столбцы n
+
+            int[] array_tmp; //временный массив
+            int size_array = 0;
+            int y_pole = 0, x_pole = 0, y_delta = 0, x_delta = 0;
+
+            if (y_SelectPole >= x_SelectPole) // до диоганалью "\"
+            {
+                y_pole = y_SelectPole - x_SelectPole + 1;
+                x_pole = 1; 
+                size_array = size_pole - y_pole + 1; 
+
+                y_delta = 1;
+                x_delta = 1;
+            }
+            else if (y_SelectPole < x_SelectPole) 
+            {
+                y_pole = 1;// m_a = 1;
+                x_pole = x_SelectPole - y_SelectPole + 1;
+                size_array = size_pole - x_pole + 1 ;
+
+                y_delta = 1; 
+                x_delta = 1; 
+            }
+
+            array_tmp = new int[size_array];
+            array_tmp = checkLine(item_pole, array_tmp, y_pole, x_pole, y_delta, x_delta);
+            return checkFive(array_tmp); // проверка на 5 
+
+        }
 
         public Form1()
         {
@@ -32,409 +210,16 @@ namespace WindowsFormsApp1
             InitializeComponent();           
         }
 
-        public void obr_pole(pole item_pole)
-        {           
+        public void obr_pole(GamePole item_pole)
+        {
 
-            //по вертикали
-            var _obr_h = (from Item in _pole
-                          where Item.zn == 1 && Item.player == item_pole.player && Item.n == item_pole.n
-                          select Item);
+            bool five_vert = checkVertical(item_pole);       //првоерка по вертикали
+            bool five_horiz = checkHorizontal(item_pole);     // првоерка по горизонтали
+            bool five_diag = checkDiagonal_1(item_pole);     // проверка по диагонали "/"
+            bool five_diag_2 = checkDiagonal_2(item_pole);   // проверка по диагонали "\"
 
-            int[] _arrm_h = new int[15];
-
-            int i_h = 0;
-            int i_sum = 0;
-            int b = 0;
-            bool five_h = false;       
-            
-            foreach (var item in _obr_h)
-            {
-                int a = item.m;
-                if (b + 1 == a)
-                {
-                    i_sum += 1;
-                    _arrm_h[i_h] = i_sum;
-                }
-                else
-                {
-                    if (i_sum == 0)
-                    { i_h = 0; }
-                    else
-                    { i_h += 1; }
-
-                    i_sum = 1;
-                    _arrm_h[i_h] = i_sum;
-                }
-                b = a;                                
-                               
-            }
-
-            foreach (var item in _arrm_h)
-            {
-                if (i_sum == 5)
-                { five_h = true; }
-
-            }
-
-            // по горизонтали
-
-            var _obr_w = (from Item in _pole
-                          where Item.zn == 1 && Item.player == item_pole.player && Item.m == item_pole.m
-                          select Item);
-
-            int[] _arrm_w = new int[15];
-
-            int j_w = 0;
-            int j_sum = 0;
-            b = 0;
-            bool five_w = false;           
-
-            foreach (var item in _obr_w)
-            {
-                int a = item.n;
-                if (b + 1 == a)
-                {
-                    j_sum += 1;
-                    _arrm_w[j_w] = j_sum;
-                }
-                else
-                {
-                    if (j_sum == 0)
-                    { j_w = 0; }
-                    else
-                    { j_w += 1; }
-
-                    j_sum = 1;
-                    _arrm_w[j_w] = j_sum;
-                }
-                b = a;
-
-            }
-            foreach (var item in _arrm_w)
-            {
-                if (item == 5)
-                { five_w = true; }
-
-            }
-            // по диагонали  "/"           
-
-            int h = item_pole.m; // строки m
-            int w = item_pole.n; // столбцы n
-
-            int[] _arrm_wh = new int[15];
-
-            int ij_wh = 0;
-            int ij_sum = 0;
-            int b_m = 0;
-            int b_n = 0;
-            bool five_wh = false;
-            
-            int max = 0;
-            int m_a = 0;
-            int n_a = 0;
-
-            
-            //перед диоганалью "/"
-            if (h + w <= 16)
-            {               
-                    max = h + w - 1;
-                    m_a = h + w - 1;
-                    n_a = 1;
-
-                int d2 = 0;
-
-
-                for (int i = 1; i < max; i++)
-                {
-                    var che = (from Item in _pole
-                               where Item.m == m_a && Item.n == n_a
-                               select Item);
-
-
-                    int a_n = che.ElementAt(0).n;
-                    int a_m = che.ElementAt(0).m;
-
-                    var c = che.ElementAt(0).zn;
-                    var d = che.ElementAt(0).player;
-
-                    if (d == d2)
-                    {
-                        d2 = d;
-                    }
-
-                    if (b_m - 1 == a_m &&
-                        b_n + 1 == a_n &&
-                        c == 1 &&
-                        d2 == d &&
-                        d == item_pole.player
-                        )
-                    {
-                        ij_sum += 1;
-                        _arrm_wh[ij_wh] = ij_sum;
-                    }
-                    else if(
-                        c == 1 &&
-                        d == item_pole.player
-                        )
-                    {
-                        if (ij_sum == 0)
-                        { ij_wh = 0; }
-                        else
-                        { ij_wh += 1; }
-
-                        ij_sum = 1;
-                        _arrm_wh[ij_wh] = ij_sum;
-                    }
-
-                    b_m = a_m;
-                    b_n = a_n;
-                    d2 = d;
-
-                    m_a -= 1;
-                    n_a += 1;
-
-                }
-                foreach (var item in _arrm_wh)
-                {
-                    if (item == 5)
-                { five_wh = true; }
-
-                }              
-
-
-            }
-
-            //после диагонали "/"
-            if (h + w > 16)
-            {
-                max = 2*15 - (h + w - 1);
-                m_a = h + w - 15;
-                n_a = 15;
-
-
-                int d2 = 0;
-
-
-                for (int i = 1; i < max; i++)
-                {
-                    var che = (from Item in _pole
-                               where Item.m == m_a && Item.n == n_a
-                               select Item);
-
-
-                    int a_n = che.ElementAt(0).n;
-                    int a_m = che.ElementAt(0).m;
-
-
-                    var c = che.ElementAt(0).zn;
-                    var d = che.ElementAt(0).player;
-
-
-                    if (d == d2)
-                    {
-                        d2 = d;
-                    }
-
-                    if (b_m + 1 == a_m &&
-                       b_n - 1 == a_n &&
-                       c == 1 &&
-                       d2 == d &&
-                       d == item_pole.player
-                       )
-                    {
-                        ij_sum += 1;
-                        _arrm_wh[ij_wh] = ij_sum;
-                    }
-                    else if(
-                        c == 1 &&
-                        d == item_pole.player
-                        )
-
-                    {
-                        if (ij_sum == 0)
-                        { ij_wh = 0; }
-                        else
-                        { ij_wh += 1; }
-
-                        ij_sum = 1;
-                        _arrm_wh[ij_wh] = ij_sum;
-                    }
-                    b_m = a_m;
-                    b_n = a_n;
-                    d2 = d;
-                                        
-                    m_a += 1;
-                    n_a -= 1;
-                                       
-                }
-                foreach (var item in _arrm_wh)
-                {
-                    if (item == 5)
-                    { five_wh = true; }
-
-                }
-
-            }
-
-
-            // по диагонали  "\" 
-
-           h = item_pole.m; // строки m
-            w = item_pole.n; // столбцы n
-
-            int[]  _arrm_wh_b = new int[15];
-
-            ij_wh = 0;
-            ij_sum = 0;
-            b_m = 0;
-            b_n = 0;
-            bool five_wh_b = false;
-
-            max = 0;
-            m_a = 0;
-            n_a = 0;
-            // до диагонали "\"
-
-
-            if (h >= w)
-            {
-                m_a = h -  w + 1;
-                n_a = 1;
-                max = 15 - m_a + 1;
-
-                int d2 = 0;
-
-                for (int i = 1; i < max; i++)
-                {
-                    var che = (from Item in _pole
-                               where Item.m == m_a && Item.n == n_a
-                               select Item);
-
-
-                    int a_n = che.ElementAt(0).n;
-                    int a_m = che.ElementAt(0).m;
-
-                    var c = che.ElementAt(0).zn;
-                    var d = che.ElementAt(0).player;
-
-                    if (d == d2)
-                    {
-                        d2 = d;
-                    }
-
-                    if (b_m + 1 == a_m &&
-                        b_n + 1 == a_n &&
-                        c == 1 &&
-                        d2 == d &&
-                        d == item_pole.player
-                        )
-                    {
-                        ij_sum += 1;
-                        _arrm_wh_b[ij_wh] = ij_sum;
-                    }
-                    else if (
-                        c == 1 &&
-                        d == item_pole.player
-                        )
-                    {
-                        if (ij_sum == 0)
-                        { ij_wh = 0; }
-                        else
-                        { ij_wh += 1; }
-
-                        ij_sum = 1;
-                        _arrm_wh_b[ij_wh] = ij_sum;
-                    }
-
-                    b_m = a_m;
-                    b_n = a_n;
-                    d2 = d;
-
-                    m_a += 1;
-                    n_a += 1;
-
-                }
-                foreach (var item in _arrm_wh_b)
-                {
-                    if (item == 5)
-                    { five_wh_b = true; }
-
-                }
-
-
-            }
-
-            // после диагонали "\"
-            if (h < w)
-            {
-                m_a = 1;
-                n_a = w - h + 1;
-                max = 15 - n_a + 1;
-
-                int d2 = 0;
-
-                for (int i = 1; i < max; i++)
-                {
-                    var che = (from Item in _pole
-                               where Item.m == m_a && Item.n == n_a
-                               select Item);
-
-
-                    int a_n = che.ElementAt(0).n;
-                    int a_m = che.ElementAt(0).m;
-
-
-                    var c = che.ElementAt(0).zn;
-                    var d = che.ElementAt(0).player;
-
-                    if (d == d2)
-                    {
-                        d2 = d;
-                    }
-
-                    if (b_m + 1 == a_m &&
-                       b_n + 1 == a_n &&
-                       c == 1 &&
-                       d2 == d &&
-                       d == item_pole.player
-                       )
-                    {
-                        ij_sum += 1;
-                        _arrm_wh_b[ij_wh] = ij_sum;
-                    }
-                    else if (
-                        c == 1 &&
-                        d == item_pole.player
-                        )
-
-                    {
-                        if (ij_sum == 0)
-                        { ij_wh = 0; }
-                        else
-                        { ij_wh += 1; }
-
-                        ij_sum = 1;
-                        _arrm_wh_b[ij_wh] = ij_sum;
-                    }
-                    b_m = a_m;
-                    b_n = a_n;
-                    d2 = d;
-
-                    m_a += 1;
-                    n_a += 1;
-
-                }
-                foreach (var item in _arrm_wh_b)
-                {
-                    if (item == 5)
-                    { five_wh_b = true; }
-
-                }
-
-            }
             // проверка на победу
-            win = five_h | five_w | five_wh | five_wh_b;
-
+            win = five_vert | five_horiz | five_diag | five_diag_2;
            
         }
 
@@ -442,44 +227,54 @@ namespace WindowsFormsApp1
         {
             var _tag = (int)button.Tag;
 
+            buttonsPosition item_pole = _buttonsPosition[_tag];
+
+            int y_gamePole_test = item_pole.y_gamePole - 1; // строки m
+            int x_gamePole_test = item_pole.x_gamePole - 1; // столбцы n
+
+            GamePole item_pole_test = _GamePole[x_gamePole_test, y_gamePole_test];
+
             if (player1)
             {
                 button.BackColor = Color.Black;
                 player1 = !player1;
-                _pole[_tag].player = 1;
+                _GamePole[x_gamePole_test, y_gamePole_test].playerNumber = 1;                
             }
             else
             {
                 button.BackColor = Color.White;
                 player1 = !player1;
-                _pole[_tag].player = 2;
+                _GamePole[x_gamePole_test, y_gamePole_test].playerNumber = 2;             
             }
         }
-
-        
+     
         private void button_Click(object sender, EventArgs e)
         {
 
             Button button = (Button)sender;   
             string _name = button.Name;
             int _tag = (int) button.Tag;
-            pole item_pole = _pole[_tag];
+            buttonsPosition item_pole = _buttonsPosition[_tag];
+           
+            int y_gamePole_test = item_pole.y_gamePole - 1; // строки m
+            int x_gamePole_test = item_pole.x_gamePole - 1; // столбцы n
+
+            GamePole item_pole_test = _GamePole[x_gamePole_test, y_gamePole_test];
             
-            if (_pole[_tag].zn == 1)
-            {               
+            if (_GamePole[x_gamePole_test, y_gamePole_test].busy_cell == 1)
+            {
             }
             else
             {
                 button_color(button);
-                _pole[_tag].zn = 1;
-            }
-            obr_pole(item_pole);
+                _GamePole[x_gamePole_test, y_gamePole_test].busy_cell = 1;
+            }           
 
+            obr_pole(item_pole_test);
 
-            string pl = item_pole.player.ToString();
+            string pl = item_pole_test.playerNumber.ToString();
             if (win == true)   
             {
-
                 MessageBox.Show("выиграл игнок номер" + pl);
             }
         }
