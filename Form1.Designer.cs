@@ -44,8 +44,7 @@ namespace WindowsFormsApp1
             //_buttons = new Button[width_x * height_y];
 
             _buttonsPosition = new buttonsPosition[width_x * height_y];
-            _GamePole = new GamePole[width_x, height_y];
-            _GamePole = new GamePole[width_x, height_y];
+            _GamePole = new GamePole[width_x, height_y];           
 
             int space_x = 0;
             int step_space = 10;
