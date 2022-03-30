@@ -52,14 +52,16 @@ namespace WindowsFormsApp1
             
             //_buttons = new Button[width_x * height_y];
 
-            _buttonsList = new pole[width_x * height_y];
-            _buttonsPosition = new pole[width_x, height_y];
+            _buttonsPosition = new GamePole[width_x * height_y];
+            _GamePole = new GamePole[width_x, height_y];
+            _GamePole_test = new GamePole[width_x, height_y];
 
             int space_x = 0;
             int num = 0;
             for (int i = 0; i < height_y; i++)
             {
                 int space_y = 0;
+
                 for (int j = 0; j < width_x; j++) {
 
                     Button _buttons = new Button();
@@ -70,16 +72,23 @@ namespace WindowsFormsApp1
                     int x = i+1;
                     int y = j+1;
 
-                    _buttonsList[num] = new pole();
-                    _buttonsList[num].y = y;
-                    _buttonsList[num].x = x;
-                    _buttonsList[num].busy = 0;
-                    
+                    ///////////////////////////////////////
+                    _GamePole_test[i, j] = new GamePole();
+                    _GamePole_test[i, j].x_gamePole = x;
+                    _GamePole_test[i, j].y_gamePole = y;
+                    _GamePole_test[i, j].busy_cell = 0;
 
-                    _buttonsPosition[i, j] = new pole();
-                    _buttonsPosition[i, j].y = y;
-                    _buttonsPosition[i, j].x = x;
-                    _buttonsPosition[i, j].busy = 0;
+                    ///////////////////////////////
+                    ///
+                    _buttonsPosition[num] = new GamePole();
+                    _buttonsPosition[num].y_gamePole = y;
+                    _buttonsPosition[num].x_gamePole = x;
+                    _buttonsPosition[num].busy_cell = 0;                    
+
+                    _GamePole[i, j] = new GamePole();
+                    _GamePole[i, j].y_gamePole = y;
+                    _GamePole[i, j].x_gamePole = x;
+                    _GamePole[i, j].busy_cell = 0;
 
                     _buttons.Location = new System.Drawing.Point(_buttons.Width * x+ space_x, _buttons.Height * y+ space_y);
                     _buttons.Text = (num + 1).ToString();

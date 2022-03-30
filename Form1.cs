@@ -12,28 +12,37 @@ namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
-        public class pole
+        public class GamePole
         {
-            public int y { get; set; }
-            public int x { get; set; }
-            public int busy { get; set; }
+            public int y_gamePole { get; set; }
+            public int x_gamePole { get; set; }
+            public int busy_cell { get; set; }
             public int playerNumber { get; set; }
             
         }
 
+        public class buttonsPosition
+        {
+            public int y_gamePole { get; set; }
+            public int x_gamePole { get; set; }          
+ 
+        }
+
         public int height_y;
         public int width_x;
-        public pole[] _buttonsList;
-        public pole[,] _buttonsPosition; 
+        public GamePole[] _buttonsPosition;
+
+        public GamePole[,] _GamePole;
+        public GamePole[,] _GamePole_test;
+
         public bool player1 = true;
         public bool win =false;
 
-        public bool vert(pole item_pole)
+        public bool vert(GamePole item_pole)
         {
-
             //по вертикали
-            var _obr_h = (from Item in _buttonsList
-                          where Item.busy == 1 && Item.playerNumber == item_pole.playerNumber && Item.x == item_pole.x
+            var _obr_h = (from Item in _buttonsPosition
+                          where Item.busy_cell == 1 && Item.playerNumber == item_pole.playerNumber && Item.x_gamePole == item_pole.x_gamePole
                           select Item);
 
             int[] _arrm_h = new int[15];
@@ -45,7 +54,7 @@ namespace WindowsFormsApp1
 
             foreach (var item in _obr_h)
             {
-                int a = item.y;
+                int a = item.y_gamePole;
                 if (b + 1 == a)
                 {
                     i_sum += 1;
@@ -76,10 +85,10 @@ namespace WindowsFormsApp1
             return five_h;
         }
 
-        public bool horiz(pole item_pole)
+        public bool horiz(GamePole item_pole)
         {
-            var _obr_w = (from Item in _buttonsList
-                          where Item.busy == 1 && Item.playerNumber == item_pole.playerNumber && Item.y == item_pole.y
+            var _obr_w = (from Item in _buttonsPosition
+                          where Item.busy_cell == 1 && Item.playerNumber == item_pole.playerNumber && Item.y_gamePole == item_pole.y_gamePole
                           select Item);
 
             int[] _arrm_w = new int[15];
@@ -91,7 +100,7 @@ namespace WindowsFormsApp1
 
             foreach (var item in _obr_w)
             {
-                int a = item.x;
+                int a = item.x_gamePole;
                 if (b + 1 == a)
                 {
                     j_sum += 1;
@@ -120,19 +129,28 @@ namespace WindowsFormsApp1
             return five_w;
         }
 
-        public bool diag_1(pole item_pole) // по диагонали  "/"   
+        public bool diag_1(GamePole item_pole) // по диагонали  "/"   
         {
+
+
             // по диагонали  "/"           
 
-            int h = item_pole.y; // строки m
-            int w = item_pole.x; // столбцы n
+            /////////////////////////////////////
+
+            int y_gamePole_test = item_pole.y_gamePole; // строки m
+            int x_gamePole_test = item_pole.x_gamePole; // столбцы n
+
+            /////////////////////////////////////
+
+            int h = item_pole.y_gamePole; // строки m
+            int w = item_pole.x_gamePole; // столбцы n
 
             int[] _arrm_wh = new int[15];
 
             int ij_wh = 0;
             int ij_sum = 0;
-            int b_m = 0;
-            int b_n = 0;
+            int y_gamePolePrevious = 0;
+            int x_gamePolePrevious = 0;
             bool five_wh = false;
 
             int max = 0;
@@ -147,41 +165,82 @@ namespace WindowsFormsApp1
                 m_a = h + w - 1;
                 n_a = 1;
 
-                int d2 = 0;
+                int playerNumberPrevious = 0;
 
 
                 for (int i = 1; i < max; i++)
                 {
-                    var che = (from Item in _buttonsList
-                               where Item.y == m_a && Item.x == n_a
-                               select Item);
+                    //var che = (from Item in _buttonsPosition
+                    //           where Item.y_gamePole == m_a && Item.x_gamePole == n_a
+                    //           select Item);
+
+                   
+
+                    //int x_gamePoleCurrent = che.ElementAt(0).x_gamePole;
+                    //int y_gamePoleCurrent = che.ElementAt(0).y_gamePole;
+
+                    //var busy_cellCurrent = che.ElementAt(0).busy_cell;
+                    //var playerNumberCurrent = che.ElementAt(0).playerNumber;
+
+                    //if (playerNumberCurrent == playerNumberPrevious)
+                    //{
+                    //    playerNumberPrevious = playerNumberCurrent;
+                    //}
+
+                    //if (y_gamePolePrevious - 1 == y_gamePoleCurrent &&
+                    //    x_gamePolePrevious + 1 == x_gamePoleCurrent &&
+                    //    busy_cellCurrent == 1 &&
+                    //    playerNumberPrevious == playerNumberCurrent &&
+                    //    playerNumberCurrent == item_pole.playerNumber)
+                    //{
+                    //    ij_sum += 1;
+                    //    _arrm_wh[ij_wh] = ij_sum;
+                    //}
+                    //else if (busy_cellCurrent == 1 &&
+                    //    playerNumberCurrent == item_pole.playerNumber)
+                    //{
+                    //    if (ij_sum == 0)
+                    //    { ij_wh = 0; }
+                    //    else
+                    //    { ij_wh += 1; }
+
+                    //    ij_sum = 1;
+                    //    _arrm_wh[ij_wh] = ij_sum;
+                    //}
+
+                    //y_gamePolePrevious = y_gamePoleCurrent;
+                    //x_gamePolePrevious = x_gamePoleCurrent;
+                    //playerNumberPrevious = playerNumberCurrent;
+
+                    //m_a -= 1;
+                    //n_a += 1;
 
 
-                    int a_n = che.ElementAt(0).x;
-                    int a_m = che.ElementAt(0).y;
+                    ////////////////
+                    var che_test = _GamePole_test[n_a - 1, m_a - 1];
 
-                    var c = che.ElementAt(0).busy;
-                    var d = che.ElementAt(0).playerNumber;
+                    int x_gamePoleCurrent = che_test.x_gamePole;
+                    int y_gamePoleCurrent = che_test.y_gamePole;
 
-                    if (d == d2)
+                    var busy_cellCurrent = che_test.busy_cell;
+                    var playerNumberCurrent = che_test.playerNumber;
+
+                    if (playerNumberCurrent == playerNumberPrevious)
                     {
-                        d2 = d;
+                        playerNumberPrevious = playerNumberCurrent;
                     }
 
-                    if (b_m - 1 == a_m &&
-                        b_n + 1 == a_n &&
-                        c == 1 &&
-                        d2 == d &&
-                        d == item_pole.playerNumber
-                        )
+                    if (y_gamePolePrevious - 1 == y_gamePoleCurrent &&
+                        x_gamePolePrevious + 1 == x_gamePoleCurrent &&
+                        busy_cellCurrent == 1 &&
+                        playerNumberPrevious == playerNumberCurrent &&
+                        playerNumberCurrent == item_pole.playerNumber)
                     {
                         ij_sum += 1;
                         _arrm_wh[ij_wh] = ij_sum;
                     }
-                    else if (
-                        c == 1 &&
-                        d == item_pole.playerNumber
-                        )
+                    else if (busy_cellCurrent == 1 &&
+                        playerNumberCurrent == item_pole.playerNumber)
                     {
                         if (ij_sum == 0)
                         { ij_wh = 0; }
@@ -192,22 +251,25 @@ namespace WindowsFormsApp1
                         _arrm_wh[ij_wh] = ij_sum;
                     }
 
-                    b_m = a_m;
-                    b_n = a_n;
-                    d2 = d;
+                    y_gamePolePrevious = y_gamePoleCurrent;
+                    x_gamePolePrevious = x_gamePoleCurrent;
+                    playerNumberPrevious = playerNumberCurrent;
 
                     m_a -= 1;
                     n_a += 1;
+                    ////////////////////////
 
-                }
-                foreach (var item in _arrm_wh)
+
+
+                }          
+            
+             
+
+            foreach (var item in _arrm_wh)
                 {
                     if (item == 5)
                     { five_wh = true; }
-
                 }
-
-
             }
 
             //после диагонали "/"
@@ -223,16 +285,16 @@ namespace WindowsFormsApp1
 
                 for (int i = 1; i < max; i++)
                 {
-                    var che = (from Item in _buttonsList
-                               where Item.y == m_a && Item.x == n_a
+                    var che = (from Item in _buttonsPosition
+                               where Item.y_gamePole == m_a && Item.x_gamePole == n_a
                                select Item);
 
 
-                    int a_n = che.ElementAt(0).x;
-                    int a_m = che.ElementAt(0).y;
+                    int a_n = che.ElementAt(0).x_gamePole;
+                    int a_m = che.ElementAt(0).y_gamePole;
 
 
-                    var c = che.ElementAt(0).busy;
+                    var c = che.ElementAt(0).busy_cell;
                     var d = che.ElementAt(0).playerNumber;
 
 
@@ -241,8 +303,8 @@ namespace WindowsFormsApp1
                         d2 = d;
                     }
 
-                    if (b_m + 1 == a_m &&
-                       b_n - 1 == a_n &&
+                    if (y_gamePolePrevious + 1 == a_m &&
+                       x_gamePolePrevious - 1 == a_n &&
                        c == 1 &&
                        d2 == d &&
                        d == item_pole.playerNumber
@@ -265,8 +327,8 @@ namespace WindowsFormsApp1
                         ij_sum = 1;
                         _arrm_wh[ij_wh] = ij_sum;
                     }
-                    b_m = a_m;
-                    b_n = a_n;
+                    y_gamePolePrevious = a_m;
+                    x_gamePolePrevious = a_n;
                     d2 = d;
 
                     m_a += 1;
@@ -285,10 +347,10 @@ namespace WindowsFormsApp1
         }
 
 
-        public bool diag_2(pole item_pole)// по диагонали  "\" 
+        public bool diag_2(GamePole item_pole)// по диагонали  "\" 
         {
-            int h = item_pole.y; // строки m
-            int w = item_pole.x; // столбцы n
+            int h = item_pole.y_gamePole; // строки m
+            int w = item_pole.x_gamePole; // столбцы n
 
             //int[] _arrm_wh = new int[15];
 
@@ -305,8 +367,8 @@ namespace WindowsFormsApp1
 
             // по диагонали  "\" 
 
-            h = item_pole.y; // строки m
-            w = item_pole.x; // столбцы n
+            h = item_pole.y_gamePole; // строки m
+            w = item_pole.x_gamePole; // столбцы n
 
             int[] _arrm_wh_b = new int[15];
 
@@ -332,15 +394,15 @@ namespace WindowsFormsApp1
 
                 for (int i = 1; i < max; i++)
                 {
-                    var che = (from Item in _buttonsList
-                               where Item.y == m_a && Item.x == n_a
+                    var che = (from Item in _buttonsPosition
+                               where Item.y_gamePole == m_a && Item.x_gamePole == n_a
                                select Item);
 
 
-                    int a_n = che.ElementAt(0).x;
-                    int a_m = che.ElementAt(0).y;
+                    int a_n = che.ElementAt(0).x_gamePole;
+                    int a_m = che.ElementAt(0).y_gamePole;
 
-                    var c = che.ElementAt(0).busy;
+                    var c = che.ElementAt(0).busy_cell;
                     var d = che.ElementAt(0).playerNumber;
 
                     if (d == d2)
@@ -401,16 +463,16 @@ namespace WindowsFormsApp1
 
                 for (int i = 1; i < max; i++)
                 {
-                    var che = (from Item in _buttonsList
-                               where Item.y == m_a && Item.x == n_a
+                    var che = (from Item in _buttonsPosition
+                               where Item.y_gamePole == m_a && Item.x_gamePole == n_a
                                select Item);
 
 
-                    int a_n = che.ElementAt(0).x;
-                    int a_m = che.ElementAt(0).y;
+                    int a_n = che.ElementAt(0).x_gamePole;
+                    int a_m = che.ElementAt(0).y_gamePole;
 
 
-                    var c = che.ElementAt(0).busy;
+                    var c = che.ElementAt(0).busy_cell;
                     var d = che.ElementAt(0).playerNumber;
 
                     if (d == d2)
@@ -470,7 +532,7 @@ namespace WindowsFormsApp1
         }
 
      
-        public void obr_pole(pole item_pole)
+        public void obr_pole(GamePole item_pole)
         {
 
             bool five_h = vert(item_pole);
@@ -488,17 +550,32 @@ namespace WindowsFormsApp1
         {
             var _tag = (int)button.Tag;
 
+            GamePole item_pole = _buttonsPosition[_tag];
+
+            int y_gamePole_test = item_pole.y_gamePole - 1; // строки m
+            int x_gamePole_test = item_pole.x_gamePole - 1; // столбцы n
+
+            GamePole item_pole_test = _GamePole_test[x_gamePole_test, y_gamePole_test];
+
+
             if (player1)
             {
                 button.BackColor = Color.Black;
                 player1 = !player1;
-                _buttonsList[_tag].playerNumber = 1;
+                _buttonsPosition[_tag].playerNumber = 1;
+
+                ///////////////////////
+                _GamePole_test[x_gamePole_test, y_gamePole_test].playerNumber = 1;
+                ///////////////////////
             }
             else
             {
                 button.BackColor = Color.White;
                 player1 = !player1;
-                _buttonsList[_tag].playerNumber = 2;
+                _buttonsPosition[_tag].playerNumber = 2;
+                ///////////////////////
+                _GamePole_test[x_gamePole_test, y_gamePole_test].playerNumber = 2;
+                ///////////////////////////////
             }
         }
 
@@ -509,18 +586,40 @@ namespace WindowsFormsApp1
             Button button = (Button)sender;   
             string _name = button.Name;
             int _tag = (int) button.Tag;
-            pole item_pole = _buttonsList[_tag];
+            GamePole item_pole = _buttonsPosition[_tag];
+
+            ///////////////////////
+            int y_gamePole_test = item_pole.y_gamePole - 1; // строки m
+            int x_gamePole_test = item_pole.x_gamePole - 1; // столбцы n
+
+            GamePole item_pole_test = _GamePole_test[x_gamePole_test, y_gamePole_test];
+            ///////////////////////
             
-            if (_buttonsList[_tag].busy == 1)
+
+            if (_buttonsPosition[_tag].busy_cell == 1)
             {               
             }
             else
             {
-                button_color(button);
-                _buttonsList[_tag].busy = 1;
+               // button_color(button);
+                _buttonsPosition[_tag].busy_cell = 1;
             }
-            obr_pole(item_pole);
 
+            ///////////////////////
+            if (_GamePole_test[x_gamePole_test, y_gamePole_test].busy_cell == 1)
+            {
+            }
+            else
+            {
+                button_color(button);
+                _GamePole_test[x_gamePole_test, y_gamePole_test].busy_cell = 1;
+            }
+            ///////////////////////
+
+
+            //obr_pole(item_pole);
+
+            obr_pole(item_pole_test);
 
             string pl = item_pole.playerNumber.ToString();
             if (win == true)   
