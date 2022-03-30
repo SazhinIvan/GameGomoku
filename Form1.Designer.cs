@@ -12,7 +12,7 @@ namespace WindowsFormsApp1
     partial class Form1
     {
 
-        public List<button_x> buttons_list;
+       
                
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -34,64 +34,66 @@ namespace WindowsFormsApp1
 
         //#region Код, автоматически созданный конструктором форм Windows
 
-        public int m = 15;
-        public int n = 15;
-        public Button[] _buttons;
+        
+        //public Button[] _buttons;
 
         /// <summary>
         /// Требуемый метод для поддержки конструктора — не изменяйте 
         /// содержимое этого метода с помощью редактора кода.
         /// </summary>
         private void InitializeComponent()
-        {           
+        {
+
+            height_y = 15;
+            width_x = 15;
 
             this.Width =  800;
             this.Height = 800;
             
-            _buttons = new Button[m * n];
+            //_buttons = new Button[width_x * height_y];
 
-            _pole = new pole[15 * 15];
-            _pole2 = new pole[15, 15];
+            _buttonsList = new pole[width_x * height_y];
+            _buttonsPosition = new pole[width_x, height_y];
 
-            int otstup_x = 0;
+            int space_x = 0;
             int num = 0;
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < height_y; i++)
             {
-                int otstup_y = 0;
-                for (int j = 0; j < n; j++) { 
+                int space_y = 0;
+                for (int j = 0; j < width_x; j++) {
 
-                    _buttons[num] = new Button();
+                    Button _buttons = new Button();
 
-                    _buttons[num].Width =30;
-                    _buttons[num].Height = 30;
+                    _buttons.Width =30;
+                    _buttons.Height = 30;
 
                     int x = i+1;
                     int y = j+1;
 
-                    _pole[num] = new pole();
-                    _pole[num].m = y;
-                    _pole[num].n = x;
-                    _pole[num].zn = 0;
+                    _buttonsList[num] = new pole();
+                    _buttonsList[num].y = y;
+                    _buttonsList[num].x = x;
+                    _buttonsList[num].busy = 0;
                     
 
-                    _pole2[i, j] = new pole();
-                    _pole2[i, j].m = y;
-                    _pole2[i, j].n = x;
-                    _pole2[i, j].zn = 0;
+                    _buttonsPosition[i, j] = new pole();
+                    _buttonsPosition[i, j].y = y;
+                    _buttonsPosition[i, j].x = x;
+                    _buttonsPosition[i, j].busy = 0;
 
-                    _buttons[num].Location = new System.Drawing.Point(_buttons[num].Width * x+ otstup_x, _buttons[num].Height * y+ otstup_y);
-                    _buttons[num].Text = (num + 1).ToString();
-                    _buttons[num].Name = (num + 1).ToString();
-                    _buttons[num].Tag = num;
-                    _buttons[num].Click += new System.EventHandler(this.button_Click);
+                    _buttons.Location = new System.Drawing.Point(_buttons.Width * x+ space_x, _buttons.Height * y+ space_y);
+                    _buttons.Text = (num + 1).ToString();
+                    _buttons.Name = (num + 1).ToString();
+                    _buttons.Tag = num;
+                    _buttons.Click += new System.EventHandler(this.button_Click);
 
 
-                    this.Controls.Add(_buttons[num]);
+                    this.Controls.Add(_buttons);
                     num += 1;
                     
-                    otstup_y += 10;
+                    space_y += 10;
                 }
-                otstup_x += 10;
+                space_x += 10;
             }
 
            
