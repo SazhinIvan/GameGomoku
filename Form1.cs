@@ -17,24 +17,20 @@ namespace WindowsFormsApp1
             public int y_gamePole { get; set; }
             public int x_gamePole { get; set; }
             public int busy_cell { get; set; }
-            public int playerNumber { get; set; }
-            
+            public int playerNumber { get; set; }            
         }
 
         public class buttonsPosition
         {
             public int y_gamePole { get; set; }
-            public int x_gamePole { get; set; }          
- 
+            public int x_gamePole { get; set; } 
         }
 
         public int size_pole;
-
         public int height_y;
         public int width_x;
         public buttonsPosition[] _buttonsPosition;
 
-        //public GamePole[,] _GamePole;
         public GamePole[,] _GamePole;
 
         public bool player1 = true;
@@ -174,7 +170,6 @@ namespace WindowsFormsApp1
             return checkFive(array_tmp); // проверка на 5         
         }
 
-
         public bool checkDiagonal_2(GamePole item_pole)// по диагонали  "\" 
         {
             int y_SelectPole = item_pole.y_gamePole; // строки m
@@ -209,14 +204,12 @@ namespace WindowsFormsApp1
 
         }
 
-
         public Form1()
         {
            // _pole = new pole[15 * 15];           
             InitializeComponent();           
         }
 
-     
         public void obr_pole(GamePole item_pole)
         {
 
@@ -241,29 +234,20 @@ namespace WindowsFormsApp1
 
             GamePole item_pole_test = _GamePole[x_gamePole_test, y_gamePole_test];
 
-
             if (player1)
             {
                 button.BackColor = Color.Black;
                 player1 = !player1;
-                
-
-                ///////////////////////
-                _GamePole[x_gamePole_test, y_gamePole_test].playerNumber = 1;
-                ///////////////////////
+                _GamePole[x_gamePole_test, y_gamePole_test].playerNumber = 1;                
             }
             else
             {
                 button.BackColor = Color.White;
                 player1 = !player1;
-              
-                ///////////////////////
-                _GamePole[x_gamePole_test, y_gamePole_test].playerNumber = 2;
-                ///////////////////////////////
+                _GamePole[x_gamePole_test, y_gamePole_test].playerNumber = 2;             
             }
         }
-
-        
+     
         private void button_Click(object sender, EventArgs e)
         {
 
@@ -271,17 +255,12 @@ namespace WindowsFormsApp1
             string _name = button.Name;
             int _tag = (int) button.Tag;
             buttonsPosition item_pole = _buttonsPosition[_tag];
-
-            ///////////////////////
+           
             int y_gamePole_test = item_pole.y_gamePole - 1; // строки m
             int x_gamePole_test = item_pole.x_gamePole - 1; // столбцы n
 
             GamePole item_pole_test = _GamePole[x_gamePole_test, y_gamePole_test];
-            ///////////////////////
             
-
-
-            ///////////////////////
             if (_GamePole[x_gamePole_test, y_gamePole_test].busy_cell == 1)
             {
             }
@@ -289,18 +268,13 @@ namespace WindowsFormsApp1
             {
                 button_color(button);
                 _GamePole[x_gamePole_test, y_gamePole_test].busy_cell = 1;
-            }
-            ///////////////////////
-
-
-            //obr_pole(item_pole);
+            }           
 
             obr_pole(item_pole_test);
 
             string pl = item_pole_test.playerNumber.ToString();
             if (win == true)   
             {
-
                 MessageBox.Show("выиграл игнок номер" + pl);
             }
         }
