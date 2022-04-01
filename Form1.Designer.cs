@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
-
+using System.Drawing;
 using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
@@ -35,8 +35,12 @@ static class NativeMethods
     }
 
     partial class Form1
-    {       
-               
+    {
+        Bitmap bmp;
+        Graphics graph;
+
+
+
         /// <summary>
         /// Обязательная переменная конструктора.
         /// </summary>
@@ -56,17 +60,26 @@ static class NativeMethods
         }
 
         //#region Код, автоматически созданный конструктором форм Windows
-       
+
+            
+
+        
+
+
         private void InitializeComponent()
         {
+
+            // 
+            // Form1
+            // 
             size_pole = 19;
             height_y = size_pole;
             width_x = size_pole;
 
             this.Width = (size_pole + 1) * 50;
             this.Height = (size_pole + 1) * 50;
-            this.Cursor = NativeMethods.LoadCustomCursor(@"D:/cursorm.cur");
-            
+            this.Cursor = NativeMethods.LoadCustomCursor(@"D:/cursorm.cur");         
+
             //_buttons = new Button[width_x * height_y];
 
             _buttonsPosition = new buttonsPosition[width_x * height_y];
@@ -120,10 +133,37 @@ static class NativeMethods
                     space_y += step_space;
                 }
                 space_x += step_space;
-            }           
+            }
+
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(10, 10);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size((size_pole + 1) * 50, (size_pole + 1) * 50);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            
+            //this.ClientSize = new System.Drawing.Size((size_pole + 1) * 50, (size_pole + 1) * 50);
+            this.Controls.Add(this.pictureBox1);
+            //this.Name = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.ResumeLayout(false);
+
+
+
+            bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            graph = Graphics.FromImage(bmp);
+
+            Pen pen = new Pen(Color.Red);
+            graph.DrawLine(pen, 10, 0, 10, 50);
+            pictureBox1.Image = bmp;
 
         }
-        
+        private PictureBox pictureBox1;
     }
 }
 
