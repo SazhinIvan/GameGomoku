@@ -271,13 +271,17 @@ namespace WindowsFormsApp1
 
             if (player1)
             {
-                button.BackColor = Color.Black;
+                button.BackgroundImage = WindowsFormsApp1.Properties.Resources.circleBlack;
+                button.BackgroundImageLayout = ImageLayout.Stretch;
+                //button.BackColor = Color.Black;
                 player1 = !player1;
                 _GamePole[x_gamePole_test, y_gamePole_test].playerNumber = 1;                
             }
             else
             {
-                button.BackColor = Color.White;
+                button.BackgroundImage = WindowsFormsApp1.Properties.Resources.circleWhite;
+                button.BackgroundImageLayout = ImageLayout.Stretch;
+                //button.BackColor = Color.White;
                 player1 = !player1;
                 _GamePole[x_gamePole_test, y_gamePole_test].playerNumber = 2;             
             }
@@ -285,7 +289,6 @@ namespace WindowsFormsApp1
      
         private void button_Click(object sender, EventArgs e)
         {
-
             Button button = (Button)sender;   
             string _name = button.Name;
             int _tag = (int) button.Tag;
@@ -311,8 +314,28 @@ namespace WindowsFormsApp1
             if (win == true)   
             {
                 MessageBox.Show("выиграл игнок номер" + pl);
-            }
+            }           
+
         }
 
+        private void buttonClickStartGameTwoPlayersu(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+            button.BackgroundImage =  WindowsFormsApp1.Properties.Resources.circle22;
+
+        }
+
+        private void buttonClickStartGameVSComp(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+            button.BackgroundImage = WindowsFormsApp1.Properties.Resources.circle22;
+
+        }
+        private void buttonClickRating(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+            button.BackgroundImage = WindowsFormsApp1.Properties.Resources.circle22;
+
+        }
     }
 }
