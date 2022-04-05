@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Reflection;
 
 
-namespace WindowsFormsApp1
+namespace GameGomoku
 {
     public class button_x
     {
@@ -36,10 +36,7 @@ namespace WindowsFormsApp1
 
     partial class Form1
     {
-        Bitmap bmp;
-        Graphics graph;
-
-
+        
 
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -68,52 +65,62 @@ namespace WindowsFormsApp1
 
         private void InitializeComponent()
         {
-
+            this.buttonStartGameTwoPlayers = new System.Windows.Forms.Button();
+            this._buttonStartGameVSComp = new System.Windows.Forms.Button();
+            this.buttonRating = new System.Windows.Forms.Button();
+            this.SuspendLayout();
+            // 
+            // buttonStartGameTwoPlayers
+            // 
+            this.buttonStartGameTwoPlayers.Location = new System.Drawing.Point(20, 100);
+            this.buttonStartGameTwoPlayers.Name = "buttonStartGameTwoPlayers";
+            this.buttonStartGameTwoPlayers.Size = new System.Drawing.Size(150, 30);
+            this.buttonStartGameTwoPlayers.TabIndex = 0;
+            this.buttonStartGameTwoPlayers.Text = "Два игрока";
+            this.buttonStartGameTwoPlayers.Click += new System.EventHandler(this.buttonClickStartGameTwoPlayersu);
+            // 
+            // _buttonStartGameVSComp
+            // 
+            this._buttonStartGameVSComp.Location = new System.Drawing.Point(20, 140);
+            this._buttonStartGameVSComp.Name = "_buttonStartGameVSComp";
+            this._buttonStartGameVSComp.Size = new System.Drawing.Size(150, 30);
+            this._buttonStartGameVSComp.TabIndex = 1;
+            this._buttonStartGameVSComp.Text = "Против компьютера";
+            this._buttonStartGameVSComp.Click += new System.EventHandler(this.buttonClickStartGameVSComp);
+            // 
+            // buttonRating
+            // 
+            this.buttonRating.Location = new System.Drawing.Point(20, 180);
+            this.buttonRating.Name = "buttonRating";
+            this.buttonRating.Size = new System.Drawing.Size(150, 30);
+            this.buttonRating.TabIndex = 2;
+            this.buttonRating.Text = "Рейтинг";
+            this.buttonRating.Click += new System.EventHandler(this.buttonClickRating);
             // 
             // Form1
             // 
+            this.BackColor = System.Drawing.Color.Gray;
+            this.ClientSize = new System.Drawing.Size(187, 306);
+            this.Controls.Add(this.buttonStartGameTwoPlayers);
+            this.Controls.Add(this._buttonStartGameVSComp);
+            this.Controls.Add(this.buttonRating);
+            this.Name = "Form1";
+            this.ResumeLayout(false);
+
+        }
+        private PictureBox pictureBox1;
+
+        private void RunGameTwoPlayers()
+        {
             size_pole = 19;
             height_y = size_pole;
             width_x = size_pole;
 
-            this.BackColor = System.Drawing.Color.Gray;
             this.Width = (size_pole + 1) * 50;
             this.Height = (size_pole + 1) * 50;
-            //////////// Меню ////////////////
-            /////////////// Старт два игрока ////////////////
-            Button buttonStartGameTwoPlayers = new Button();
-            buttonStartGameTwoPlayers.Width = 150;
-            buttonStartGameTwoPlayers.Height = 30;
-
-            buttonStartGameTwoPlayers.Location = new System.Drawing.Point(20 , 100);
-            buttonStartGameTwoPlayers.Text = "Два игрока";
-            buttonStartGameTwoPlayers.Name = "Start_twoPlayer";
-            buttonStartGameTwoPlayers.Click += new System.EventHandler(this.buttonClickStartGameTwoPlayersu);
-            this.Controls.Add(buttonStartGameTwoPlayers);
-            /////////////// Старт против компьютера ////////////////
-            Button _buttonStartGameVSComp = new Button();
-            _buttonStartGameVSComp.Width = 150;
-            _buttonStartGameVSComp.Height = 30;
-
-            _buttonStartGameVSComp.Location = new System.Drawing.Point(20, 140);
-            _buttonStartGameVSComp.Text = "Против компьютера";
-            _buttonStartGameVSComp.Name = "Start_vsComp";
-            _buttonStartGameVSComp.Click += new System.EventHandler(this.buttonClickStartGameVSComp);
-            this.Controls.Add(_buttonStartGameVSComp);
-            /////////////// Рейтинг ////////////////
-            Button buttonRating = new Button();
-            buttonRating.Width = 150;
-            buttonRating.Height = 30;
-
-            buttonRating.Location = new System.Drawing.Point(20, 180);
-            buttonRating.Text = "Рейтинг";
-            buttonRating.Name = "Open_Rating";
-            buttonRating.Click += new System.EventHandler(this.buttonClickRating);
-            this.Controls.Add(buttonRating);
-            //////////////
 
             _buttonsPosition = new buttonsPosition[width_x * height_y];
-            _GamePole = new GamePole[width_x, height_y];           
+            _GamePole = new GamePole[width_x, height_y];
 
             int space_x = 0;
             int step_space = 0;
@@ -126,14 +133,15 @@ namespace WindowsFormsApp1
             {
                 int space_y = 0;
 
-                for (int j = 0; j < width_x; j++) {
+                for (int j = 0; j < width_x; j++)
+                {
 
-                    Button _buttons = new Button();       
+                    Button _buttons = new Button();
                     _buttons.Width = 30;
                     _buttons.Height = 30;
 
-                    int x = i+1;
-                    int y = j+1;
+                    int x = i + 1;
+                    int y = j + 1;
                     ///////////////////////////////////////
                     _GamePole[i, j] = new GamePole();
                     _GamePole[i, j].x_gamePole = x;
@@ -144,8 +152,8 @@ namespace WindowsFormsApp1
                     _buttonsPosition[num].y_gamePole = y;
                     _buttonsPosition[num].x_gamePole = x;
                     //_buttonsPosition[num].busy_cell = 0;                    
-                    
-                    _buttons.Location = new System.Drawing.Point(startPole_x + _buttons.Width * x+ space_x, startPole_y +  _buttons.Height * y+ space_y);
+
+                    _buttons.Location = new System.Drawing.Point(startPole_x + _buttons.Width * x + space_x, startPole_y + _buttons.Height * y + space_y);
                     _buttons.Text = "";
                     _buttons.Name = (num + 1).ToString();
                     _buttons.Tag = num;
@@ -154,44 +162,33 @@ namespace WindowsFormsApp1
 
                     this.Controls.Add(_buttons);
                     num += 1;
-                    
+
                     space_y += step_space;
                 }
                 space_x += step_space;
             }
 
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(10, 10);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size((size_pole + 1) * 50, (size_pole + 1) * 50);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            
-            //this.ClientSize = new System.Drawing.Size((size_pole + 1) * 50, (size_pole + 1) * 50);
-            this.Controls.Add(this.pictureBox1);
-            //this.Name = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.ResumeLayout(false);
+            int ii = 0;
+            int n = 0;
+            Label[] arr_text = new Label[26];
 
-
-            int wth = (size_pole + 1) * 50;
-            int ht = (size_pole + 1) * 50;
-            bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-            graph = Graphics.FromImage(bmp);
-
-            Pen pen = new Pen(Color.Red);
-
-            //graph.DrawLine(pen, 20, 0, 20, 500);
-            //graph.DrawLine(pen, 0, 10, 500, 10);
-            //pictureBox1.Image = bmp;
+            for (char i = 'A'; i <= 'S'; i++)
+            {
+                arr_text[ii] = new Label();
+                arr_text[ii].Location = new System.Drawing.Point(235 + n, 10);
+                arr_text[ii].Text = i.ToString();
+                arr_text[ii].Size = new Size(15, 15);
+                arr_text[ii].Name = i.ToString();
+                this.Controls.Add(arr_text[ii]);
+                n += 30;
+                ii += 1;
+            }
 
         }
-        private PictureBox pictureBox1;
+
+        private Button buttonStartGameTwoPlayers;
+        private Button _buttonStartGameVSComp;
+        private Button buttonRating;
     }
 }
 

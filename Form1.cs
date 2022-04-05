@@ -43,7 +43,7 @@ using System.Windows.Forms;
         private PictureBox pictureBox1;
      
      */
-namespace WindowsFormsApp1
+namespace GameGomoku
 {
     public partial class Form1 : Form
     {
@@ -271,7 +271,7 @@ namespace WindowsFormsApp1
 
             if (player1)
             {
-                button.BackgroundImage = WindowsFormsApp1.Properties.Resources.circleBlack;
+                button.BackgroundImage = GameGomoku.Properties.Resources.circleBlack;
                 button.BackgroundImageLayout = ImageLayout.Stretch;
                 //button.BackColor = Color.Black;
                 player1 = !player1;
@@ -279,7 +279,7 @@ namespace WindowsFormsApp1
             }
             else
             {
-                button.BackgroundImage = WindowsFormsApp1.Properties.Resources.circleWhite;
+                button.BackgroundImage = GameGomoku.Properties.Resources.circleWhite;
                 button.BackgroundImageLayout = ImageLayout.Stretch;
                 //button.BackColor = Color.White;
                 player1 = !player1;
@@ -320,21 +320,20 @@ namespace WindowsFormsApp1
 
         private void buttonClickStartGameTwoPlayersu(object sender, EventArgs e)
         {
-            Button button = (Button)sender;
-            button.BackgroundImage =  WindowsFormsApp1.Properties.Resources.circle22;
+            RunGameTwoPlayers();
 
         }
 
         private void buttonClickStartGameVSComp(object sender, EventArgs e)
         {
             Button button = (Button)sender;
-            button.BackgroundImage = WindowsFormsApp1.Properties.Resources.circle22;
+            button.BackgroundImage = GameGomoku.Properties.Resources.circle22;
 
         }
         private void buttonClickRating(object sender, EventArgs e)
         {
             Button button = (Button)sender;
-            button.BackgroundImage = WindowsFormsApp1.Properties.Resources.circle22;
+            button.BackgroundImage = GameGomoku.Properties.Resources.circle22;
 
         }
     }
