@@ -17,26 +17,26 @@ namespace GameGomoku
     }
 
 
- 
-//static class NativeMethods
-//    {
-//        public static Cursor LoadCustomCursor(string path)
-//        {
-//            IntPtr hCurs = LoadCursorFromFile(path);
-//            if (hCurs == IntPtr.Zero) throw new Win32Exception();
-//            var curs = new Cursor(hCurs);
-//            // Note: force the cursor to own the handle so it gets released properly
-//            var fi = typeof(Cursor).GetField("ownHandle", BindingFlags.NonPublic | BindingFlags.Instance);
-//            fi.SetValue(curs, true);
-//            return curs;
-//        }
-//        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-//        private static extern IntPtr LoadCursorFromFile(string path);
-//    }
+
+    //static class NativeMethods
+    //    {
+    //        public static Cursor LoadCustomCursor(string path)
+    //        {
+    //            IntPtr hCurs = LoadCursorFromFile(path);
+    //            if (hCurs == IntPtr.Zero) throw new Win32Exception();
+    //            var curs = new Cursor(hCurs);
+    //            // Note: force the cursor to own the handle so it gets released properly
+    //            var fi = typeof(Cursor).GetField("ownHandle", BindingFlags.NonPublic | BindingFlags.Instance);
+    //            fi.SetValue(curs, true);
+    //            return curs;
+    //        }
+    //        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+    //        private static extern IntPtr LoadCursorFromFile(string path);
+    //    }
 
     partial class Form1
     {
-        
+
 
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -58,61 +58,173 @@ namespace GameGomoku
 
         //#region Код, автоматически созданный конструктором форм Windows
 
+
+        private void GameSettingControls()
+        {
+            this.GroupMenu.Visible = false;
+
+            // 
+            // GroupCheckSizePole
+            // 
+            this.GroupCheckSizePole.Controls.Add(this.CheckSizePole15);
+            this.GroupCheckSizePole.Controls.Add(this.CheckSizePole19);
+            this.GroupCheckSizePole.Location = new System.Drawing.Point(20, 100);
+            this.GroupCheckSizePole.Name = "groupBox1";
+            this.GroupCheckSizePole.Size = new System.Drawing.Size(150, 100);
+            this.GroupCheckSizePole.TabIndex = 3;
+            this.GroupCheckSizePole.TabStop = false;
+            this.GroupCheckSizePole.Text = "Размер поля";
+            // 
+            // checkSizePole15
+            // 
+            this.CheckSizePole15.Location = new System.Drawing.Point(20, 30);
+            this.CheckSizePole15.Name = "checkSizePole15";
+            this.CheckSizePole15.Size = new System.Drawing.Size(100, 15);
+            this.CheckSizePole15.TabIndex = 0;
+            this.CheckSizePole15.Text = "15х15";
+            this.CheckSizePole15.CheckedChanged += new System.EventHandler(this.checkSizePole15_CheckedChanged);
+            // 
+            // checkSizePole19
+            // 
+            this.CheckSizePole19.Location = new System.Drawing.Point(20, 60);
+            this.CheckSizePole19.Name = "checkSizePole19";
+            this.CheckSizePole19.Size = new System.Drawing.Size(100, 15);
+            this.CheckSizePole19.TabIndex = 1;
+            this.CheckSizePole19.Text = "19х19";
+            this.CheckSizePole19.CheckedChanged += new System.EventHandler(this.checkSizePole19_CheckedChanged);
+
+            this.Controls.Add(this.GroupCheckSizePole);
+
+            // 
+            // gameMode
+            // 
+            this.GroupGameMode.Controls.Add(this.CheckSizePole15);
+            this.GroupGameMode.Controls.Add(this.CheckSizePole19);
+            this.GroupGameMode.Location = new System.Drawing.Point(20, 100);
+            this.GroupGameMode.Name = "groupBox1";
+            this.GroupGameMode.Size = new System.Drawing.Size(150, 100);
+            this.GroupGameMode.TabIndex = 3;
+            this.GroupGameMode.TabStop = false;
+            this.GroupGameMode.Text = "Размер поля";
+            // 
+            // checkSizePole15
+            // 
+            this.checkOneByOne.Location = new System.Drawing.Point(20, 30);
+            this.checkOneByOne.Name = "checkSizePole15";
+            this.checkOneByOne.Size = new System.Drawing.Size(100, 15);
+            this.checkOneByOne.TabIndex = 0;
+            this.checkOneByOne.Text = "15х15";
+            this.checkOneByOne.CheckedChanged += new System.EventHandler(this.checkSizePole15_CheckedChanged);
+            // 
+            // checkSizePole19
+            // 
+            this.checkVSComp.Location = new System.Drawing.Point(20, 60);
+            this.checkVSComp.Name = "checkSizePole19";
+            this.checkVSComp.Size = new System.Drawing.Size(100, 15);
+            this.checkVSComp.TabIndex = 1;
+            this.checkVSComp.Text = "19х19";
+            this.checkVSComp.CheckedChanged += new System.EventHandler(this.checkSizePole19_CheckedChanged);
+
+            this.Controls.Add(this.GroupGameMode);
             
+        }
 
-        
 
+        private void MenuControls ()
+        {
+
+
+
+        }
 
         private void InitializeComponent()
         {
-            this.buttonStartGameTwoPlayers = new System.Windows.Forms.Button();
-            this._buttonStartGameVSComp = new System.Windows.Forms.Button();
-            this.buttonRating = new System.Windows.Forms.Button();
+            //Меню
+            this.GroupMenu = new System.Windows.Forms.GroupBox();
+            this.buttonStartGame = new System.Windows.Forms.Button();
+            this._buttonGameSetting = new System.Windows.Forms.Button();
+            this.buttonRating = new System.Windows.Forms.Button();           
+            
+           //настройки
+           //настройки поля
+            this.GroupCheckSizePole = new System.Windows.Forms.GroupBox();
+            this.CheckSizePole15 = new System.Windows.Forms.RadioButton();
+            this.CheckSizePole19 = new System.Windows.Forms.RadioButton();
+            this.GroupCheckSizePole.SuspendLayout();
             this.SuspendLayout();
+            //настройки режима игры
+            this.GroupGameMode = new System.Windows.Forms.GroupBox();             
+            this.checkOneByOne = new System.Windows.Forms.RadioButton();
+            this.checkVSComp = new System.Windows.Forms.RadioButton();
+
+
+            // 
+            // GroupMenu
+            // 
+            this.GroupMenu.Controls.Add(this.buttonStartGame);
+            this.GroupMenu.Controls.Add(this._buttonGameSetting);
+            this.GroupMenu.Controls.Add(this.buttonRating);
+            this.GroupMenu.Location = new System.Drawing.Point(20, 80);
+            this.GroupMenu.Name = "Menu";
+            this.GroupMenu.Size = new System.Drawing.Size(200, 220);
+            this.GroupMenu.TabIndex = 3;
+            this.GroupMenu.TabStop = false;
+            this.GroupMenu.Text = "Меню";
+
             // 
             // buttonStartGameTwoPlayers
             // 
-            this.buttonStartGameTwoPlayers.Location = new System.Drawing.Point(20, 100);
-            this.buttonStartGameTwoPlayers.Name = "buttonStartGameTwoPlayers";
-            this.buttonStartGameTwoPlayers.Size = new System.Drawing.Size(150, 30);
-            this.buttonStartGameTwoPlayers.TabIndex = 0;
-            this.buttonStartGameTwoPlayers.Text = "Два игрока";
-            this.buttonStartGameTwoPlayers.Click += new System.EventHandler(this.buttonClickStartGameTwoPlayersu);
+            this.buttonStartGame.Location = new System.Drawing.Point(20, 20);
+            this.buttonStartGame.Name = "buttonStartGameTwoPlayers";
+            this.buttonStartGame.Size = new System.Drawing.Size(150, 30);
+            this.buttonStartGame.TabIndex = 0;
+            this.buttonStartGame.Text = "Два игрока";
+            this.buttonStartGame.Click += new System.EventHandler(this.buttonClickStartGameTwoPlayersu);
             // 
             // _buttonStartGameVSComp
             // 
-            this._buttonStartGameVSComp.Location = new System.Drawing.Point(20, 140);
-            this._buttonStartGameVSComp.Name = "_buttonStartGameVSComp";
-            this._buttonStartGameVSComp.Size = new System.Drawing.Size(150, 30);
-            this._buttonStartGameVSComp.TabIndex = 1;
-            this._buttonStartGameVSComp.Text = "Против компьютера";
-            this._buttonStartGameVSComp.Click += new System.EventHandler(this.buttonClickStartGameVSComp);
+            this._buttonGameSetting.Location = new System.Drawing.Point(20, 60);
+            this._buttonGameSetting.Name = "_buttonStartGameVSComp";
+            this._buttonGameSetting.Size = new System.Drawing.Size(150, 30);
+            this._buttonGameSetting.TabIndex = 1;
+            this._buttonGameSetting.Text = "Настройки игры";
+            this._buttonGameSetting.Click += new System.EventHandler(this.buttonClickGameSetting);
             // 
             // buttonRating
             // 
-            this.buttonRating.Location = new System.Drawing.Point(20, 180);
+            this.buttonRating.Location = new System.Drawing.Point(20, 100);
             this.buttonRating.Name = "buttonRating";
             this.buttonRating.Size = new System.Drawing.Size(150, 30);
             this.buttonRating.TabIndex = 2;
             this.buttonRating.Text = "Рейтинг";
             this.buttonRating.Click += new System.EventHandler(this.buttonClickRating);
+            
             // 
             // Form1
             // 
             this.BackColor = System.Drawing.Color.Gray;
-            this.ClientSize = new System.Drawing.Size(187, 306);
-            this.Controls.Add(this.buttonStartGameTwoPlayers);
-            this.Controls.Add(this._buttonStartGameVSComp);
-            this.Controls.Add(this.buttonRating);
+            this.ClientSize = new System.Drawing.Size(300, 424);
+            this.Controls.Add(this.GroupMenu);
+            //this.Controls.Add(this.buttonStartGameTwoPlayers);
+            //this.Controls.Add(this._buttonGameSetting);
+            //this.Controls.Add(this.buttonRating);
+          
             this.Name = "Form1";
+            this.GroupCheckSizePole.ResumeLayout(false);
             this.ResumeLayout(false);
-
+            
         }
-      
-  
+
+
         private void RunGameTwoPlayers()
         {
-            size_pole = 15;
+            //Настрйоки
+            int size_pole = gameSetting.size_pole;
+            ///////
+
+            
+            this.buttonRating.Visible = false;
+
             height_y = size_pole;
             width_x = size_pole;
 
@@ -209,9 +321,20 @@ namespace GameGomoku
 
         }
 
-        private Button buttonStartGameTwoPlayers;
-        private Button _buttonStartGameVSComp;
+        private GroupBox GroupMenu;
+        private Button buttonStartGame;
+        private Button _buttonGameSetting;
         private Button buttonRating;
+
+
+        private GroupBox GroupCheckSizePole;
+        private RadioButton CheckSizePole15;
+        private RadioButton CheckSizePole19;
+
+        private GroupBox GroupGameMode;
+        private RadioButton checkOneByOne;
+        private RadioButton checkVSComp;
+
     }
 }
 

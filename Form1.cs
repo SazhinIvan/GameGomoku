@@ -9,40 +9,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
-
-
-
-
-
-/*
- 
-      private void InitializeComponent()
-        {
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(110, 129);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(300, 229);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
-            // Form1
-            // 
-            this.ClientSize = new System.Drawing.Size(566, 500);
-            this.Controls.Add(this.pictureBox1);
-            this.Name = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.ResumeLayout(false);
-
-        }
-
-        private PictureBox pictureBox1;
-     
-     */
 namespace GameGomoku
 {
     public partial class Form1 : Form
@@ -61,15 +27,31 @@ namespace GameGomoku
             public int x_gamePole { get; set; } 
         }
 
-        public int size_pole;
+        public class GameSetting
+        {            
+            public int size_pole { get; set; }
+            public bool gameVsComp { get; set; }
+
+            public GameSetting()
+            {
+                size_pole = 15;
+                gameVsComp = false;
+            }
+        }
+
+
+        GameSetting gameSetting;     
+       
         public int height_y;
         public int width_x;
         public buttonsPosition[] _buttonsPosition;
 
         public GamePole[,] _GamePole;
 
-        public bool player1 = true;
+        public bool activePlayerBlack = true;
         public bool win =false;
+
+   
 
         public bool checkFive(int[] array)
         {
@@ -144,7 +126,7 @@ namespace GameGomoku
             int[] array_tmp; //временный массив
             int size_array = 0;
             int y_pole = 0, x_pole = 0, y_delta = 0, x_delta = 0;            
-            size_array = size_pole;
+            size_array = gameSetting.size_pole;
             y_pole = 1;
             x_pole = x_SelectPole;
             y_delta = 1;
@@ -163,7 +145,7 @@ namespace GameGomoku
             int[] array_tmp;
             int size_array = 0;
             int y_pole = 0, x_pole = 0, y_delta = 0, x_delta = 0;
-            size_array = size_pole;
+            size_array = gameSetting.size_pole;
             y_pole = y_SelectPole;
             x_pole = 1;
             y_delta = 0;
@@ -183,7 +165,7 @@ namespace GameGomoku
             int size_array = 0;
             int y_pole = 0, x_pole = 0, y_delta = 0, x_delta = 0;                      
 
-            if (y_SelectPole + x_SelectPole <= size_pole + 1) //до диоганалью "/"
+            if (y_SelectPole + x_SelectPole <= gameSetting.size_pole + 1) //до диоганалью "/"
             {
                 size_array = y_SelectPole + x_SelectPole - 1;
                 y_pole = y_SelectPole + x_SelectPole - 1;
@@ -191,11 +173,11 @@ namespace GameGomoku
                 y_delta = -1;
                 x_delta = 1;
             }
-            else if (y_SelectPole + x_SelectPole > size_pole + 1) //после диагонали "/"
+            else if (y_SelectPole + x_SelectPole > gameSetting.size_pole + 1) //после диагонали "/"
             {
-                size_array = 2 * size_pole - (y_SelectPole + x_SelectPole - 1);
-                y_pole = size_pole;                
-                x_pole = y_SelectPole + x_SelectPole - size_pole;
+                size_array = 2 * gameSetting.size_pole - (y_SelectPole + x_SelectPole - 1);
+                y_pole = gameSetting.size_pole;                
+                x_pole = y_SelectPole + x_SelectPole - gameSetting.size_pole;
                 y_delta = -1;
                 x_delta = 1;
             }
@@ -218,7 +200,7 @@ namespace GameGomoku
             {
                 y_pole = y_SelectPole - x_SelectPole + 1;
                 x_pole = 1; 
-                size_array = size_pole - y_pole + 1; 
+                size_array = gameSetting.size_pole - y_pole + 1; 
 
                 y_delta = 1;
                 x_delta = 1;
@@ -227,7 +209,7 @@ namespace GameGomoku
             {
                 y_pole = 1;// m_a = 1;
                 x_pole = x_SelectPole - y_SelectPole + 1;
-                size_array = size_pole - x_pole + 1 ;
+                size_array = gameSetting.size_pole - x_pole + 1 ;
 
                 y_delta = 1; 
                 x_delta = 1; 
@@ -240,14 +222,15 @@ namespace GameGomoku
         }
 
         public Form1()
-        {
-           // _pole = new pole[15 * 15];           
-            InitializeComponent();           
+        {           
+            gameSetting = new GameSetting();
+            InitializeComponent();
+            
         }
 
         public void obr_pole(GamePole item_pole)
         {
-
+            
             bool five_vert = checkVertical(item_pole);       //првоерка по вертикали
             bool five_horiz = checkHorizontal(item_pole);     // првоерка по горизонтали
             bool five_diag = checkDiagonal_1(item_pole);     // проверка по диагонали "/"
@@ -269,12 +252,12 @@ namespace GameGomoku
 
             GamePole item_pole_test = _GamePole[x_gamePole_test, y_gamePole_test];
 
-            if (player1)
+            if (activePlayerBlack)
             {
                 button.BackgroundImage = GameGomoku.Properties.Resources.circleBlack;
                 button.BackgroundImageLayout = ImageLayout.Stretch;
                 //button.BackColor = Color.Black;
-                player1 = !player1;
+                activePlayerBlack = !activePlayerBlack;
                 _GamePole[x_gamePole_test, y_gamePole_test].playerNumber = 1;                
             }
             else
@@ -282,7 +265,7 @@ namespace GameGomoku
                 button.BackgroundImage = GameGomoku.Properties.Resources.circleWhite;
                 button.BackgroundImageLayout = ImageLayout.Stretch;
                 //button.BackColor = Color.White;
-                player1 = !player1;
+                activePlayerBlack = !activePlayerBlack;
                 _GamePole[x_gamePole_test, y_gamePole_test].playerNumber = 2;             
             }
         }
@@ -324,16 +307,36 @@ namespace GameGomoku
 
         }
 
-        private void buttonClickStartGameVSComp(object sender, EventArgs e)
+        private void buttonClickGameSetting(object sender, EventArgs e)
         {
-            Button button = (Button)sender;
-            button.BackgroundImage = GameGomoku.Properties.Resources.circle22;
+            Button button = (Button)sender;            
 
+            this.GroupCheckSizePole.Visible = true;
+            this.buttonRating.Visible = true;
+
+            GameSettingControls();
         }
         private void buttonClickRating(object sender, EventArgs e)
         {
             Button button = (Button)sender;
             button.BackgroundImage = GameGomoku.Properties.Resources.circle22;
+
+        }
+
+        private void checkSizePole15_CheckedChanged(object sender, EventArgs e)
+        {
+            gameSetting.size_pole = 15;
+           
+        }
+
+        private void checkSizePole19_CheckedChanged(object sender, EventArgs e)
+        {
+            gameSetting.size_pole = 19;
+            
+        }
+
+        private void GroupCheckSizePole_Enter(object sender, EventArgs e)
+        {
 
         }
     }
