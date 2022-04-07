@@ -108,11 +108,11 @@ namespace GameGomoku
             this.ResumeLayout(false);
 
         }
-        private PictureBox pictureBox1;
-
+      
+  
         private void RunGameTwoPlayers()
         {
-            size_pole = 19;
+            size_pole = 15;
             height_y = size_pole;
             width_x = size_pole;
 
@@ -121,32 +121,40 @@ namespace GameGomoku
 
             _buttonsPosition = new buttonsPosition[width_x * height_y];
             _GamePole = new GamePole[width_x, height_y];
+            
 
             int space_x = 0;
             int step_space = 0;
             int startPole_x = 200;
             int startPole_y = 10;
 
+            int max_x = 0;
+            int max_y = 0;
 
             int num = 0;
-            for (int i = 0; i < height_y; i++)
+
+            int buttonWidth = 30;
+            int buttonHeight = 30;
+
+            for (int tmp_y = 0; tmp_y < height_y; tmp_y++)
             {
                 int space_y = 0;
 
-                for (int j = 0; j < width_x; j++)
+                
+                for (int tmp_x = 0; tmp_x < width_x; tmp_x++)
                 {
-
+                  
                     Button _buttons = new Button();
-                    _buttons.Width = 30;
-                    _buttons.Height = 30;
+                    _buttons.Width = buttonWidth;
+                    _buttons.Height = buttonHeight;
 
-                    int x = i + 1;
-                    int y = j + 1;
+                    int x = tmp_x + 1;
+                    int y = tmp_y + 1;
                     ///////////////////////////////////////
-                    _GamePole[i, j] = new GamePole();
-                    _GamePole[i, j].x_gamePole = x;
-                    _GamePole[i, j].y_gamePole = y;
-                    _GamePole[i, j].busy_cell = 0;
+                    _GamePole[tmp_x, tmp_y] = new GamePole();
+                    _GamePole[tmp_x, tmp_y].x_gamePole = x;
+                    _GamePole[tmp_x, tmp_y].y_gamePole = y;
+                    _GamePole[tmp_x, tmp_y].busy_cell = 0;
                     //////////////////////////////
                     _buttonsPosition[num] = new buttonsPosition();
                     _buttonsPosition[num].y_gamePole = y;
@@ -159,29 +167,44 @@ namespace GameGomoku
                     _buttons.Tag = num;
                     _buttons.Click += new System.EventHandler(this.button_Click);
 
-
                     this.Controls.Add(_buttons);
                     num += 1;
+                    space_x += step_space;
+                    max_x = startPole_x + _buttons.Width * x + space_x;
+                    max_y = startPole_y + _buttons.Height * y + space_y;
 
-                    space_y += step_space;
                 }
-                space_x += step_space;
+                space_y += step_space;
             }
 
-            int ii = 0;
-            int n = 0;
-            Label[] arr_text = new Label[26];
-
-            for (char i = 'A'; i <= 'S'; i++)
+            string[] strAlf = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S" };
+            
+            for (int i = 0; i < size_pole; i++)
             {
-                arr_text[ii] = new Label();
-                arr_text[ii].Location = new System.Drawing.Point(235 + n, 10);
-                arr_text[ii].Text = i.ToString();
-                arr_text[ii].Size = new Size(15, 15);
-                arr_text[ii].Name = i.ToString();
-                this.Controls.Add(arr_text[ii]);
-                n += 30;
-                ii += 1;
+                Label textTop = new Label();
+                textTop.Text = strAlf[i].ToString();
+                textTop.Size = new Size(15, 15);
+                textTop.Location = new System.Drawing.Point(startPole_x + (i + 1) * buttonWidth + 10, startPole_y);
+                this.Controls.Add(textTop);
+
+                Label textBottom = new Label();      
+                textBottom.Text = strAlf[i].ToString();
+                textBottom.Size = new Size(15, 15);
+                textBottom.Location = new System.Drawing.Point(startPole_x + (i + 1) * buttonWidth + 10, startPole_y + max_y + buttonHeight );
+                this.Controls.Add(textBottom);
+
+                Label numbLeft = new Label();
+                numbLeft.Text = (size_pole - i).ToString();
+                numbLeft.Size = new Size(20, 15);
+                numbLeft.Location = new System.Drawing.Point(startPole_x, startPole_y + (i + 1) * buttonHeight + 10);
+                this.Controls.Add(numbLeft);
+
+                Label numbRight = new Label();
+                numbRight.Text = (size_pole - i).ToString();
+                numbRight.Size = new Size(20, 15);
+                numbRight.Location = new System.Drawing.Point(max_x + 2 * buttonWidth -10 , startPole_y + (i + 1) * buttonHeight + 10);
+                this.Controls.Add(numbRight);
+
             }
 
         }
