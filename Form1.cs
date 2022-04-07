@@ -273,7 +273,6 @@ namespace GameGomoku
         private void button_Click(object sender, EventArgs e)
         {
             Button button = (Button)sender;   
-            string _name = button.Name;
             int _tag = (int) button.Tag;
             buttonsPosition item_pole = _buttonsPosition[_tag];
            
@@ -293,26 +292,24 @@ namespace GameGomoku
 
             obr_pole(item_pole_test);
 
-            string pl = item_pole_test.playerNumber.ToString();
+            string playerNum = item_pole_test.playerNumber.ToString();
             if (win == true)   
             {
-                MessageBox.Show("выиграл игнок номер" + pl);
+                MessageBox.Show("Победитель игрок номер" + playerNum);
             }           
 
         }
 
         private void buttonClickStartGameTwoPlayersu(object sender, EventArgs e)
         {
+            
             RunGameTwoPlayers();
 
         }
 
         private void buttonClickGameSetting(object sender, EventArgs e)
         {
-            Button button = (Button)sender;            
-
-            this.GroupCheckSizePole.Visible = true;
-            this.buttonRating.Visible = true;
+            Button button = (Button)sender;  
 
             GameSettingControls();
         }
@@ -335,9 +332,9 @@ namespace GameGomoku
             
         }
 
-        private void GroupCheckSizePole_Enter(object sender, EventArgs e)
+        private void ButtonClickMenu(object sender, EventArgs e)
         {
-
+            MenuControls();
         }
     }
 }
