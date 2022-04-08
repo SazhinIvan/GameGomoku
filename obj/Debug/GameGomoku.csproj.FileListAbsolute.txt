@@ -1,0 +1,10 @@
+C:\GameGomoku\obj\Debug\GameGomoku.csprojAssemblyReference.cache
+C:\GameGomoku\obj\Debug\GameGomoku.csproj.GenerateResource.cache
+C:\GameGomoku\obj\Debug\GameGomoku.csproj.CoreCompileInputs.cache
+C:\GameGomoku\obj\Debug\GameGomoku.Form1.resources
+C:\GameGomoku\obj\Debug\GameGomoku.Properties.Resources.resources
+C:\GameGomoku\bin\Debug\GameGomoku.exe.config
+C:\GameGomoku\bin\Debug\GameGomoku.exe
+C:\GameGomoku\bin\Debug\GameGomoku.pdb
+C:\GameGomoku\obj\Debug\GameGomoku.exe
+C:\GameGomoku\obj\Debug\GameGomoku.pdb
