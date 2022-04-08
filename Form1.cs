@@ -225,7 +225,7 @@ namespace GameGomoku
         {           
             gameSetting = new GameSetting();
             InitializeComponent();
-            
+            MenuControls();
         }
 
         public void obr_pole(GamePole item_pole)
@@ -307,12 +307,7 @@ namespace GameGomoku
 
         }
 
-        private void buttonClickGameSetting(object sender, EventArgs e)
-        {
-            Button button = (Button)sender;  
-
-            GameSettingControls();
-        }
+        
         private void buttonClickRating(object sender, EventArgs e)
         {
             Button button = (Button)sender;
@@ -334,7 +329,17 @@ namespace GameGomoku
 
         private void ButtonClickMenu(object sender, EventArgs e)
         {
+           // InitializeComponent();
+            ClearGameSettingControls();
+            InitializeComponentMenu();
             MenuControls();
+        }
+        private void buttonClickGameSetting(object sender, EventArgs e)
+        {
+           // InitializeComponent();
+            ClearMenuControls();
+            InitializeComponentSetting();
+            GameSettingControls();
         }
     }
 }

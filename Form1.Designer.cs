@@ -58,7 +58,27 @@ namespace GameGomoku
 
         //#region Код, автоматически созданный конструктором форм Windows
 
+        private void ClearGameSettingControls()
+        {
+            foreach (var item in this.GroupCheckSizePole.Controls)
+            {
+                this.GroupCheckSizePole.Controls.Remove(item as Control);
+                (item as Control).Dispose();
+            }
 
+            foreach (var item in this.GroupGameMode.Controls)
+            {
+                this.GroupGameMode.Controls.Remove(item as Control);
+                (item as Control).Dispose();
+            }
+            this.Controls.Remove(ButtonOpenMenu);
+            this.ButtonOpenMenu.Dispose();
+            this.Controls.Remove(GroupCheckSizePole);
+            this.GroupCheckSizePole.Dispose();
+            this.Controls.Remove(GroupGameMode);
+            this.GroupGameMode.Dispose();
+
+        }
         private void GameSettingControls()
         {
             this.GroupMenu.Visible = false;
@@ -141,6 +161,17 @@ namespace GameGomoku
             
         }
 
+        private void ClearMenuControls()
+        {
+            foreach (var item in this.GroupMenu.Controls)
+            {
+                this.GroupCheckSizePole.Controls.Remove(item as Control);
+                (item as Control).Dispose();
+            }
+            this.GroupMenu.Dispose();
+            this.Controls.Remove(GroupMenu);
+        }
+
 
         private void MenuControls ()
         {
@@ -149,7 +180,6 @@ namespace GameGomoku
             this.GroupGameMode.Visible = false;
 
             this.GroupMenu.Visible = true;
-
             // 
             // GroupMenu
             // 
@@ -252,6 +282,28 @@ namespace GameGomoku
 
         }
 
+
+        private void InitializeComponentMenu()
+        {
+            this.GroupMenu = new System.Windows.Forms.GroupBox();
+            this.buttonStartGame = new System.Windows.Forms.Button();
+            this._buttonGameSetting = new System.Windows.Forms.Button();
+            this.buttonRating = new System.Windows.Forms.Button(); 
+            //this.GroupMenu.SuspendLayout();
+           
+        }
+
+        private void InitializeComponentSetting()
+        {
+            this.GroupCheckSizePole = new System.Windows.Forms.GroupBox();
+            this.CheckSizePole15 = new System.Windows.Forms.RadioButton();
+            this.CheckSizePole19 = new System.Windows.Forms.RadioButton();
+            this.GroupGameMode = new System.Windows.Forms.GroupBox();
+            this.checkOneByOne = new System.Windows.Forms.RadioButton();
+            this.checkVSComp = new System.Windows.Forms.RadioButton();
+            this.ButtonOpenMenu = new System.Windows.Forms.Button();
+        }
+
         private void InitializeComponent()
         {
             this.GroupMenu = new System.Windows.Forms.GroupBox();
@@ -271,7 +323,7 @@ namespace GameGomoku
             this.GroupMenu.SuspendLayout();
             this.SuspendLayout();
 
-            MenuControls();
+           
         }
 
 
