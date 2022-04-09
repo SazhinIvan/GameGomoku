@@ -15,29 +15,10 @@ namespace GameGomoku
         public int n { get; set; }
         public System.Windows.Forms.Button _button { get; set; }
     }
-
-
-
-    //static class NativeMethods
-    //    {
-    //        public static Cursor LoadCustomCursor(string path)
-    //        {
-    //            IntPtr hCurs = LoadCursorFromFile(path);
-    //            if (hCurs == IntPtr.Zero) throw new Win32Exception();
-    //            var curs = new Cursor(hCurs);
-    //            // Note: force the cursor to own the handle so it gets released properly
-    //            var fi = typeof(Cursor).GetField("ownHandle", BindingFlags.NonPublic | BindingFlags.Instance);
-    //            fi.SetValue(curs, true);
-    //            return curs;
-    //        }
-    //        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-    //        private static extern IntPtr LoadCursorFromFile(string path);
-    //    }
+    
 
     partial class Form1
     {
-
-
         /// <summary>
         /// Обязательная переменная конструктора.
         /// </summary>
@@ -55,8 +36,6 @@ namespace GameGomoku
             }
             base.Dispose(disposing);
         }
-
-        //#region Код, автоматически созданный конструктором форм Windows
 
         private void ClearGameSettingControls()
         {
@@ -79,6 +58,7 @@ namespace GameGomoku
             this.GroupGameMode.Dispose();
 
         }
+
         private void GameSettingControls()
         {
             this.GroupMenu.Visible = false;
@@ -330,16 +310,9 @@ namespace GameGomoku
         private void RunGameTwoPlayers()
         {
            
-
             //Настрйоки
-            int size_pole = gameSetting.size_pole;
-            ///////
-
-            
-            this.buttonRating.Visible = false;
-
-            height_y = size_pole;
-            width_x = size_pole;
+            int size_pole = gameSetting.GetSizePole();
+          //////
 
             this.Width = (size_pole + 1) * 50;
             this.Height = (size_pole + 1) * 50;
@@ -347,37 +320,36 @@ namespace GameGomoku
             int buttonWidth = 30;
             int buttonHeight = 30;
 
-            _buttonsPosition = new buttonsPosition[width_x * height_y];
-            _GamePole = new GamePole[width_x, height_y];
-            
+            _buttonsPosition = new buttonsPosition[size_pole * size_pole];            
 
+            ////////////////Тест
+            GamePoleTest = new GamePole(size_pole, size_pole);
+            ////////////////Тест
+            ///
             int space_x = 0;
             int step_space = 0;
             int startPole_x = 220;
             int startPole_y = 10;
 
             this.GroupGamePole.Controls.Clear();
-
             this.GroupGamePole.Location = new System.Drawing.Point(startPole_x + 30, startPole_y + 30);
             this.GroupGamePole.Name = "GroupGamePole";
-            this.GroupGamePole.Size = new System.Drawing.Size(width_x * buttonWidth + 100  , height_y * buttonHeight + 100 );
+            this.GroupGamePole.Size = new System.Drawing.Size(size_pole * buttonWidth + 100  , size_pole * buttonHeight + 100 );
             this.GroupGamePole.TabIndex = 0;
             this.GroupGamePole.TabStop = false;
             this.Controls.Add(GroupGamePole);
 
             int max_x = 0;
             int max_y = 0;
-
             int num = 0;
 
-            
 
-            for (int tmp_y = 0; tmp_y < height_y; tmp_y++)
+            for (int tmp_y = 0; tmp_y < size_pole; tmp_y++)
             {
                 int space_y = 0;
 
                 
-                for (int tmp_x = 0; tmp_x < width_x; tmp_x++)
+                for (int tmp_x = 0; tmp_x < size_pole; tmp_x++)
                 {
                   
                     Button _buttons = new Button();
@@ -386,12 +358,9 @@ namespace GameGomoku
 
                     int x = tmp_x + 1;
                     int y = tmp_y + 1;
-                    ///////////////////////////////////////
-                    _GamePole[tmp_x, tmp_y] = new GamePole();
-                    _GamePole[tmp_x, tmp_y].x_gamePole = x;
-                    _GamePole[tmp_x, tmp_y].y_gamePole = y;
-                    _GamePole[tmp_x, tmp_y].busy_cell = 0;
-                    //////////////////////////////
+                    
+                    GamePoleTest.SetNewItemGamePole(x, y); 
+                    
                     _buttonsPosition[num] = new buttonsPosition();
                     _buttonsPosition[num].y_gamePole = y;
                     _buttonsPosition[num].x_gamePole = x;

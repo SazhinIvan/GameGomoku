@@ -12,215 +12,16 @@ using System.Windows.Forms;
 namespace GameGomoku
 {
     public partial class Form1 : Form
-    {
-        public class GamePole
-        {
-            public int y_gamePole { get; set; }
-            public int x_gamePole { get; set; }
-            public int busy_cell { get; set; }
-            public int playerNumber { get; set; }            
-        }
-
-        public class buttonsPosition
-        {
-            public int y_gamePole { get; set; }
-            public int x_gamePole { get; set; } 
-        }
-
-        public class GameSetting
-        {            
-            public int size_pole { get; set; }
-            public bool gameVsComp { get; set; }
-
-            public GameSetting()
-            {
-                size_pole = 15;
-                gameVsComp = false;
-            }
-        }
-
-
+    {  
         GameSetting gameSetting;     
        
-        public int height_y;
-        public int width_x;
         public buttonsPosition[] _buttonsPosition;
-
-        public GamePole[,] _GamePole;
-
-        public bool activePlayerBlack = true;
-        public bool win =false;
-
-   
-
-        public bool checkFive(int[] array)
-        {
-            bool result = false;
-            foreach (var item in array)
-            {
-                if (item == 5)
-                { result = true; }
-
-            }
-            return result;
-        }
+        public GamePole GamePoleTest;
+        public bool activePlayerBlack = true;         
         
-        public int[] checkLine(GamePole item_pole, int[]  array_tmp,int y_pole, int x_pole, int y_delta, int x_delta)
-        {
-            int arrayItem = 0;
-            int SummStones = 0;
-            int y_gamePolePrevious = 0;
-            int x_gamePolePrevious = 0;
-            int playerNumberPrevious = 0;
-
-            for (int i = 1; i < array_tmp.Count(); i++)
-            {
-                var cellCurrent = _GamePole[x_pole - 1, y_pole - 1];
-
-                int x_gamePoleCurrent = cellCurrent.x_gamePole;
-                int y_gamePoleCurrent = cellCurrent.y_gamePole;
-                var busy_cellCurrent = cellCurrent.busy_cell;
-                var playerNumberCurrent = cellCurrent.playerNumber;
-
-                if (playerNumberCurrent == playerNumberPrevious)
-                {
-                    playerNumberPrevious = playerNumberCurrent;
-                }
-
-                if (y_gamePolePrevious + y_delta == y_gamePoleCurrent &&
-                    x_gamePolePrevious + x_delta == x_gamePoleCurrent &&
-                    busy_cellCurrent == 1 &&
-                    playerNumberPrevious == playerNumberCurrent &&
-                    playerNumberCurrent == item_pole.playerNumber)
-                {
-                    SummStones += 1;
-                    array_tmp[arrayItem] = SummStones;
-                }
-                else if (busy_cellCurrent == 1 &&
-                    playerNumberCurrent == item_pole.playerNumber)
-                {
-                    if (SummStones == 0)
-                    { arrayItem = 0; }
-                    else
-                    { arrayItem += 1; }
-
-                    SummStones = 1;
-                    array_tmp[arrayItem] = SummStones;
-                }
-
-                y_gamePolePrevious = y_gamePoleCurrent;
-                x_gamePolePrevious = x_gamePoleCurrent;
-                playerNumberPrevious = playerNumberCurrent;
-
-                y_pole = y_pole + y_delta;
-                x_pole = x_pole + x_delta;
-            }
-            return array_tmp;
-        }
-
-        public bool checkVertical(GamePole item_pole) //по вертикали
-        {
-            int y_SelectPole = item_pole.y_gamePole; // строки m
-            int x_SelectPole = item_pole.x_gamePole; // столбцы n
-
-            int[] array_tmp; //временный массив
-            int size_array = 0;
-            int y_pole = 0, x_pole = 0, y_delta = 0, x_delta = 0;            
-            size_array = gameSetting.size_pole;
-            y_pole = 1;
-            x_pole = x_SelectPole;
-            y_delta = 1;
-            x_delta = 0;           
-
-            array_tmp = new int[size_array];
-            array_tmp = checkLine(item_pole, array_tmp, y_pole, x_pole, y_delta, x_delta);
-            return checkFive(array_tmp); // проверка на 5  
-        }
-
-        public bool checkHorizontal(GamePole item_pole)
-        {
-            int y_SelectPole = item_pole.y_gamePole; // строки m
-            int x_SelectPole = item_pole.x_gamePole; // столбцы n
-
-            int[] array_tmp;
-            int size_array = 0;
-            int y_pole = 0, x_pole = 0, y_delta = 0, x_delta = 0;
-            size_array = gameSetting.size_pole;
-            y_pole = y_SelectPole;
-            x_pole = 1;
-            y_delta = 0;
-            x_delta = 1;
-
-            array_tmp = new int[size_array];
-            array_tmp = checkLine(item_pole, array_tmp, y_pole, x_pole, y_delta, x_delta);
-            return checkFive(array_tmp); // проверка на 5  
-        }
-
-        public bool checkDiagonal_1(GamePole item_pole) // по диагонали  "/"   
-        {
-            int y_SelectPole = item_pole.y_gamePole; // строки m
-            int x_SelectPole = item_pole.x_gamePole; // столбцы n
-
-            int[] array_tmp; //временный массив
-            int size_array = 0;
-            int y_pole = 0, x_pole = 0, y_delta = 0, x_delta = 0;                      
-
-            if (y_SelectPole + x_SelectPole <= gameSetting.size_pole + 1) //до диоганалью "/"
-            {
-                size_array = y_SelectPole + x_SelectPole - 1;
-                y_pole = y_SelectPole + x_SelectPole - 1;
-                x_pole = 1;
-                y_delta = -1;
-                x_delta = 1;
-            }
-            else if (y_SelectPole + x_SelectPole > gameSetting.size_pole + 1) //после диагонали "/"
-            {
-                size_array = 2 * gameSetting.size_pole - (y_SelectPole + x_SelectPole - 1);
-                y_pole = gameSetting.size_pole;                
-                x_pole = y_SelectPole + x_SelectPole - gameSetting.size_pole;
-                y_delta = -1;
-                x_delta = 1;
-            }
-
-            array_tmp = new int[size_array];
-            array_tmp = checkLine(item_pole, array_tmp, y_pole, x_pole,  y_delta, x_delta);      
-            return checkFive(array_tmp); // проверка на 5         
-        }
-
-        public bool checkDiagonal_2(GamePole item_pole)// по диагонали  "\" 
-        {
-            int y_SelectPole = item_pole.y_gamePole; // строки m
-            int x_SelectPole = item_pole.x_gamePole; // столбцы n
-
-            int[] array_tmp; //временный массив
-            int size_array = 0;
-            int y_pole = 0, x_pole = 0, y_delta = 0, x_delta = 0;
-
-            if (y_SelectPole >= x_SelectPole) // до диоганалью "\"
-            {
-                y_pole = y_SelectPole - x_SelectPole + 1;
-                x_pole = 1; 
-                size_array = gameSetting.size_pole - y_pole + 1; 
-
-                y_delta = 1;
-                x_delta = 1;
-            }
-            else if (y_SelectPole < x_SelectPole) 
-            {
-                y_pole = 1;// m_a = 1;
-                x_pole = x_SelectPole - y_SelectPole + 1;
-                size_array = gameSetting.size_pole - x_pole + 1 ;
-
-                y_delta = 1; 
-                x_delta = 1; 
-            }
-
-            array_tmp = new int[size_array];
-            array_tmp = checkLine(item_pole, array_tmp, y_pole, x_pole, y_delta, x_delta);
-            return checkFive(array_tmp); // проверка на 5 
-
-        }
-
+        /// <summary>
+        /// Инициализация формы Form1
+        /// </summary>
         public Form1()
         {           
             gameSetting = new GameSetting();
@@ -228,118 +29,136 @@ namespace GameGomoku
             MenuControls();
         }
 
-        public void obr_pole(GamePole item_pole)
-        {
-            
-            bool five_vert = checkVertical(item_pole);       //првоерка по вертикали
-            bool five_horiz = checkHorizontal(item_pole);     // првоерка по горизонтали
-            bool five_diag = checkDiagonal_1(item_pole);     // проверка по диагонали "/"
-            bool five_diag_2 = checkDiagonal_2(item_pole);   // проверка по диагонали "\"
-
-            // проверка на победу
-            win = five_vert | five_horiz | five_diag | five_diag_2;
-           
-        }
-
+        /// <summary>
+        /// Метод установки цвета кнопки 
+        /// </summary>
+        /// <param name="button"></param>
         public void button_color(Button button)
         {
             var _tag = (int)button.Tag;
 
             buttonsPosition item_pole = _buttonsPosition[_tag];
 
-            int y_gamePole_test = item_pole.y_gamePole - 1; // строки m
-            int x_gamePole_test = item_pole.x_gamePole - 1; // столбцы n
-
-            GamePole item_pole_test = _GamePole[x_gamePole_test, y_gamePole_test];
-
+            int y_gamePole_test = item_pole.y_gamePole /*- 1*/; // строки m
+            int x_gamePole_test = item_pole.x_gamePole /*- 1*/; // столбцы n
+            
             if (activePlayerBlack)
             {
                 button.BackgroundImage = GameGomoku.Properties.Resources.circleBlack;
                 button.BackgroundImageLayout = ImageLayout.Stretch;
                 //button.BackColor = Color.Black;
                 activePlayerBlack = !activePlayerBlack;
-                _GamePole[x_gamePole_test, y_gamePole_test].playerNumber = 1;                
+               
+
+                GamePoleTest.SetItemPlayerGamePole(x_gamePole_test, y_gamePole_test, 1);
             }
             else
             {
                 button.BackgroundImage = GameGomoku.Properties.Resources.circleWhite;
                 button.BackgroundImageLayout = ImageLayout.Stretch;
                 //button.BackColor = Color.White;
-                activePlayerBlack = !activePlayerBlack;
-                _GamePole[x_gamePole_test, y_gamePole_test].playerNumber = 2;             
+                activePlayerBlack = !activePlayerBlack;               
+
+                GamePoleTest.SetItemPlayerGamePole(x_gamePole_test, y_gamePole_test, 2);
             }
         }
-     
+
+        ////////////////////////////Блок кнопок////////////////////////////////////
+        /// <summary>
+        /// Кнопка обработки нажатия ячейки поля
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button_Click(object sender, EventArgs e)
         {
             Button button = (Button)sender;   
             int _tag = (int) button.Tag;
-            buttonsPosition item_pole = _buttonsPosition[_tag];
-           
-            int y_gamePole_test = item_pole.y_gamePole - 1; // строки m
-            int x_gamePole_test = item_pole.x_gamePole - 1; // столбцы n
+            buttonsPosition itemButtonPole = _buttonsPosition[_tag];
 
-            GamePole item_pole_test = _GamePole[x_gamePole_test, y_gamePole_test];
-            
-            if (_GamePole[x_gamePole_test, y_gamePole_test].busy_cell == 1)
+            int x_gamePole_test = itemButtonPole.x_gamePole; // столбцы n
+            int y_gamePole_test = itemButtonPole.y_gamePole; // строки m           
+
+            ItemGamePole item_pole_test = GamePoleTest.GetItemGamePole(x_gamePole_test, y_gamePole_test);
+           
+            if (GamePoleTest.GetItemGamePole(x_gamePole_test, y_gamePole_test).busy_cell == 1)
             {
             }
             else
             {
                 button_color(button);
-                _GamePole[x_gamePole_test, y_gamePole_test].busy_cell = 1;
-            }           
-
-            obr_pole(item_pole_test);
+                GamePoleTest.SetItemBusyGamePole(x_gamePole_test, y_gamePole_test);               
+            }
 
             string playerNum = item_pole_test.playerNumber.ToString();
-            if (win == true)   
+            if (GamePoleTest.Check_win(item_pole_test))   
             {
                 MessageBox.Show("Победитель игрок номер" + playerNum);
-            }           
-
+            } 
         }
 
+        /// <summary>
+        /// Кнопка старт новой игры
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonClickStartGameTwoPlayersu(object sender, EventArgs e)
         {
-            
             RunGameTwoPlayers();
-
         }
-
         
+        /// <summary>
+        /// Кнопка открытия рейтинга
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonClickRating(object sender, EventArgs e)
         {
             Button button = (Button)sender;
             button.BackgroundImage = GameGomoku.Properties.Resources.circle22;
-
         }
 
+        /// <summary>
+        /// Кнопка выбора размера поля 15
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void checkSizePole15_CheckedChanged(object sender, EventArgs e)
         {
-            gameSetting.size_pole = 15;
-           
+            gameSetting.SetSizePole(15);
         }
 
+        /// <summary>
+        /// Кнопка выбора размера поля 19
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void checkSizePole19_CheckedChanged(object sender, EventArgs e)
         {
-            gameSetting.size_pole = 19;
-            
+            gameSetting.SetSizePole(19);
         }
 
+        /// <summary>
+        /// Кнопка открытия меню
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonClickMenu(object sender, EventArgs e)
         {
-           // InitializeComponent();
             ClearGameSettingControls();
             InitializeComponentMenu();
             MenuControls();
         }
+        /// <summary>
+        /// Кнопка открытия настроек
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonClickGameSetting(object sender, EventArgs e)
         {
-           // InitializeComponent();
             ClearMenuControls();
             InitializeComponentSetting();
             GameSettingControls();
         }
+        //////////////////////////////////////////////////////////////////////////
     }
 }
