@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Windows;
 
 
 namespace GameGomoku
@@ -103,6 +105,18 @@ namespace GameGomoku
         /// <param name="e"></param>
         private void buttonClickStartGameTwoPlayersu(object sender, EventArgs e)
         {
+            var fl = File.ReadAllLines("play.csv");
+
+            foreach (var item in fl)
+            {
+
+            }
+            List<string> list = new List<string>();
+            list.Add("aaaaa");
+          
+            File.AppendAllText("play.csv" , $"{list[0]},{list[0]} ");
+            fl = File.ReadAllLines("play.csv");
+
             RunGameTwoPlayers();
         }
         
@@ -158,6 +172,11 @@ namespace GameGomoku
             ClearMenuControls();
             InitializeComponentSetting();
             GameSettingControls();
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+            
         }
         //////////////////////////////////////////////////////////////////////////
     }

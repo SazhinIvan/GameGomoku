@@ -61,6 +61,7 @@ namespace GameGomoku
 
         private void GameSettingControls()
         {
+            this.panel1.Visible = true;
             this.GroupMenu.Visible = false;
             this.ButtonOpenMenu.Visible = true;
             this.GroupCheckSizePole.Visible = true;
@@ -297,19 +298,120 @@ namespace GameGomoku
             this.checkOneByOne = new System.Windows.Forms.RadioButton();
             this.checkVSComp = new System.Windows.Forms.RadioButton();
             this.ButtonOpenMenu = new System.Windows.Forms.Button();
-
             this.GroupGamePole = new System.Windows.Forms.GroupBox();
-            
-            this.GroupMenu.SuspendLayout();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.SuspendLayout();
+            // 
+            // GroupMenu
+            // 
+            this.GroupMenu.Location = new System.Drawing.Point(0, 0);
+            this.GroupMenu.Name = "GroupMenu";
+            this.GroupMenu.Size = new System.Drawing.Size(200, 100);
+            this.GroupMenu.TabIndex = 0;
+            this.GroupMenu.TabStop = false;
+            // 
+            // buttonStartGame
+            // 
+            this.buttonStartGame.Location = new System.Drawing.Point(0, 0);
+            this.buttonStartGame.Name = "buttonStartGame";
+            this.buttonStartGame.Size = new System.Drawing.Size(75, 23);
+            this.buttonStartGame.TabIndex = 0;
+            // 
+            // _buttonGameSetting
+            // 
+            this._buttonGameSetting.Location = new System.Drawing.Point(0, 0);
+            this._buttonGameSetting.Name = "_buttonGameSetting";
+            this._buttonGameSetting.Size = new System.Drawing.Size(75, 23);
+            this._buttonGameSetting.TabIndex = 0;
+            // 
+            // buttonRating
+            // 
+            this.buttonRating.Location = new System.Drawing.Point(0, 0);
+            this.buttonRating.Name = "buttonRating";
+            this.buttonRating.Size = new System.Drawing.Size(75, 23);
+            this.buttonRating.TabIndex = 0;
+            // 
+            // GroupCheckSizePole
+            // 
+            this.GroupCheckSizePole.Location = new System.Drawing.Point(0, 0);
+            this.GroupCheckSizePole.Name = "GroupCheckSizePole";
+            this.GroupCheckSizePole.Size = new System.Drawing.Size(200, 100);
+            this.GroupCheckSizePole.TabIndex = 0;
+            this.GroupCheckSizePole.TabStop = false;
+            // 
+            // CheckSizePole15
+            // 
+            this.CheckSizePole15.Location = new System.Drawing.Point(0, 0);
+            this.CheckSizePole15.Name = "CheckSizePole15";
+            this.CheckSizePole15.Size = new System.Drawing.Size(104, 24);
+            this.CheckSizePole15.TabIndex = 0;
+            // 
+            // CheckSizePole19
+            // 
+            this.CheckSizePole19.Location = new System.Drawing.Point(0, 0);
+            this.CheckSizePole19.Name = "CheckSizePole19";
+            this.CheckSizePole19.Size = new System.Drawing.Size(104, 24);
+            this.CheckSizePole19.TabIndex = 0;
+            // 
+            // GroupGameMode
+            // 
+            this.GroupGameMode.Location = new System.Drawing.Point(0, 0);
+            this.GroupGameMode.Name = "GroupGameMode";
+            this.GroupGameMode.Size = new System.Drawing.Size(200, 100);
+            this.GroupGameMode.TabIndex = 0;
+            this.GroupGameMode.TabStop = false;
+            // 
+            // checkOneByOne
+            // 
+            this.checkOneByOne.Location = new System.Drawing.Point(0, 0);
+            this.checkOneByOne.Name = "checkOneByOne";
+            this.checkOneByOne.Size = new System.Drawing.Size(104, 24);
+            this.checkOneByOne.TabIndex = 0;
+            // 
+            // checkVSComp
+            // 
+            this.checkVSComp.Location = new System.Drawing.Point(0, 0);
+            this.checkVSComp.Name = "checkVSComp";
+            this.checkVSComp.Size = new System.Drawing.Size(104, 24);
+            this.checkVSComp.TabIndex = 0;
+            // 
+            // ButtonOpenMenu
+            // 
+            this.ButtonOpenMenu.Location = new System.Drawing.Point(0, 0);
+            this.ButtonOpenMenu.Name = "ButtonOpenMenu";
+            this.ButtonOpenMenu.Size = new System.Drawing.Size(75, 23);
+            this.ButtonOpenMenu.TabIndex = 0;
+            // 
+            // GroupGamePole
+            // 
+            this.GroupGamePole.Location = new System.Drawing.Point(0, 0);
+            this.GroupGamePole.Name = "GroupGamePole";
+            this.GroupGamePole.Size = new System.Drawing.Size(200, 100);
+            this.GroupGamePole.TabIndex = 0;
+            this.GroupGamePole.TabStop = false;
+            // 
+            // panel1
+            // 
+            this.panel1.Location = new System.Drawing.Point(114, 127);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(200, 100);
+            this.panel1.TabIndex = 0;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            // 
+            // Form1
+            // 
+            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.panel1);
+            this.Name = "Form1";
+            this.ResumeLayout(false);
 
-           
         }
 
 
         private void RunGameTwoPlayers()
         {
-           
+
+            this.panel1.Visible = false;
             //Настрйоки
             int size_pole = gameSetting.GetSizePole();
           //////
@@ -430,7 +532,7 @@ namespace GameGomoku
         private Button ButtonOpenMenu;
 
         private GroupBox GroupGamePole;
-
+        private Panel panel1;
     }
 }
 
