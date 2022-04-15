@@ -27,8 +27,11 @@ namespace GameGomoku
         public Form1()
         {           
             gameSetting = new GameSetting();
-            InitializeComponent();
-            MenuControls();
+            InitializeGeneral();
+
+            //InitializeComponent();
+            //MenuControls();
+            //InitializePanels();
         }
 
         /// <summary>
@@ -98,6 +101,16 @@ namespace GameGomoku
             } 
         }
 
+
+
+        private void buttonClickbuttonBackGame(object sender, EventArgs e)
+        {
+            this.panelMenu.Visible = false;
+            this.panelGamePole.Visible = true;
+            this.panelSetting.Visible = false;
+        }
+
+
         /// <summary>
         /// Кнопка старт новой игры
         /// </summary>
@@ -116,6 +129,9 @@ namespace GameGomoku
           
             File.AppendAllText("play.csv" , $"{list[0]},{list[0]} ");
             fl = File.ReadAllLines("play.csv");
+            this.panelMenu.Visible = false;
+            this.panelGamePole.Visible = true;
+            this.ButtonOpenMenuFromSetting.Visible = true;
 
             RunGameTwoPlayers();
         }
@@ -157,11 +173,15 @@ namespace GameGomoku
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ButtonClickMenu(object sender, EventArgs e)
-        {
-            ClearGameSettingControls();
-            InitializeComponentMenu();
-            MenuControls();
+        {            
+            //ClearGameSettingControls();
+            //InitializeComponentMenu();
+            //MenuControls();
+            this.panelMenu.Visible = true;
+            this.panelGamePole.Visible = false;
+            this.panelSetting.Visible = false;
         }
+
         /// <summary>
         /// Кнопка открытия настроек
         /// </summary>
@@ -169,10 +189,21 @@ namespace GameGomoku
         /// <param name="e"></param>
         private void buttonClickGameSetting(object sender, EventArgs e)
         {
-            ClearMenuControls();
-            InitializeComponentSetting();
-            GameSettingControls();
+            //ClearMenuControls();
+            //InitializeComponentSetting();
+            //GameSettingControls();
+
+            this.panelMenu.Visible = false;
+            this.panelGamePole.Visible = false;
+            this.panelSetting.Visible = true;
+
         }
+        private void buttonClickQuit(object sender, EventArgs e)
+        {
+            this.Close();
+
+        }
+            
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
