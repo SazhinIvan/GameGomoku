@@ -23,6 +23,7 @@ namespace GameGomoku
         public ListOfPlayers listOfPlayers;
 
         public Player playerBlack;
+        public Player playerWhite;
 
         /// <summary>
         /// Инициализация формы Form1
@@ -122,13 +123,15 @@ namespace GameGomoku
         private void buttonClickStartGameTwoPlayersu(object sender, EventArgs e)
         {
             SetNamePlayer();
-            
+
             //this.panelMenu.Visible = false;
             //this.panelGamePole.Visible = true;
             //this.ButtonOpenMenuFromSetting.Visible = true;
             //this.buttonBackGame.Visible = true;
 
-           // RunGameTwoPlayers();
+            // RunGameTwoPlayers();
+
+            
         }
 
         private void SetNamePlayer()
@@ -199,12 +202,12 @@ namespace GameGomoku
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void buttonClickRating(object sender, EventArgs e)
-        {
+        { 
+
             this.panelMenu.Visible = false;
             this.panelGamePole.Visible = false;
             this.panelSetting.Visible = false;
             this.panelRating.Visible = true;
-
 
 
         }
