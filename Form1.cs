@@ -19,8 +19,11 @@ namespace GameGomoku
        
         public buttonsPosition[] _buttonsPosition;
         public GamePole GamePoleTest;
-        public bool activePlayerBlack = true;         
-        
+        public bool activePlayerBlack = true;
+        public ListOfPlayers listOfPlayers;
+
+        public Player playerBlack;
+
         /// <summary>
         /// Инициализация формы Form1
         /// </summary>
@@ -118,24 +121,78 @@ namespace GameGomoku
         /// <param name="e"></param>
         private void buttonClickStartGameTwoPlayersu(object sender, EventArgs e)
         {
-            var fl = File.ReadAllLines("play.csv");
+            SetNamePlayer();
+            
+            //this.panelMenu.Visible = false;
+            //this.panelGamePole.Visible = true;
+            //this.ButtonOpenMenuFromSetting.Visible = true;
+            //this.buttonBackGame.Visible = true;
 
-            foreach (var item in fl)
+           // RunGameTwoPlayers();
+        }
+
+        private void SetNamePlayer()
+        {
+            this.panelMenu.Visible = false;
+            this.panelGamePole.Visible = false;
+            //this.ButtonOpenMenuFromSetting.Visible = false;
+            this.buttonBackGame.Visible = false;
+            this.panelPlayerWhite.Visible = false;
+            this.panelPlayerBlack.Visible = true;
+
+            listOfPlayers = new ListOfPlayers();
+            OpenpanelPlayerBlack(listOfPlayers);
+        }
+
+        private void RadioButtonClickSetName(object sender, EventArgs e)
+        {
+            RadioButton button = (RadioButton)sender;
+            int tag = (int)button.Tag;
+            var item = listOfPlayers.ListPlayers[tag];
+            var name = item.NamePlayer;
+            playerBlack = new Player();
+            playerBlack.NamePlayer = name;
+            playerBlack.IdPlayer = tag;
+
+        }
+
+        private void buttonNextSetNamePlayer(object sender, EventArgs e)
+        {
+            var ttt = this.TextBoxNamePlayer.Text;
+            if (ttt == "")
             {
-
+                
+                
+                listOfPlayers.ListPlayers.Remove(playerBlack);
             }
-            List<string> list = new List<string>();
-            list.Add("aaaaa");
-          
-            File.AppendAllText("play.csv" , $"{list[0]},{list[0]} ");
-            fl = File.ReadAllLines("play.csv");
+            else
+            {
+                playerBlack = new Player();
+                listOfPlayers.csvAddItem(ttt);
+
+
+                listOfPlayers.ListPlayers.Remove(playerBlack);
+            }
+            
+
+            OpenpanelPlayerWhite(listOfPlayers);
+            this.panelPlayerWhite.Visible = true;
+            this.panelPlayerBlack.Visible = false;
+        }
+
+        
+
+        private void StartGame(object sender, EventArgs e)
+        {
             this.panelMenu.Visible = false;
             this.panelGamePole.Visible = true;
             this.ButtonOpenMenuFromSetting.Visible = true;
+            this.buttonBackGame.Visible = true;
+
 
             RunGameTwoPlayers();
         }
-        
+
         /// <summary>
         /// Кнопка открытия рейтинга
         /// </summary>
@@ -143,8 +200,13 @@ namespace GameGomoku
         /// <param name="e"></param>
         private void buttonClickRating(object sender, EventArgs e)
         {
-            Button button = (Button)sender;
-            button.BackgroundImage = GameGomoku.Properties.Resources.circle22;
+            this.panelMenu.Visible = false;
+            this.panelGamePole.Visible = false;
+            this.panelSetting.Visible = false;
+            this.panelRating.Visible = true;
+
+
+
         }
 
         /// <summary>
