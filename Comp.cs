@@ -3,91 +3,157 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace GameGomoku
 {
     /// <summary>
     /// Класс элемента игрового поля
     /// </summary>
-    public class ItemGamePole
+
+
+    public class Comp
     {
-        public int num { get; set; }
-        public int y_gamePole { get; set; }
-        public int x_gamePole { get; set; }
-        public int busy_cell { get; set; }
-        public int playerNumber { get; set; }
-    }
+        public GameSetting gameSetting;
+        public ItemGamePole[,] gamePoleComp;
+       // public GamePole gamePoleCompGeniral;
+        public List<ItemGamePole> gamePoleCompList;
 
-    /// <summary>
-    /// Класс Игрового Поля
-    /// </summary>
-    public class GamePole
-    {
-        public ItemGamePole[,] gamePole { get; set; }
-        public GameSetting gameSetting { get; set; }
-        public List<ItemGamePole> gamePoleList { get; set; }
-
-
-        public GamePole(int width_x, int height_y)
+        class Otbor
         {
-            gamePole = new ItemGamePole[width_x, height_y];
-            gameSetting = new GameSetting();
-            gamePoleList = new List<ItemGamePole>();
+            public ItemGamePole itemGamePole;
+            public int maxValue;
         }
 
-        public void SetGameSetting(GameSetting tmp_gameSetting)
+        public Comp(GameSetting igameSetting)
         {
-            gameSetting = tmp_gameSetting;
+            gameSetting = igameSetting;
         }
 
-        public ItemGamePole GetItemGamePole(int x, int y)
+        public void NewGamePoleComp(GamePole GamePole)
         {
-            return gamePole[x -1 , y - 1];
+            
+            int size = gameSetting.GetSizePole();
+            //gamePoleCompGeniral = new GamePole(size, size);
+            gamePoleComp = new ItemGamePole[size, size];
+           gamePoleComp = GamePole.gamePole;
+            gamePoleCompList = new List<ItemGamePole>();
+
+            gamePoleCompList = GamePole.gamePoleList;
         }
 
-
-        public void SetNewItemGamePole(int x, int y, int num)
+        public ItemGamePole aaa(GamePole GamePole) 
         {
-            gamePole[x - 1, y - 1] = new ItemGamePole();
-            gamePole[x - 1, y - 1].x_gamePole = x;
-            gamePole[x - 1, y - 1].y_gamePole = y;
-            gamePole[x - 1, y - 1].busy_cell = 0;
-            gamePole[x - 1, y - 1].num = num;
+            NewGamePoleComp(GamePole);
+            int size = gameSetting.GetSizePole();
 
-            gamePoleList.Add(new ItemGamePole());            
-            gamePoleList[num].x_gamePole = x;
-            gamePoleList[num].y_gamePole = y;
-            gamePoleList[num].busy_cell = 0;
-            gamePoleList[num].num = num;
+            var xx = from item in gamePoleCompList
+                        where item.busy_cell == 1 
+                        select item.x_gamePole;
+
+            var min_x = xx.Min();
+            var max_x = xx.Max();
+
+            var yy = from item in gamePoleCompList
+                     where item.busy_cell == 1
+                     select item.y_gamePole;
+
+            var min_y = yy.Min();
+            var max_y = yy.Max();
+
+            if (min_x == 1){}
+            else if(min_x == 2){min_x = min_x - 1;}
+            else{min_x = min_x - 2;}
+
+            if (min_y == 1){}
+            else if (min_y == 2){ min_y = min_y - 1;}
+            else { min_y = min_y - 2;}
+
+            if (max_x == size) { }
+            else if (max_x == size - 1) { max_x = max_x + 1; }
+            else { max_x = max_x + 2; }
+
+            if (max_y == size) { }
+            else if (max_y == size - 1) { max_y = max_y + 1; }
+            else { max_y = max_y + 2; }
+
+            var bbb = from item in gamePoleCompList
+                      where item.x_gamePole <= max_x &
+                            item.x_gamePole >= min_x &
+                            item.y_gamePole <= max_y &
+                            item.y_gamePole >= min_y &
+                            item.busy_cell == 0
+                      select item;
+
+            List<Otbor> listOtbor = new List<Otbor>();
+
+            foreach (var item in bbb)
+            {
+                NewGamePoleComp(GamePole);
+                //gamePoleComp[item.x_gamePole, item.y_gamePole].playerNumber = 2;
+                //gamePoleComp[item.x_gamePole, item.y_gamePole].busy_cell= 1;
+
+                int a = checkVertical(item);
+                int b = checkHorizontal(item);
+                int c = checkDiagonal_1(item);
+                int d = checkDiagonal_2(item);
+
+                int[] arr_tmp = { a, b, c, d };
+                var maxxx = arr_tmp.Max();
+                Otbor tmp_otbor = new Otbor();
+                tmp_otbor.itemGamePole = item;
+                tmp_otbor.maxValue = maxxx;
+                listOtbor.Add(tmp_otbor);
+            }
+            
+            var sortedlistOtbor = from item in listOtbor
+                                  orderby item.maxValue descending
+                              select item;
+
+            ItemGamePole vvv = sortedlistOtbor.First().itemGamePole;
+            return vvv;
         }
 
-        public void SetItemPlayerGamePole(int x, int y, int player, int num)
-        {            
-            gamePole[x - 1, y - 1].busy_cell = 1;
-            gamePole[x - 1, y - 1].playerNumber = player;
-
-            gamePoleList[num].busy_cell = 1;
-            gamePoleList[num].playerNumber = player;
-        }
-
-        public void SetItemBusyGamePole(int x, int y, int num)
+        public List<int> checkMax(int[] array)
         {
-            gamePole[x - 1, y - 1].busy_cell = 1;
-
-            gamePoleList[num].busy_cell = 1;
-        }
-
-        public bool checkFive(int[] array)
-        {
-            bool result = false;
+            
+            List<int> List_tmp = new List<int>();
+            
             foreach (var item in array)
             {
                 if (item == 5)
-                { result = true; }
-
+                {
+                    List_tmp.Add(100000);
+                   
+                }
+                else if (item == 4)
+                {
+                    List_tmp.Add(10000);
+                   
+                }
+                else if (item == 3)
+                {
+                    List_tmp.Add(1000);
+                   
+                }
+                else if (item == 2)
+                {
+                    List_tmp.Add(100);
+                    
+                }
+                else if (item == 1)
+                {
+                    List_tmp.Add(10);
+                }
+                else
+                {
+                    List_tmp.Add(0);
+                }
+                
             }
-            return result;
+            return List_tmp;
         }
+
 
         public int[] checkLine(ItemGamePole item_pole, int[] array_tmp, int y_pole, int x_pole, int y_delta, int x_delta)
         {
@@ -142,8 +208,9 @@ namespace GameGomoku
             return array_tmp;
         }
 
-        public bool checkVertical(ItemGamePole item_pole) //по вертикали
-        {          
+       
+        public int checkVertical(ItemGamePole item_pole) //по вертикали
+        {
             int[] array_tmp; //временный массив
             int size_array = 0;
             int y_pole = 0, x_pole = 0, y_delta = 0, x_delta = 0;
@@ -155,10 +222,13 @@ namespace GameGomoku
 
             array_tmp = new int[size_array];
             array_tmp = checkLine(item_pole, array_tmp, y_pole, x_pole, y_delta, x_delta);
-            return checkFive(array_tmp); // проверка на 5  
+            var aa = array_tmp.Max();
+            var List_tmp = checkMax(array_tmp);
+            var max = List_tmp.Max();
+            return max; // проверка на 5  
         }
 
-        public bool checkHorizontal(ItemGamePole item_pole)
+        public int checkHorizontal(ItemGamePole item_pole)
         {
             int[] array_tmp;
             int size_array = 0;
@@ -171,10 +241,13 @@ namespace GameGomoku
 
             array_tmp = new int[size_array];
             array_tmp = checkLine(item_pole, array_tmp, y_pole, x_pole, y_delta, x_delta);
-            return checkFive(array_tmp); // проверка на 5  
+            var aa = array_tmp.Max();
+            var List_tmp = checkMax(array_tmp);
+            var max = List_tmp.Max();
+            return max; // проверка на 5   
         }
 
-        public bool checkDiagonal_1(ItemGamePole item_pole) // по диагонали  "/"   
+        public int checkDiagonal_1(ItemGamePole item_pole) // по диагонали  "/"   
         {
             int y_SelectPole = item_pole.y_gamePole; // строки m
             int x_SelectPole = item_pole.x_gamePole; // столбцы n
@@ -202,10 +275,13 @@ namespace GameGomoku
 
             array_tmp = new int[size_array];
             array_tmp = checkLine(item_pole, array_tmp, y_pole, x_pole, y_delta, x_delta);
-            return checkFive(array_tmp); // проверка на 5         
+            var aa = array_tmp.Max();
+            var List_tmp = checkMax(array_tmp);
+            var max = List_tmp.Max();
+            return max; // проверка на 5   
         }
 
-        public bool checkDiagonal_2(ItemGamePole item_pole)// по диагонали  "\" 
+        public int checkDiagonal_2(ItemGamePole item_pole)// по диагонали  "\" 
         {
             int y_SelectPole = item_pole.y_gamePole; // строки m
             int x_SelectPole = item_pole.x_gamePole; // столбцы n
@@ -235,21 +311,18 @@ namespace GameGomoku
 
             array_tmp = new int[size_array];
             array_tmp = checkLine(item_pole, array_tmp, y_pole, x_pole, y_delta, x_delta);
-            return checkFive(array_tmp); // проверка на 5 
+            var aa = array_tmp.Max();
+            var List_tmp = checkMax(array_tmp);
+            var max = List_tmp.Max();
+            return max; // проверка на 5 
 
         }
 
-        public bool Check_win(ItemGamePole item_pole)
-        {
+        //public int[] arr1 =  
 
-            bool five_vert = checkVertical(item_pole);       //првоерка по вертикали
-            bool five_horiz = checkHorizontal(item_pole);     // првоерка по горизонтали
-            bool five_diag = checkDiagonal_1(item_pole);     // проверка по диагонали "/"
-            bool five_diag_2 = checkDiagonal_2(item_pole);   // проверка по диагонали "\"
 
-            // проверка на победу
-            return five_vert | five_horiz | five_diag | five_diag_2;
+    };
 
-        }
-    }
+
+
 }

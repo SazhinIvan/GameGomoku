@@ -12,6 +12,7 @@ namespace GameGomoku
         private int sizePole;
         private bool gameVsComp;
         private int sizeButton;
+       
         
         //Конструктор по умолчанию
         public GameSetting()

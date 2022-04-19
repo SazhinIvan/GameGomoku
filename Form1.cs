@@ -18,9 +18,16 @@ namespace GameGomoku
         GameSetting gameSetting;     
        
         public buttonsPosition[] _buttonsPosition;
-        public GamePole GamePoleTest;
-        public bool activePlayerBlack = true;         
-        
+        public GamePole ObjGamePole;
+        public bool activePlayerBlack = true;
+        public ListOfPlayers listOfPlayers;
+
+        public Player playerBlack;
+        public Player playerWhite;
+
+        public bool BoolComp = true;
+        public Comp comp;
+        public int numberComp = 10;
         /// <summary>
         /// Инициализация формы Form1
         /// </summary>
@@ -28,6 +35,7 @@ namespace GameGomoku
         {           
             gameSetting = new GameSetting();
             InitializeGeneral();
+            comp = new Comp(gameSetting);
 
             //InitializeComponent();
             //MenuControls();
@@ -40,31 +48,74 @@ namespace GameGomoku
         /// <param name="button"></param>
         public void button_color(Button button)
         {
+            
             var _tag = (int)button.Tag;
 
             buttonsPosition item_pole = _buttonsPosition[_tag];
 
             int y_gamePole_test = item_pole.y_gamePole /*- 1*/; // строки m
             int x_gamePole_test = item_pole.x_gamePole /*- 1*/; // столбцы n
-            
-            if (activePlayerBlack)
+
+            if (BoolComp == false)
+            {
+                if (activePlayerBlack)
+                {
+                    button.BackgroundImage = GameGomoku.Properties.Resources.circleBlack;
+                    button.BackgroundImageLayout = ImageLayout.Stretch;
+                    //button.BackColor = Color.Black;
+                    activePlayerBlack = !activePlayerBlack;
+
+
+                    ObjGamePole.SetItemPlayerGamePole(x_gamePole_test, y_gamePole_test, 1, _tag);
+
+                }
+                else
+                {
+                    button.BackgroundImage = GameGomoku.Properties.Resources.circleWhite;
+                    button.BackgroundImageLayout = ImageLayout.Stretch;
+                    //button.BackColor = Color.White;
+                    activePlayerBlack = !activePlayerBlack;
+
+                    ObjGamePole.SetItemPlayerGamePole(x_gamePole_test, y_gamePole_test, 2, _tag);
+                }
+            }
+            else
             {
                 button.BackgroundImage = GameGomoku.Properties.Resources.circleBlack;
                 button.BackgroundImageLayout = ImageLayout.Stretch;
                 //button.BackColor = Color.Black;
-                activePlayerBlack = !activePlayerBlack;
-               
+                //activePlayerBlack = !activePlayerBlack;
 
-                GamePoleTest.SetItemPlayerGamePole(x_gamePole_test, y_gamePole_test, 1);
-            }
-            else
-            {
-                button.BackgroundImage = GameGomoku.Properties.Resources.circleWhite;
-                button.BackgroundImageLayout = ImageLayout.Stretch;
-                //button.BackColor = Color.White;
-                activePlayerBlack = !activePlayerBlack;               
+                ObjGamePole.SetItemPlayerGamePole(x_gamePole_test, y_gamePole_test, 1, _tag);
 
-                GamePoleTest.SetItemPlayerGamePole(x_gamePole_test, y_gamePole_test, 2);
+
+                //comp.NewGamePoleComp(ObjGamePole);
+                ItemGamePole itgame = comp.aaa(ObjGamePole);
+                numberComp = itgame.num;
+
+                /*foreach (Control item in this.GroupGamePole.Controls)
+                {
+
+                    var d = (Control)item;
+                    var aaa = _buttonsPosition[numberComp].button;
+                    if (item == aaa)
+                    {
+                        aaa.BackgroundImage = GameGomoku.Properties.Resources.circleWhite;
+                        aaa.BackgroundImageLayout = ImageLayout.Stretch;
+
+                        ObjGamePole.SetItemPlayerGamePole(itgame.x_gamePole, itgame.y_gamePole, 2, numberComp);
+
+                    }
+                }*/
+
+                var aaa = _buttonsPosition[numberComp].button;
+
+                aaa.BackgroundImage = GameGomoku.Properties.Resources.circleWhite;
+                aaa.BackgroundImageLayout = ImageLayout.Stretch;
+
+                ObjGamePole.SetItemPlayerGamePole(itgame.x_gamePole, itgame.y_gamePole, 2, numberComp);
+
+
             }
         }
 
@@ -83,19 +134,19 @@ namespace GameGomoku
             int x_gamePole_test = itemButtonPole.x_gamePole; // столбцы n
             int y_gamePole_test = itemButtonPole.y_gamePole; // строки m           
 
-            ItemGamePole item_pole_test = GamePoleTest.GetItemGamePole(x_gamePole_test, y_gamePole_test);
+            ItemGamePole item_pole_test = ObjGamePole.GetItemGamePole(x_gamePole_test, y_gamePole_test);
            
-            if (GamePoleTest.GetItemGamePole(x_gamePole_test, y_gamePole_test).busy_cell == 1)
+            if (ObjGamePole.GetItemGamePole(x_gamePole_test, y_gamePole_test).busy_cell == 1)
             {
             }
             else
             {
                 button_color(button);
-                GamePoleTest.SetItemBusyGamePole(x_gamePole_test, y_gamePole_test);               
+                ObjGamePole.SetItemBusyGamePole(x_gamePole_test, y_gamePole_test, _tag);               
             }
 
             string playerNum = item_pole_test.playerNumber.ToString();
-            if (GamePoleTest.Check_win(item_pole_test))   
+            if (ObjGamePole.Check_win(item_pole_test))   
             {
                 MessageBox.Show("Победитель игрок номер" + playerNum);
             } 
@@ -118,24 +169,80 @@ namespace GameGomoku
         /// <param name="e"></param>
         private void buttonClickStartGameTwoPlayersu(object sender, EventArgs e)
         {
-            var fl = File.ReadAllLines("play.csv");
+            SetNamePlayer();
 
-            foreach (var item in fl)
+            //this.panelMenu.Visible = false;
+            //this.panelGamePole.Visible = true;
+            //this.ButtonOpenMenuFromSetting.Visible = true;
+            //this.buttonBackGame.Visible = true;
+
+            // RunGameTwoPlayers();
+
+            
+        }
+
+        private void SetNamePlayer()
+        {
+            this.panelMenu.Visible = false;
+            this.panelGamePole.Visible = false;
+            this.ButtonOpenMenuFromSetting.Visible = false;
+            this.panelRating.Visible = false;
+            this.buttonBackGame.Visible = false;
+            this.panelPlayerWhite.Visible = false;
+            this.panelPlayerBlack.Visible = true;
+
+            listOfPlayers = new ListOfPlayers();
+            OpenpanelPlayerBlack(listOfPlayers);
+        }
+
+        private void RadioButtonClickSetName(object sender, EventArgs e)
+        {
+            RadioButton button = (RadioButton)sender;
+            int tag = (int)button.Tag;
+            var item = listOfPlayers.ListPlayers[tag];
+            var name = item.NamePlayer;
+            playerBlack = new Player();
+            playerBlack.NamePlayer = name;
+            playerBlack.IdPlayer = tag;
+
+        }
+
+        private void buttonNextSetNamePlayer(object sender, EventArgs e)
+        {
+            var ttt = this.TextBoxNamePlayer.Text;
+            if (ttt == "")
             {
-
+                
+                
+                listOfPlayers.ListPlayers.Remove(playerBlack);
             }
-            List<string> list = new List<string>();
-            list.Add("aaaaa");
-          
-            File.AppendAllText("play.csv" , $"{list[0]},{list[0]} ");
-            fl = File.ReadAllLines("play.csv");
+            else
+            {
+                playerBlack = new Player();
+                listOfPlayers.csvAddItem(ttt);
+
+
+                listOfPlayers.ListPlayers.Remove(playerBlack);
+            }
+            
+
+            OpenpanelPlayerWhite(listOfPlayers);
+            this.panelPlayerWhite.Visible = true;
+            this.panelPlayerBlack.Visible = false;
+        }
+
+        
+
+        private void StartGame(object sender, EventArgs e)
+        {
             this.panelMenu.Visible = false;
             this.panelGamePole.Visible = true;
             this.ButtonOpenMenuFromSetting.Visible = true;
+            this.buttonBackGame.Visible = true;
 
             RunGameTwoPlayers();
         }
-        
+
         /// <summary>
         /// Кнопка открытия рейтинга
         /// </summary>
@@ -143,8 +250,15 @@ namespace GameGomoku
         /// <param name="e"></param>
         private void buttonClickRating(object sender, EventArgs e)
         {
-            Button button = (Button)sender;
-            button.BackgroundImage = GameGomoku.Properties.Resources.circle22;
+            
+            
+
+            this.panelMenu.Visible = false;
+            this.panelGamePole.Visible = false;
+            this.panelSetting.Visible = false;
+            this.panelRating.Visible = true;
+
+
         }
 
         /// <summary>
@@ -195,7 +309,10 @@ namespace GameGomoku
 
             this.panelMenu.Visible = false;
             this.panelGamePole.Visible = false;
+            this.panelMenu.Visible = false;
+
             this.panelSetting.Visible = true;
+            this.ButtonOpenMenuFromSetting.Visible = true;
 
         }
         private void buttonClickQuit(object sender, EventArgs e)

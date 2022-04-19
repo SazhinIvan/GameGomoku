@@ -15,7 +15,7 @@ namespace GameGomoku
         public int n { get; set; }
         public System.Windows.Forms.Button _button { get; set; }
     }
-    
+
 
     partial class Form1
     {
@@ -50,13 +50,15 @@ namespace GameGomoku
 
             InitializeComponent();
             InitializePanels();
-            
+
 
             InitializeComponentMenu();
             MenuControls();
 
             InitializeComponentSetting();
             GameSettingControls();
+
+            InitializeComponentRating();
 
             //
             // ButtonOpenMenuFromSetting
@@ -69,6 +71,8 @@ namespace GameGomoku
             this.ButtonOpenMenuFromGamePole.Click += new System.EventHandler(this.ButtonClickMenu);
             this.panelGamePole.Controls.Add(ButtonOpenMenuFromGamePole);
 
+
+            this.buttonBackGame.Visible = false;/////
         }
 
         private void ClearGameSettingControls()
@@ -96,7 +100,7 @@ namespace GameGomoku
         private void GameSettingControls()
         {
             //this.GroupMenu.Visible = false;
-            this.ButtonOpenMenuFromSetting.Visible = true;
+            //this.ButtonOpenMenuFromSetting.Visible = true;
             //this.GroupCheckSizePole.Visible = true;
             //this.GroupGameMode.Visible = true;
             //
@@ -172,7 +176,7 @@ namespace GameGomoku
             this.checkVSComp.CheckedChanged += new System.EventHandler(this.checkSizePole19_CheckedChanged);
 
             this.panelSetting.Controls.Add(this.GroupGameMode);
-            
+
         }
 
         private void ClearMenuControls()
@@ -188,19 +192,26 @@ namespace GameGomoku
 
         private void InitializePanels()
         {
+
             this.panelMenu.Visible = true;
+            
+
             this.panelGamePole.Visible = false;
             this.panelSetting.Visible = false;
+            this.panelRating.Visible = false;
 
             this.Width = gameSetting.GetSizeForm();
             this.Height = gameSetting.GetSizeForm();
-            this.MaximumSize = new Size(this.Width, this.Height);            
+            this.MaximumSize = new Size(this.Width, this.Height);
 
             this.panelMenu.Width = this.Width;
             this.panelMenu.Height = this.Height;
-            
+
             this.panelSetting.Width = this.Width;
             this.panelSetting.Height = this.Height;
+
+            this.panelRating.Width = this.Width;
+            this.panelRating.Height = this.Height;
             // 
             // panelMenu
             // 
@@ -209,7 +220,7 @@ namespace GameGomoku
             this.panelMenu.Name = "panelGamePole";
             this.panelMenu.Width = this.Width;
             this.panelMenu.Height = this.Height;
-            this.panelMenu.TabIndex = 0;            
+            this.panelMenu.TabIndex = 0;
             // panelGamePole
             // 
             this.panelGamePole.BackColor = System.Drawing.Color.Gray;
@@ -219,7 +230,7 @@ namespace GameGomoku
             this.panelGamePole.Height = this.Height;
             this.panelGamePole.TabIndex = 0;
             // 
-            // panelGamePole
+            // panelSetting
             // 
             this.panelSetting.BackColor = System.Drawing.Color.Gray;
             this.panelSetting.Location = new System.Drawing.Point(0, 0);
@@ -227,15 +238,46 @@ namespace GameGomoku
             this.panelSetting.Width = this.Width;
             this.panelSetting.Height = this.Height;
             this.panelSetting.TabIndex = 0;
+            // 
+            // panelRating
+            // 
+            this.panelRating.BackColor = System.Drawing.Color.Gray;
+            this.panelRating.Location = new System.Drawing.Point(0, 0);
+            this.panelRating.Name = "panelGamePole";
+            this.panelRating.Width = this.Width;
+            this.panelRating.Height = this.Height;
+            this.panelRating.TabIndex = 0;
+            // 
+            // panelPlayerBlack
+            // 
+            this.panelPlayerBlack.BackColor = System.Drawing.Color.Gray;
+            this.panelPlayerBlack.Location = new System.Drawing.Point(0, 0);
+            this.panelPlayerBlack.Name = "panelGamePole";
+            this.panelPlayerBlack.Width = this.Width;
+            this.panelPlayerBlack.Height = this.Height;
+            this.panelPlayerBlack.TabIndex = 0;
+            // 
+            // panelPlayerWhite
+            // 
+            this.panelPlayerWhite.BackColor = System.Drawing.Color.Gray;
+            this.panelPlayerWhite.Location = new System.Drawing.Point(0, 0);
+            this.panelPlayerWhite.Name = "panelGamePole";
+            this.panelPlayerWhite.Width = this.Width;
+            this.panelPlayerWhite.Height = this.Height;
+            this.panelPlayerWhite.TabIndex = 0;
 
 
             this.Controls.Add(panelMenu);
             this.Controls.Add(panelGamePole);
             this.Controls.Add(panelSetting);
+            this.Controls.Add(panelRating);
+
+            this.Controls.Add(panelPlayerBlack);
+            this.Controls.Add(panelPlayerWhite);
         }
 
 
-        private void MenuControls ()
+        private void MenuControls()
         {
             //this.ButtonOpenMenu.Visible = false;
             //this.GroupCheckSizePole.Visible = false;
@@ -317,11 +359,6 @@ namespace GameGomoku
             this._buttonGameSetting = new System.Windows.Forms.Button();
             this.buttonRating = new System.Windows.Forms.Button();
             this.buttonQuit = new System.Windows.Forms.Button();
-            
-
-
-
-
             //
             // ListView1
             //
@@ -332,57 +369,80 @@ namespace GameGomoku
             this.ListView1.TabIndex = 0;
             this.ListView1.TabStop = false;
             this.ListView1.BackColor = Color.Wheat;
+          
 
-            /*
+        }
+
+        private void InitializeComponentRating()
+        {
+
+            this.ButtonOpenMenuFromRating.Visible = true;
+            //this.GroupCheckSizePole.Visible = true;
+            //this.GroupGameMode.Visible = true;
+            //
+            // ButtonOpenMenuFromSetting
+            //
+            this.ButtonOpenMenuFromRating.Location = new System.Drawing.Point(20, 50);
+            this.ButtonOpenMenuFromRating.Name = "Menu";
+            this.ButtonOpenMenuFromRating.Size = new System.Drawing.Size(150, 30);
+            this.ButtonOpenMenuFromRating.TabIndex = 0;
+            this.ButtonOpenMenuFromRating.Text = "Меню";
+            this.ButtonOpenMenuFromRating.Click += new System.EventHandler(this.ButtonClickMenu);
+            this.panelRating.Controls.Add(ButtonOpenMenuFromRating);
+
             // Create a new ListView control.
 
-            ListView1.Bounds = new Rectangle(new Point(10, 10), new Size(300, 200));
+            ListView1.Bounds = new Rectangle(new Point(50, 100), new Size(300, 200));
 
-            // Set the view to show details.
-            ListView1.View = View.Details;
-            // Allow the user to edit item text.
-            ListView1.LabelEdit = true;
-            // Allow the user to rearrange columns.
-            ListView1.AllowColumnReorder = true;
-            // Display check boxes.
-            ListView1.CheckBoxes = true;
-            // Select the item and subitems when selection is made.
-            ListView1.FullRowSelect = true;
-            // Display grid lines.
-            ListView1.GridLines = true;
-            // Sort the items in the list in ascending order.
-            ListView1.Sorting = SortOrder.Ascending;
+          // Set the view to show details.
+          ListView1.View = View.Details;
+          // Allow the user to edit item text.
+          ListView1.LabelEdit = true;
+          // Allow the user to rearrange columns.
+          ListView1.AllowColumnReorder = true;
+          // Display check boxes.
+          ListView1.CheckBoxes = true;
+          // Select the item and subitems when selection is made.
+          ListView1.FullRowSelect = true;
+          // Display grid lines.
+          ListView1.GridLines = true;
+          // Sort the items in the list in ascending order.
+          ListView1.Sorting = SortOrder.Ascending;
 
-            // Create three items and three sets of subitems for each item.
-            ListViewItem item1 = new ListViewItem("item1", 0);
-            // Place a check mark next to the item.
-            item1.Checked = true;
-            item1.SubItems.Add("1");
-            item1.SubItems.Add("2");
-            item1.SubItems.Add("3");
-            ListViewItem item2 = new ListViewItem("item2", 1);
-            item2.SubItems.Add("4");
-            item2.SubItems.Add("5");
-            item2.SubItems.Add("6");
-            ListViewItem item3 = new ListViewItem("item3", 0);
-            // Place a check mark next to the item.
-            item3.Checked = true;
-            item3.SubItems.Add("7");
-            item3.SubItems.Add("8");
-            item3.SubItems.Add("9");
+          // Create three items and three sets of subitems for each item.
+          ListViewItem item1 = new ListViewItem("item1", 0);
+          // Place a check mark next to the item.
+          item1.Checked = true;
+          item1.SubItems.Add("1");
+          item1.SubItems.Add("2");
+          item1.SubItems.Add("3");
+          ListViewItem item2 = new ListViewItem("item2", 1);
+          item2.SubItems.Add("4");
+          item2.SubItems.Add("5");
+          item2.SubItems.Add("6");
+          ListViewItem item3 = new ListViewItem("item3", 0);
+          // Place a check mark next to the item.
+          item3.Checked = true;
+          item3.SubItems.Add("7");
+          item3.SubItems.Add("8");
+          item3.SubItems.Add("9");
 
-            // Create columns for the items and subitems.
-            // Width of -2 indicates auto-size.
-            ListView1.Columns.Add("Item Column", -2, HorizontalAlignment.Left);
-            ListView1.Columns.Add("Column 2", -2, HorizontalAlignment.Left);
-            ListView1.Columns.Add("Column 3", -2, HorizontalAlignment.Left);
-            ListView1.Columns.Add("Column 4", -2, HorizontalAlignment.Center);
+          // Create columns for the items and subitems.
+          // Width of -2 indicates auto-size.
+          ListView1.Columns.Add("Игрок", -2, HorizontalAlignment.Left);
+          ListView1.Columns.Add("", -2, HorizontalAlignment.Left);
+          ListView1.Columns.Add("Column 3", -2, HorizontalAlignment.Left);
+          ListView1.Columns.Add("Column 4", -2, HorizontalAlignment.Center);
 
-
-            this.Controls.Add(ListView1);
+            ListView1.BackColor = Color.White;
+            ListView1.Items.Add(item1);
+            //ListView1.Items.Add(item2);
+            this.panelRating.Controls.Add(ListView1);
             /////////////////////////////////
-            */
 
+
+
+          
         }
 
         private void InitializeComponentSetting()
@@ -402,12 +462,18 @@ namespace GameGomoku
         {
             this.ButtonOpenMenuFromSetting = new System.Windows.Forms.Button();
             this.ButtonOpenMenuFromGamePole = new System.Windows.Forms.Button();
+            this.ButtonOpenMenuFromRating = new System.Windows.Forms.Button();
 
             this.GroupGamePole = new System.Windows.Forms.GroupBox();
 
             this.panelMenu = new System.Windows.Forms.Panel();
             this.panelGamePole = new System.Windows.Forms.Panel();
             this.panelSetting = new System.Windows.Forms.Panel();
+            this.panelRating = new System.Windows.Forms.Panel();
+
+            this.panelPlayerBlack = new System.Windows.Forms.Panel();
+            this.panelPlayerWhite = new System.Windows.Forms.Panel();
+
 
             this.SuspendLayout();
 
@@ -439,7 +505,7 @@ namespace GameGomoku
             _buttonsPosition = new buttonsPosition[size_pole * size_pole];            
 
             ////////////////Тест
-            GamePoleTest = new GamePole(size_pole, size_pole);
+            ObjGamePole = new GamePole(size_pole, size_pole);
             ////////////////Тест
             ///
             int space_x = 0;
@@ -471,31 +537,33 @@ namespace GameGomoku
                 for (int tmp_x = 0; tmp_x < size_pole; tmp_x++)
                 {
                   
-                    Button _buttons = new Button();
-                    _buttons.Width = buttonWidth;
-                    _buttons.Height = buttonHeight;
+                    Button _button = new Button();
+                    _button.Width = buttonWidth;
+                    _button.Height = buttonHeight;
 
                     int x = tmp_x + 1;
                     int y = tmp_y + 1;
                     
-                    GamePoleTest.SetNewItemGamePole(x, y); 
+                    ObjGamePole.SetNewItemGamePole(x, y, num); 
                     
                     _buttonsPosition[num] = new buttonsPosition();
                     _buttonsPosition[num].y_gamePole = y;
                     _buttonsPosition[num].x_gamePole = x;
+
                     //_buttonsPosition[num].busy_cell = 0;                    
 
-                    _buttons.Location = new System.Drawing.Point(30 +_buttons.Width * tmp_x + space_x, 30 + _buttons.Height * tmp_y + space_y);
-                    _buttons.Text = "";
-                    _buttons.Name = (num + 1).ToString();
-                    _buttons.Tag = num;
-                    _buttons.Click += new System.EventHandler(this.button_Click);
+                    _button.Location = new System.Drawing.Point(30 +_button.Width * tmp_x + space_x, 30 + _button.Height * tmp_y + space_y);
+                    _button.Text = "";
+                    _button.Name = (num + 1).ToString();
+                    _button.Tag = num;
+                    _button.Click += new System.EventHandler(this.button_Click);
 
-                    GroupGamePole.Controls.Add(_buttons);
+                    GroupGamePole.Controls.Add(_button);
+                    _buttonsPosition[num].button = _button;
                     num += 1;
                     space_x += step_space;
-                    max_x =  _buttons.Width * x + space_x;
-                    max_y =  _buttons.Height * y + space_y;
+                    max_x =  _button.Width * x + space_x;
+                    max_y =  _button.Height * y + space_y;
 
                 }
                 space_y += step_space;
@@ -533,6 +601,82 @@ namespace GameGomoku
 
         }
 
+        
+
+        private void OpenpanelPlayerBlack(ListOfPlayers listOfPlayers)
+        {
+
+            var list = listOfPlayers.ListPlayers;
+
+            int i = 0;
+            foreach (var item in list)
+            {
+                var id = item.IdPlayer;
+                var name = item.NamePlayer;
+                RadioButton rb = new RadioButton();
+                rb.Tag = id;
+                rb.Text = name;
+                rb.Location = new System.Drawing.Point(20, 20 + i * 20);
+                rb.Name = name;
+                rb.Size = new System.Drawing.Size(150, 20);
+                rb.Click += new System.EventHandler(this.RadioButtonClickSetName);
+                this.panelPlayerBlack.Controls.Add(rb);
+                i = i + 1;
+            }
+
+            TextBoxNamePlayer = new TextBox();
+
+            this.TextBoxNamePlayer.Location = new System.Drawing.Point(20, 20 + i * 20);
+            this.TextBoxNamePlayer.Size = new System.Drawing.Size(150, 20);
+            this.panelPlayerBlack.Controls.Add(TextBoxNamePlayer);
+
+            ButtonNextPanelPlayer = new Button();
+
+            ButtonNextPanelPlayer.Location = new System.Drawing.Point(20, 20 + (i+1) * 20);
+            ButtonNextPanelPlayer.Text = "Далее";
+            ButtonNextPanelPlayer.Name = "Далее";
+            ButtonNextPanelPlayer.Click += new System.EventHandler(this.buttonNextSetNamePlayer);
+            this.panelPlayerBlack.Controls.Add(ButtonNextPanelPlayer);
+
+        }
+
+
+        private void OpenpanelPlayerWhite(ListOfPlayers listOfPlayers)
+        {
+
+            var list = listOfPlayers.ListPlayers;
+
+            int i = 0;
+            foreach (var item in list)
+            {
+                var id = item.IdPlayer;
+                var name = item.NamePlayer;
+                RadioButton rb = new RadioButton();
+                rb.Tag = id;
+                rb.Text = name;
+                rb.Location = new System.Drawing.Point(20, 20 + i * 20);
+                rb.Name = name;
+                rb.Size = new System.Drawing.Size(150, 20);
+                rb.Click += new System.EventHandler(this.RadioButtonClickSetName);
+                this.panelPlayerWhite.Controls.Add(rb);
+                i = i + 1;
+            }
+
+            TextBoxNamePlayer = new TextBox();
+
+            this.TextBoxNamePlayer.Location = new System.Drawing.Point(20, 20 + i * 20);
+            this.TextBoxNamePlayer.Size = new System.Drawing.Size(150, 20);
+            this.panelPlayerWhite.Controls.Add(TextBoxNamePlayer);
+
+            ButtonNextPanelPlayer = new Button();
+
+            ButtonNextPanelPlayer.Location = new System.Drawing.Point(20, 20 + (i + 1) * 20);
+            ButtonNextPanelPlayer.Text = "Старт";
+            ButtonNextPanelPlayer.Name = "Старт";
+            ButtonNextPanelPlayer.Click += new System.EventHandler(this.StartGame);
+            this.panelPlayerWhite.Controls.Add(ButtonNextPanelPlayer);
+        }
+
         private GroupBox GroupMenu;
         private Button buttonBackGame;
         private Button buttonStartGame;
@@ -553,12 +697,17 @@ namespace GameGomoku
         private GroupBox GroupGamePole;
         private Button ButtonOpenMenuFromGamePole;
 
+        private Button ButtonOpenMenuFromRating;
 
         private Panel panelGamePole;
         private Panel panelSetting;
         private Panel panelMenu;
         private Panel panelRating;
 
+        private Panel panelPlayerBlack;
+        private Panel panelPlayerWhite;
+        private TextBox TextBoxNamePlayer;
+        private Button ButtonNextPanelPlayer;
 
         private ListView ListView1;
     }
