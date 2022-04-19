@@ -13,5 +13,6 @@ namespace GameGomoku
     {
         public int y_gamePole { get; set; }
         public int x_gamePole { get; set; }
+        public Button button { get; set; }
     }
 }

@@ -100,7 +100,7 @@ namespace GameGomoku
         private void GameSettingControls()
         {
             //this.GroupMenu.Visible = false;
-            this.ButtonOpenMenuFromSetting.Visible = true;
+            //this.ButtonOpenMenuFromSetting.Visible = true;
             //this.GroupCheckSizePole.Visible = true;
             //this.GroupGameMode.Visible = true;
             //
@@ -376,19 +376,19 @@ namespace GameGomoku
         private void InitializeComponentRating()
         {
 
-            this.ButtonOpenMenuFromSetting.Visible = true;
+            this.ButtonOpenMenuFromRating.Visible = true;
             //this.GroupCheckSizePole.Visible = true;
             //this.GroupGameMode.Visible = true;
             //
             // ButtonOpenMenuFromSetting
             //
-            this.ButtonOpenMenuFromSetting.Location = new System.Drawing.Point(20, 50);
-            this.ButtonOpenMenuFromSetting.Name = "Menu";
-            this.ButtonOpenMenuFromSetting.Size = new System.Drawing.Size(150, 30);
-            this.ButtonOpenMenuFromSetting.TabIndex = 0;
-            this.ButtonOpenMenuFromSetting.Text = "Меню";
-            this.ButtonOpenMenuFromSetting.Click += new System.EventHandler(this.ButtonClickMenu);
-            this.panelRating.Controls.Add(ButtonOpenMenuFromSetting);
+            this.ButtonOpenMenuFromRating.Location = new System.Drawing.Point(20, 50);
+            this.ButtonOpenMenuFromRating.Name = "Menu";
+            this.ButtonOpenMenuFromRating.Size = new System.Drawing.Size(150, 30);
+            this.ButtonOpenMenuFromRating.TabIndex = 0;
+            this.ButtonOpenMenuFromRating.Text = "Меню";
+            this.ButtonOpenMenuFromRating.Click += new System.EventHandler(this.ButtonClickMenu);
+            this.panelRating.Controls.Add(ButtonOpenMenuFromRating);
 
             // Create a new ListView control.
 
@@ -462,6 +462,7 @@ namespace GameGomoku
         {
             this.ButtonOpenMenuFromSetting = new System.Windows.Forms.Button();
             this.ButtonOpenMenuFromGamePole = new System.Windows.Forms.Button();
+            this.ButtonOpenMenuFromRating = new System.Windows.Forms.Button();
 
             this.GroupGamePole = new System.Windows.Forms.GroupBox();
 
@@ -504,7 +505,7 @@ namespace GameGomoku
             _buttonsPosition = new buttonsPosition[size_pole * size_pole];            
 
             ////////////////Тест
-            GamePoleTest = new GamePole(size_pole, size_pole);
+            ObjGamePole = new GamePole(size_pole, size_pole);
             ////////////////Тест
             ///
             int space_x = 0;
@@ -536,31 +537,33 @@ namespace GameGomoku
                 for (int tmp_x = 0; tmp_x < size_pole; tmp_x++)
                 {
                   
-                    Button _buttons = new Button();
-                    _buttons.Width = buttonWidth;
-                    _buttons.Height = buttonHeight;
+                    Button _button = new Button();
+                    _button.Width = buttonWidth;
+                    _button.Height = buttonHeight;
 
                     int x = tmp_x + 1;
                     int y = tmp_y + 1;
                     
-                    GamePoleTest.SetNewItemGamePole(x, y); 
+                    ObjGamePole.SetNewItemGamePole(x, y, num); 
                     
                     _buttonsPosition[num] = new buttonsPosition();
                     _buttonsPosition[num].y_gamePole = y;
                     _buttonsPosition[num].x_gamePole = x;
+
                     //_buttonsPosition[num].busy_cell = 0;                    
 
-                    _buttons.Location = new System.Drawing.Point(30 +_buttons.Width * tmp_x + space_x, 30 + _buttons.Height * tmp_y + space_y);
-                    _buttons.Text = "";
-                    _buttons.Name = (num + 1).ToString();
-                    _buttons.Tag = num;
-                    _buttons.Click += new System.EventHandler(this.button_Click);
+                    _button.Location = new System.Drawing.Point(30 +_button.Width * tmp_x + space_x, 30 + _button.Height * tmp_y + space_y);
+                    _button.Text = "";
+                    _button.Name = (num + 1).ToString();
+                    _button.Tag = num;
+                    _button.Click += new System.EventHandler(this.button_Click);
 
-                    GroupGamePole.Controls.Add(_buttons);
+                    GroupGamePole.Controls.Add(_button);
+                    _buttonsPosition[num].button = _button;
                     num += 1;
                     space_x += step_space;
-                    max_x =  _buttons.Width * x + space_x;
-                    max_y =  _buttons.Height * y + space_y;
+                    max_x =  _button.Width * x + space_x;
+                    max_y =  _button.Height * y + space_y;
 
                 }
                 space_y += step_space;
@@ -694,6 +697,7 @@ namespace GameGomoku
         private GroupBox GroupGamePole;
         private Button ButtonOpenMenuFromGamePole;
 
+        private Button ButtonOpenMenuFromRating;
 
         private Panel panelGamePole;
         private Panel panelSetting;
