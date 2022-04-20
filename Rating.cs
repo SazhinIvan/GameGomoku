@@ -7,30 +7,39 @@ using System.IO;
 
 namespace GameGomoku
 {
-    /// <summary>
-    /// Класс элемента игрового поля
-    /// </summary>
-    public class Rating
+
+
+    public class Rating_count
     {
-        private Player Player;        
-        private int CountVictories;
+        public string Name;
+        public int count;
+    }
+        public class Rating
+    {
+        public List<string> ListRating;
+        private string path = "Rating.csv";
 
         public void csvOpen() {
-            var fl = File.ReadAllLines("play.csv");
+            var fl = File.ReadAllLines(path);
             List<string> ienstr = new List<string>();
             foreach (var item in fl)
             {
-                ienstr.Add(item);
-                ienstr.Add("aa");
+                ienstr.Add(item);               
             }
-            List<string> list = new List<string>();
-            //list.Add("aaaaa");
-            File.AppendAllLines("play.csv", ienstr);
-           // File.AppendAllText("play.csv", $"{list[0]},{list[0]} ");
-            fl = File.ReadAllLines("play.csv");
-            
+            ListRating = ienstr;
         }
-        
+
+        public void csvAddItem(string nameplayer)
+        {
+            List<string> ienstr = new List<string>();
+            ienstr.Add(nameplayer);
+            File.AppendAllLines(path, ienstr);
+
+            var fl = File.ReadAllLines(path);
+            
+            csvOpen();
+        }
+
     }
 
     

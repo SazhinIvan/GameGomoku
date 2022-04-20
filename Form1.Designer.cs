@@ -5,7 +5,7 @@ using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Reflection;
-
+using System.Linq;
 
 namespace GameGomoku
 {
@@ -39,6 +39,11 @@ namespace GameGomoku
 
         private void InitializeGeneral()
         {
+            rating = new Rating();
+            rating.csvOpen();
+
+
+
             // 
             // Form1
             // 
@@ -72,7 +77,7 @@ namespace GameGomoku
             this.panelGamePole.Controls.Add(ButtonOpenMenuFromGamePole);
 
 
-            this.buttonBackGame.Visible = false;/////
+            this.buttonBackGame.Visible = false;  /////
         }
 
         private void ClearGameSettingControls()
@@ -106,7 +111,7 @@ namespace GameGomoku
             //
             // ButtonOpenMenuFromSetting
             //
-            this.ButtonOpenMenuFromSetting.Location = new System.Drawing.Point(20, 50);
+            this.ButtonOpenMenuFromSetting.Location = new System.Drawing.Point(300, 50);
             this.ButtonOpenMenuFromSetting.Name = "Menu";
             this.ButtonOpenMenuFromSetting.Size = new System.Drawing.Size(150, 30);
             this.ButtonOpenMenuFromSetting.TabIndex = 0;
@@ -118,7 +123,7 @@ namespace GameGomoku
             // 
             this.GroupCheckSizePole.Controls.Add(this.CheckSizePole15);
             this.GroupCheckSizePole.Controls.Add(this.CheckSizePole19);
-            this.GroupCheckSizePole.Location = new System.Drawing.Point(20, 100);
+            this.GroupCheckSizePole.Location = new System.Drawing.Point(300, 100);
             this.GroupCheckSizePole.Name = "groupBox1";
             this.GroupCheckSizePole.Size = new System.Drawing.Size(150, 100);
             this.GroupCheckSizePole.TabIndex = 3;
@@ -150,7 +155,7 @@ namespace GameGomoku
             // 
             this.GroupGameMode.Controls.Add(this.checkOneByOne);
             this.GroupGameMode.Controls.Add(this.checkVSComp);
-            this.GroupGameMode.Location = new System.Drawing.Point(20, 200);
+            this.GroupGameMode.Location = new System.Drawing.Point(300, 200);
             this.GroupGameMode.Name = "groupBox1";
             this.GroupGameMode.Size = new System.Drawing.Size(150, 100);
             this.GroupGameMode.TabIndex = 3;
@@ -160,20 +165,20 @@ namespace GameGomoku
             // checkSizePole15
             // 
             this.checkOneByOne.Location = new System.Drawing.Point(20, 30);
-            this.checkOneByOne.Name = "checkSizePole15";
+            this.checkOneByOne.Name = "checkOneByOne";
             this.checkOneByOne.Size = new System.Drawing.Size(100, 15);
             this.checkOneByOne.TabIndex = 0;
             this.checkOneByOne.Text = "Один на один";
-            this.checkOneByOne.CheckedChanged += new System.EventHandler(this.checkSizePole15_CheckedChanged);
+            this.checkOneByOne.CheckedChanged += new System.EventHandler(this.checkOneByOne_CheckedChanged);
             // 
             // checkSizePole19
             // 
             this.checkVSComp.Location = new System.Drawing.Point(20, 60);
-            this.checkVSComp.Name = "checkSizePole19";
+            this.checkVSComp.Name = "checkVSComp";
             this.checkVSComp.Size = new System.Drawing.Size(100, 15);
             this.checkVSComp.TabIndex = 1;
             this.checkVSComp.Text = "Проитив компьютера";
-            this.checkVSComp.CheckedChanged += new System.EventHandler(this.checkSizePole19_CheckedChanged);
+            this.checkVSComp.CheckedChanged += new System.EventHandler(this.checkVSComp_CheckedChanged);
 
             this.panelSetting.Controls.Add(this.GroupGameMode);
 
@@ -292,7 +297,7 @@ namespace GameGomoku
             this.GroupMenu.Controls.Add(this._buttonGameSetting);
             this.GroupMenu.Controls.Add(this.buttonRating);
             this.GroupMenu.Controls.Add(this.buttonQuit);
-            this.GroupMenu.Location = new System.Drawing.Point(20, 80);
+            this.GroupMenu.Location = new System.Drawing.Point(300, 80);
             this.GroupMenu.Name = "GroupMenu";
             this.GroupMenu.Size = new System.Drawing.Size(180, 220);
             this.GroupMenu.TabIndex = 3;
@@ -363,7 +368,7 @@ namespace GameGomoku
             // ListView1
             //
             ListView1 = new ListView();
-            this.ListView1.Location = new System.Drawing.Point(0, 0);
+            this.ListView1.Location = new System.Drawing.Point(300, 0);
             this.ListView1.Name = "Список";
             this.ListView1.Size = new System.Drawing.Size(200, 100);
             this.ListView1.TabIndex = 0;
@@ -382,7 +387,7 @@ namespace GameGomoku
             //
             // ButtonOpenMenuFromSetting
             //
-            this.ButtonOpenMenuFromRating.Location = new System.Drawing.Point(20, 50);
+            this.ButtonOpenMenuFromRating.Location = new System.Drawing.Point(300, 50);
             this.ButtonOpenMenuFromRating.Name = "Menu";
             this.ButtonOpenMenuFromRating.Size = new System.Drawing.Size(150, 30);
             this.ButtonOpenMenuFromRating.TabIndex = 0;
@@ -390,55 +395,54 @@ namespace GameGomoku
             this.ButtonOpenMenuFromRating.Click += new System.EventHandler(this.ButtonClickMenu);
             this.panelRating.Controls.Add(ButtonOpenMenuFromRating);
 
-            // Create a new ListView control.
 
-            ListView1.Bounds = new Rectangle(new Point(50, 100), new Size(300, 200));
+            //rating = new Rating();
 
-          // Set the view to show details.
-          ListView1.View = View.Details;
-          // Allow the user to edit item text.
-          ListView1.LabelEdit = true;
-          // Allow the user to rearrange columns.
-          ListView1.AllowColumnReorder = true;
-          // Display check boxes.
-          ListView1.CheckBoxes = true;
-          // Select the item and subitems when selection is made.
-          ListView1.FullRowSelect = true;
-          // Display grid lines.
-          ListView1.GridLines = true;
-          // Sort the items in the list in ascending order.
-          ListView1.Sorting = SortOrder.Ascending;
+            ListBox = new ListBox();
 
-          // Create three items and three sets of subitems for each item.
-          ListViewItem item1 = new ListViewItem("item1", 0);
-          // Place a check mark next to the item.
-          item1.Checked = true;
-          item1.SubItems.Add("1");
-          item1.SubItems.Add("2");
-          item1.SubItems.Add("3");
-          ListViewItem item2 = new ListViewItem("item2", 1);
-          item2.SubItems.Add("4");
-          item2.SubItems.Add("5");
-          item2.SubItems.Add("6");
-          ListViewItem item3 = new ListViewItem("item3", 0);
-          // Place a check mark next to the item.
-          item3.Checked = true;
-          item3.SubItems.Add("7");
-          item3.SubItems.Add("8");
-          item3.SubItems.Add("9");
+            List<string> list_rating = new List<string>();
+            list_rating = rating.ListRating;
 
-          // Create columns for the items and subitems.
-          // Width of -2 indicates auto-size.
-          ListView1.Columns.Add("Игрок", -2, HorizontalAlignment.Left);
-          ListView1.Columns.Add("", -2, HorizontalAlignment.Left);
-          ListView1.Columns.Add("Column 3", -2, HorizontalAlignment.Left);
-          ListView1.Columns.Add("Column 4", -2, HorizontalAlignment.Center);
+            var tmp_listName = (from item in list_rating
 
-            ListView1.BackColor = Color.White;
-            ListView1.Items.Add(item1);
-            //ListView1.Items.Add(item2);
-            this.panelRating.Controls.Add(ListView1);
-            /////////////////////////////////
+                           select item).Distinct();
+
+            List<Rating_count> tmp_rating_count = new List<Rating_count>();
+
+            int tmp_count = 0;
+            foreach (var item in tmp_listName)
+            {
+                var tmp = from tmpitem in list_rating
+                          where tmpitem == item
+                           select tmpitem;
+
+                tmp_count = tmp.Count();
+                Rating_count new_rt = new Rating_count();
+                new_rt.count = tmp_count;
+                new_rt.Name = item;
+
+                tmp_rating_count.Add(new_rt);
+            }
+
+            var tmp_sort_rating_count = from item in tmp_rating_count
+                                        orderby item.count descending
+                                        select item;
+
+
+            foreach (var item in tmp_sort_rating_count)
+            {
+                string strItem = item.Name + " : Побед " + item.count.ToString() ;
+
+                ListBox.Items.Add(strItem);
+            }
+
+
+            this.ListBox.Size = new System.Drawing.Size(150, 200);
+            this.ListBox.Location = new System.Drawing.Point(300, 100);
+            this.panelRating.Controls.Add(ListBox);
+
+
+            
 
 
 
@@ -614,25 +618,26 @@ namespace GameGomoku
                 var id = item.IdPlayer;
                 var name = item.NamePlayer;
                 RadioButton rb = new RadioButton();
+                rb.Checked = false;
                 rb.Tag = id;
                 rb.Text = name;
-                rb.Location = new System.Drawing.Point(20, 20 + i * 20);
+                rb.Location = new System.Drawing.Point(300, 40 + i * 20);
                 rb.Name = name;
                 rb.Size = new System.Drawing.Size(150, 20);
-                rb.Click += new System.EventHandler(this.RadioButtonClickSetName);
+                rb.Click += new System.EventHandler(this.RadioButtonClickSetNameBlack);
                 this.panelPlayerBlack.Controls.Add(rb);
                 i = i + 1;
             }
 
             TextBoxNamePlayer = new TextBox();
 
-            this.TextBoxNamePlayer.Location = new System.Drawing.Point(20, 20 + i * 20);
+            this.TextBoxNamePlayer.Location = new System.Drawing.Point(300, 40 + i * 20);
             this.TextBoxNamePlayer.Size = new System.Drawing.Size(150, 20);
             this.panelPlayerBlack.Controls.Add(TextBoxNamePlayer);
 
             ButtonNextPanelPlayer = new Button();
 
-            ButtonNextPanelPlayer.Location = new System.Drawing.Point(20, 20 + (i+1) * 20);
+            ButtonNextPanelPlayer.Location = new System.Drawing.Point(300, 40 + (i+1) * 20);
             ButtonNextPanelPlayer.Text = "Далее";
             ButtonNextPanelPlayer.Name = "Далее";
             ButtonNextPanelPlayer.Click += new System.EventHandler(this.buttonNextSetNamePlayer);
@@ -654,23 +659,23 @@ namespace GameGomoku
                 RadioButton rb = new RadioButton();
                 rb.Tag = id;
                 rb.Text = name;
-                rb.Location = new System.Drawing.Point(20, 20 + i * 20);
+                rb.Location = new System.Drawing.Point(300, 40 + i * 20);
                 rb.Name = name;
                 rb.Size = new System.Drawing.Size(150, 20);
-                rb.Click += new System.EventHandler(this.RadioButtonClickSetName);
+                rb.Click += new System.EventHandler(this.RadioButtonClickSetNameWhite);
                 this.panelPlayerWhite.Controls.Add(rb);
                 i = i + 1;
             }
 
             TextBoxNamePlayer = new TextBox();
 
-            this.TextBoxNamePlayer.Location = new System.Drawing.Point(20, 20 + i * 20);
+            this.TextBoxNamePlayer.Location = new System.Drawing.Point(300, 40 + i * 20);
             this.TextBoxNamePlayer.Size = new System.Drawing.Size(150, 20);
             this.panelPlayerWhite.Controls.Add(TextBoxNamePlayer);
 
             ButtonNextPanelPlayer = new Button();
 
-            ButtonNextPanelPlayer.Location = new System.Drawing.Point(20, 20 + (i + 1) * 20);
+            ButtonNextPanelPlayer.Location = new System.Drawing.Point(300, 40 + (i + 1) * 20);
             ButtonNextPanelPlayer.Text = "Старт";
             ButtonNextPanelPlayer.Name = "Старт";
             ButtonNextPanelPlayer.Click += new System.EventHandler(this.StartGame);
@@ -710,6 +715,7 @@ namespace GameGomoku
         private Button ButtonNextPanelPlayer;
 
         private ListView ListView1;
+        private ListBox ListBox;
     }
 }
 

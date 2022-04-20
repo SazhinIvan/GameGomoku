@@ -25,7 +25,9 @@ namespace GameGomoku
         public Player playerBlack;
         public Player playerWhite;
 
-        public bool BoolComp = true;
+        Rating rating;
+
+        public bool BoolComp = false;
         public Comp comp;
         public int numberComp = 10;
         /// <summary>
@@ -64,9 +66,16 @@ namespace GameGomoku
                     button.BackgroundImageLayout = ImageLayout.Stretch;
                     //button.BackColor = Color.Black;
                     activePlayerBlack = !activePlayerBlack;
-
-
                     ObjGamePole.SetItemPlayerGamePole(x_gamePole_test, y_gamePole_test, 1, _tag);
+
+
+                    ItemGamePole item_pole_test = ObjGamePole.GetItemGamePole(x_gamePole_test, y_gamePole_test);
+                    string playerNum = item_pole_test.playerNumber.ToString();
+                    if (ObjGamePole.Check_win(item_pole_test))
+                    {
+                        rating.csvAddItem(playerBlack.NamePlayer);
+                        MessageBox.Show("Победитель игрок номер" + playerNum);
+                    }
 
                 }
                 else
@@ -75,8 +84,16 @@ namespace GameGomoku
                     button.BackgroundImageLayout = ImageLayout.Stretch;
                     //button.BackColor = Color.White;
                     activePlayerBlack = !activePlayerBlack;
-
                     ObjGamePole.SetItemPlayerGamePole(x_gamePole_test, y_gamePole_test, 2, _tag);
+
+
+                    ItemGamePole item_pole_test = ObjGamePole.GetItemGamePole(x_gamePole_test, y_gamePole_test);
+                    string playerNum = item_pole_test.playerNumber.ToString();
+                    if (ObjGamePole.Check_win(item_pole_test))
+                    {
+                        rating.csvAddItem(playerWhite.NamePlayer);
+                        MessageBox.Show("Победитель игрок номер" + playerNum);
+                    }
                 }
             }
             else
@@ -85,28 +102,19 @@ namespace GameGomoku
                 button.BackgroundImageLayout = ImageLayout.Stretch;
                 //button.BackColor = Color.Black;
                 //activePlayerBlack = !activePlayerBlack;
-
                 ObjGamePole.SetItemPlayerGamePole(x_gamePole_test, y_gamePole_test, 1, _tag);
+                ItemGamePole item_pole_test = ObjGamePole.GetItemGamePole(x_gamePole_test, y_gamePole_test);
 
+                string playerNum = item_pole_test.playerNumber.ToString();
+                if (ObjGamePole.Check_win(item_pole_test))
+                {
+                    rating.csvAddItem(playerWhite.NamePlayer);
+                    MessageBox.Show("Победитель игрок номер" + playerNum);
+                }
 
                 //comp.NewGamePoleComp(ObjGamePole);
-                ItemGamePole itgame = comp.aaa(ObjGamePole);
+                ItemGamePole itgame = comp.autoComp(ObjGamePole);
                 numberComp = itgame.num;
-
-                /*foreach (Control item in this.GroupGamePole.Controls)
-                {
-
-                    var d = (Control)item;
-                    var aaa = _buttonsPosition[numberComp].button;
-                    if (item == aaa)
-                    {
-                        aaa.BackgroundImage = GameGomoku.Properties.Resources.circleWhite;
-                        aaa.BackgroundImageLayout = ImageLayout.Stretch;
-
-                        ObjGamePole.SetItemPlayerGamePole(itgame.x_gamePole, itgame.y_gamePole, 2, numberComp);
-
-                    }
-                }*/
 
                 var aaa = _buttonsPosition[numberComp].button;
 
@@ -115,6 +123,13 @@ namespace GameGomoku
 
                 ObjGamePole.SetItemPlayerGamePole(itgame.x_gamePole, itgame.y_gamePole, 2, numberComp);
 
+                //ItemGamePole item_pole_test = ObjGamePole.GetItemGamePole(x_gamePole_test, y_gamePole_test);
+                playerNum = itgame.playerNumber.ToString();
+                if (ObjGamePole.Check_win(itgame))
+                {
+                    rating.csvAddItem(playerWhite.NamePlayer);
+                    MessageBox.Show("Победитель игрок номер" + playerNum);
+                }
 
             }
         }
@@ -142,14 +157,14 @@ namespace GameGomoku
             else
             {
                 button_color(button);
-                ObjGamePole.SetItemBusyGamePole(x_gamePole_test, y_gamePole_test, _tag);               
+                //ObjGamePole.SetItemBusyGamePole(x_gamePole_test, y_gamePole_test, _tag);               
             }
 
-            string playerNum = item_pole_test.playerNumber.ToString();
-            if (ObjGamePole.Check_win(item_pole_test))   
-            {
-                MessageBox.Show("Победитель игрок номер" + playerNum);
-            } 
+            //string playerNum = item_pole_test.playerNumber.ToString();
+            //if (ObjGamePole.Check_win(item_pole_test))   
+            //{
+            //    MessageBox.Show("Победитель игрок номер" + playerNum);
+            //} 
         }
 
 
@@ -169,6 +184,7 @@ namespace GameGomoku
         /// <param name="e"></param>
         private void buttonClickStartGameTwoPlayersu(object sender, EventArgs e)
         {
+            BoolComp = gameSetting.GetGameVsComp();
             SetNamePlayer();
 
             //this.panelMenu.Visible = false;
@@ -195,7 +211,7 @@ namespace GameGomoku
             OpenpanelPlayerBlack(listOfPlayers);
         }
 
-        private void RadioButtonClickSetName(object sender, EventArgs e)
+        private void RadioButtonClickSetNameBlack(object sender, EventArgs e)
         {
             RadioButton button = (RadioButton)sender;
             int tag = (int)button.Tag;
@@ -207,28 +223,74 @@ namespace GameGomoku
 
         }
 
+        private void RadioButtonClickSetNameWhite(object sender, EventArgs e)
+        {
+            RadioButton button = (RadioButton)sender;
+            int tag = (int)button.Tag;
+            var item = listOfPlayers.ListPlayers[tag];
+            var name = item.NamePlayer;
+            playerWhite = new Player();
+            playerWhite.NamePlayer = name;
+            playerWhite.IdPlayer = tag;
+
+        }
+
+
         private void buttonNextSetNamePlayer(object sender, EventArgs e)
         {
-            var ttt = this.TextBoxNamePlayer.Text;
-            if (ttt == "")
+            var currentName = this.TextBoxNamePlayer.Text;
+            if (currentName == "")
             {
-                
-                
-                listOfPlayers.ListPlayers.Remove(playerBlack);
+                Player tmp_pl = new Player();
+                foreach (var item in listOfPlayers.ListPlayers)
+                {
+                    if (item.NamePlayer == playerBlack.NamePlayer)
+                    {
+                        tmp_pl = item;                        
+                    }
+                    
+                }
+                listOfPlayers.RemoveItem(tmp_pl);
             }
             else
             {
                 playerBlack = new Player();
-                listOfPlayers.csvAddItem(ttt);
+                playerBlack.NamePlayer = currentName;
+                listOfPlayers.csvAddItem(currentName);
 
 
-                listOfPlayers.ListPlayers.Remove(playerBlack);
+                Player tmp_pl = new Player();
+                foreach (var item in listOfPlayers.ListPlayers)
+                {
+                    if (item.NamePlayer == playerBlack.NamePlayer)
+                    {
+                        tmp_pl = item;
+                    }
+                }
+                listOfPlayers.RemoveItem(tmp_pl);
+
+            }
+
+            if (BoolComp == false)
+            {
+                OpenpanelPlayerWhite(listOfPlayers);
+                this.panelPlayerWhite.Visible = true;
+                this.panelPlayerBlack.Visible = false;
+            }
+            else
+            {
+                this.panelMenu.Visible = false;
+                this.panelGamePole.Visible = true;
+                this.ButtonOpenMenuFromSetting.Visible = true;
+                this.buttonBackGame.Visible = true;               
+
+                playerWhite = new Player();
+                playerWhite.NamePlayer = "Comp";
+                playerWhite.IdPlayer = 9999;
+
+                RunGameTwoPlayers();
             }
             
-
-            OpenpanelPlayerWhite(listOfPlayers);
-            this.panelPlayerWhite.Visible = true;
-            this.panelPlayerBlack.Visible = false;
         }
 
         
@@ -240,6 +302,8 @@ namespace GameGomoku
             this.ButtonOpenMenuFromSetting.Visible = true;
             this.buttonBackGame.Visible = true;
 
+            //BoolComp = gameSetting.GetGameVsComp();
+
             RunGameTwoPlayers();
         }
 
@@ -250,15 +314,11 @@ namespace GameGomoku
         /// <param name="e"></param>
         private void buttonClickRating(object sender, EventArgs e)
         {
-            
-            
-
+            InitializeComponentRating();
             this.panelMenu.Visible = false;
             this.panelGamePole.Visible = false;
             this.panelSetting.Visible = false;
             this.panelRating.Visible = true;
-
-
         }
 
         /// <summary>
@@ -269,6 +329,16 @@ namespace GameGomoku
         private void checkSizePole15_CheckedChanged(object sender, EventArgs e)
         {
             gameSetting.SetSizePole(15);
+        }
+
+        private void checkOneByOne_CheckedChanged(object sender, EventArgs e)
+        {
+            gameSetting.SetGameVsComp(false);
+        }
+
+        private void checkVSComp_CheckedChanged(object sender, EventArgs e)
+        {
+            gameSetting.SetGameVsComp(true);
         }
 
         /// <summary>
@@ -315,12 +385,12 @@ namespace GameGomoku
             this.ButtonOpenMenuFromSetting.Visible = true;
 
         }
+
         private void buttonClickQuit(object sender, EventArgs e)
         {
             this.Close();
 
         }
-            
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {

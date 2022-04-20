@@ -7,9 +7,7 @@ using System.IO;
 
 namespace GameGomoku
 {
-    /// <summary>
-    /// Класс элемента игрового поля
-    /// </summary>
+    
     public class Player
     {
         public int IdPlayer;
@@ -28,6 +26,12 @@ namespace GameGomoku
             csvOpen();
             
         }
+
+        public void RemoveItem(Player delItem)
+        {
+            ListPlayers.Remove(delItem);
+        }
+
         public void csvOpen()
         {
             ListPlayers.Clear();
