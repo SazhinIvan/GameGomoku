@@ -14,12 +14,14 @@ namespace GameGomoku
         public string Name;
         public int count;
     }
-        public class Rating
+    public class Rating
     {
+       
         public List<string> ListRating;
-        private string path = "Rating.csv";
+        private string path =  "Rating.csv";
 
         public void csvOpen() {
+           // var fl =  GameGomoku.Properties.Resources.Rating;
             var fl = File.ReadAllLines(path);
             List<string> ienstr = new List<string>();
             foreach (var item in fl)

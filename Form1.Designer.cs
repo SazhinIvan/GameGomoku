@@ -467,21 +467,36 @@ namespace GameGomoku
             this.ButtonOpenMenuFromSetting = new System.Windows.Forms.Button();
             this.ButtonOpenMenuFromGamePole = new System.Windows.Forms.Button();
             this.ButtonOpenMenuFromRating = new System.Windows.Forms.Button();
-
             this.GroupGamePole = new System.Windows.Forms.GroupBox();
-
             this.panelMenu = new System.Windows.Forms.Panel();
             this.panelGamePole = new System.Windows.Forms.Panel();
             this.panelSetting = new System.Windows.Forms.Panel();
             this.panelRating = new System.Windows.Forms.Panel();
-
             this.panelPlayerBlack = new System.Windows.Forms.Panel();
             this.panelPlayerWhite = new System.Windows.Forms.Panel();
-
-
             this.SuspendLayout();
-
-            //
+            // 
+            // ButtonOpenMenuFromSetting
+            // 
+            this.ButtonOpenMenuFromSetting.Location = new System.Drawing.Point(0, 0);
+            this.ButtonOpenMenuFromSetting.Name = "ButtonOpenMenuFromSetting";
+            this.ButtonOpenMenuFromSetting.Size = new System.Drawing.Size(75, 23);
+            this.ButtonOpenMenuFromSetting.TabIndex = 0;
+            // 
+            // ButtonOpenMenuFromGamePole
+            // 
+            this.ButtonOpenMenuFromGamePole.Location = new System.Drawing.Point(0, 0);
+            this.ButtonOpenMenuFromGamePole.Name = "ButtonOpenMenuFromGamePole";
+            this.ButtonOpenMenuFromGamePole.Size = new System.Drawing.Size(75, 23);
+            this.ButtonOpenMenuFromGamePole.TabIndex = 0;
+            // 
+            // ButtonOpenMenuFromRating
+            // 
+            this.ButtonOpenMenuFromRating.Location = new System.Drawing.Point(0, 0);
+            this.ButtonOpenMenuFromRating.Name = "ButtonOpenMenuFromRating";
+            this.ButtonOpenMenuFromRating.Size = new System.Drawing.Size(75, 23);
+            this.ButtonOpenMenuFromRating.TabIndex = 0;
+            // 
             // GroupGamePole
             // 
             this.GroupGamePole.Location = new System.Drawing.Point(0, 0);
@@ -489,6 +504,55 @@ namespace GameGomoku
             this.GroupGamePole.Size = new System.Drawing.Size(200, 100);
             this.GroupGamePole.TabIndex = 0;
             this.GroupGamePole.TabStop = false;
+            // 
+            // panelMenu
+            // 
+            this.panelMenu.Location = new System.Drawing.Point(0, 0);
+            this.panelMenu.Name = "panelMenu";
+            this.panelMenu.Size = new System.Drawing.Size(200, 100);
+            this.panelMenu.TabIndex = 0;
+            // 
+            // panelGamePole
+            // 
+            this.panelGamePole.Location = new System.Drawing.Point(0, 0);
+            this.panelGamePole.Name = "panelGamePole";
+            this.panelGamePole.Size = new System.Drawing.Size(200, 100);
+            this.panelGamePole.TabIndex = 0;
+            // 
+            // panelSetting
+            // 
+            this.panelSetting.Location = new System.Drawing.Point(0, 0);
+            this.panelSetting.Name = "panelSetting";
+            this.panelSetting.Size = new System.Drawing.Size(200, 100);
+            this.panelSetting.TabIndex = 0;
+            // 
+            // panelRating
+            // 
+            this.panelRating.Location = new System.Drawing.Point(0, 0);
+            this.panelRating.Name = "panelRating";
+            this.panelRating.Size = new System.Drawing.Size(200, 100);
+            this.panelRating.TabIndex = 0;
+            // 
+            // panelPlayerBlack
+            // 
+            this.panelPlayerBlack.Location = new System.Drawing.Point(0, 0);
+            this.panelPlayerBlack.Name = "panelPlayerBlack";
+            this.panelPlayerBlack.Size = new System.Drawing.Size(200, 100);
+            this.panelPlayerBlack.TabIndex = 0;
+            // 
+            // panelPlayerWhite
+            // 
+            this.panelPlayerWhite.Location = new System.Drawing.Point(0, 0);
+            this.panelPlayerWhite.Name = "panelPlayerWhite";
+            this.panelPlayerWhite.Size = new System.Drawing.Size(200, 100);
+            this.panelPlayerWhite.TabIndex = 0;
+            // 
+            // Form1
+            // 
+            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Name = "Form1";
+            this.ResumeLayout(false);
+
         }
 
 

@@ -109,5 +109,48 @@ namespace GameGomoku.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на 0,Comp
+        ///1,Сергей
+        ///2,Николай
+        ///3,Игорь
+        ///4,Семен
+        ///4,Матвей
+        ///4,Иван
+        ///.
+        /// </summary>
+        internal static string Players {
+            get {
+                return ResourceManager.GetString("Players", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Матвей
+        ///Матвей
+        ///Comp
+        ///Comp
+        ///Матвей
+        ///Иван
+        ///Матвей
+        ///Матвей
+        ///Матвей
+        ///Матвей
+        ///Матвей
+        ///Игорь
+        ///Игорь
+        ///Игорь
+        ///Игорь
+        ///Игорь
+        ///Игорь
+        ///Матвей
+        ///.
+        /// </summary>
+        internal static string Rating {
+            get {
+                return ResourceManager.GetString("Rating", resourceCulture);
+            }
+        }
     }
 }
