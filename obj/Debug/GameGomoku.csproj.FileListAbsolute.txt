@@ -28,3 +28,7 @@ D:\GameGomoku\obj\Debug\GameGomoku.csproj.CoreCompileInputs.cache
 D:\GameGomoku\obj\Debug\GameGomoku.exe
 D:\GameGomoku\obj\Debug\GameGomoku.pdb
 D:\GameGomoku\bin\Debug\Rating.csv
+C:\Users\User\Desktop\Ivan\GameGomoku\bin\Debug\Rating.csv
+C:\Users\User\Desktop\Ivan\GameGomoku\bin\Debug\Players.csv
+C:\Users\User\Desktop\Ivan\GameGomoku\obj\Debug\GameGomoku.csprojAssemblyReference.cache
+D:\GameGomoku\bin\Debug\Players.csv

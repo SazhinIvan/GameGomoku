@@ -12,6 +12,7 @@ namespace GameGomoku
     {
         public int IdPlayer;
         public string NamePlayer;
+        public bool ColorPlayerBlack;
     };
 
     public class ListOfPlayers
@@ -44,9 +45,7 @@ namespace GameGomoku
                 player.IdPlayer = Int32.Parse(arr[0]);
                 player.NamePlayer = arr[1];
                 ListPlayers.Add(player);
-            }
-            
-
+            }           
         }
 
         public void csvAddItem(string nameplayer)
@@ -63,8 +62,7 @@ namespace GameGomoku
 
             List<string> ienstr = new List<string>();
             ienstr.Add(itemplayer);
-            File.AppendAllLines(path, ienstr);
-            
+            File.AppendAllLines(path, ienstr);            
 
             csvOpen();
         }

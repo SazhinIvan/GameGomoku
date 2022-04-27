@@ -75,7 +75,16 @@ namespace GameGomoku
             this.ButtonOpenMenuFromGamePole.Text = "Меню";
             this.ButtonOpenMenuFromGamePole.Click += new System.EventHandler(this.ButtonClickMenu);
             this.panelGamePole.Controls.Add(ButtonOpenMenuFromGamePole);
-
+            //
+            //CurentPlayer
+            //
+            this.CurentPlayer.Location = new System.Drawing.Point(400, 50);
+            this.CurentPlayer.Name = "CurentPlayer";
+            this.CurentPlayer.Size = new System.Drawing.Size(150, 30);
+            this.CurentPlayer.TabIndex = 0;
+            this.CurentPlayer.Text = "";
+            this.CurentPlayer.Click += new System.EventHandler(this.ButtonClickMenu);
+            this.panelGamePole.Controls.Add(CurentPlayer);
 
             this.buttonBackGame.Visible = false;  /////
         }
@@ -466,6 +475,7 @@ namespace GameGomoku
         {
             this.ButtonOpenMenuFromSetting = new System.Windows.Forms.Button();
             this.ButtonOpenMenuFromGamePole = new System.Windows.Forms.Button();
+            this.CurentPlayer = new System.Windows.Forms.Label();
             this.ButtonOpenMenuFromRating = new System.Windows.Forms.Button();
             this.GroupGamePole = new System.Windows.Forms.GroupBox();
             this.panelMenu = new System.Windows.Forms.Panel();
@@ -551,12 +561,13 @@ namespace GameGomoku
             // 
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Name = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
 
         }
 
 
-        private void RunGameTwoPlayers()
+        private void RunGame()
         {
 
 
@@ -683,7 +694,7 @@ namespace GameGomoku
                 var name = item.NamePlayer;
                 RadioButton rb = new RadioButton();
                 rb.Checked = false;
-                rb.Tag = id;
+                rb.Tag = i;
                 rb.Text = name;
                 rb.Location = new System.Drawing.Point(300, 40 + i * 20);
                 rb.Name = name;
@@ -780,6 +791,7 @@ namespace GameGomoku
 
         private ListView ListView1;
         private ListBox ListBox;
+        private Label CurentPlayer;
     }
 }
 
