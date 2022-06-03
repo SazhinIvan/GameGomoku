@@ -89,6 +89,8 @@ namespace GameGomoku
             this.buttonBackGame.Visible = false;  /////
         }
 
+
+
         private void ClearGameSettingControls()
         {
             foreach (var item in this.GroupCheckSizePole.Controls)
@@ -186,7 +188,7 @@ namespace GameGomoku
             this.checkVSComp.Name = "checkVSComp";
             this.checkVSComp.Size = new System.Drawing.Size(100, 15);
             this.checkVSComp.TabIndex = 1;
-            this.checkVSComp.Text = "Проитив компьютера";
+            this.checkVSComp.Text = "Проитив Comp";
             this.checkVSComp.CheckedChanged += new System.EventHandler(this.checkVSComp_CheckedChanged);
 
             this.panelSetting.Controls.Add(this.GroupGameMode);
@@ -329,7 +331,7 @@ namespace GameGomoku
             this.buttonStartGame.Size = new System.Drawing.Size(150, 30);
             this.buttonStartGame.TabIndex = 0;
             this.buttonStartGame.Text = "Начало игры";
-            this.buttonStartGame.Click += new System.EventHandler(this.buttonClickStartGameTwoPlayersu);
+            this.buttonStartGame.Click += new System.EventHandler(this.buttonClickStartGameTwoPlayers);
             // 
             // _buttonGameSetting
             // 
@@ -404,16 +406,14 @@ namespace GameGomoku
             this.ButtonOpenMenuFromRating.Click += new System.EventHandler(this.ButtonClickMenu);
             this.panelRating.Controls.Add(ButtonOpenMenuFromRating);
 
-
             //rating = new Rating();
-
+            rating.csvOpen();
             ListBox = new ListBox();
 
             List<string> list_rating = new List<string>();
             list_rating = rating.ListRating;
 
             var tmp_listName = (from item in list_rating
-
                            select item).Distinct();
 
             List<Rating_count> tmp_rating_count = new List<Rating_count>();
@@ -445,17 +445,9 @@ namespace GameGomoku
                 ListBox.Items.Add(strItem);
             }
 
-
             this.ListBox.Size = new System.Drawing.Size(150, 200);
             this.ListBox.Location = new System.Drawing.Point(300, 100);
-            this.panelRating.Controls.Add(ListBox);
-
-
-            
-
-
-
-          
+            this.panelRating.Controls.Add(ListBox);          
         }
 
         private void InitializeComponentSetting()
@@ -466,8 +458,6 @@ namespace GameGomoku
             this.GroupGameMode = new System.Windows.Forms.GroupBox();
             this.checkOneByOne = new System.Windows.Forms.RadioButton();
             this.checkVSComp = new System.Windows.Forms.RadioButton();
-
-
         }
        
 
@@ -563,21 +553,17 @@ namespace GameGomoku
             this.Name = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
-
         }
 
 
         private void RunGame()
         {
-
-
             this.ButtonOpenMenuFromGamePole.Visible = true;  
             this.panelGamePole.Controls.Add(ButtonOpenMenuFromGamePole);
 
-
             //Настрйоки
             int size_pole = gameSetting.GetSizePole();
-          //////
+            //////
             int buttonWidth = 30;
             int buttonHeight = 30;
 

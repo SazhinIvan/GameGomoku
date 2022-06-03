@@ -79,7 +79,8 @@ namespace GameGomoku
         /// <param name="button"></param>
         public void button_color(Button button)
         {
-            
+            string nextColorPlayer = "";
+
             var _tag = (int)button.Tag;
 
             buttonsPosition item_pole = _buttonsPosition[_tag];
@@ -99,9 +100,10 @@ namespace GameGomoku
                     ObjGamePole.SetItemPlayerGamePole(x_gamePole_test, y_gamePole_test, 1, _tag);
 
                     ItemGamePole item_pole_test = ObjGamePole.GetItemGamePole(x_gamePole_test, y_gamePole_test);
-                    MessageWin(item_pole_test);
-
-                    this.CurentPlayer.Text = playerWhite.NamePlayer;
+                    MessageWin(item_pole_test);                   
+                   
+                    nextColorPlayer = "белой";
+                    this.CurentPlayer.Text = "Ходит игрок с " + nextColorPlayer + " фишкой: " + playerWhite.NamePlayer;
                 }
                 else
                 {
@@ -113,7 +115,9 @@ namespace GameGomoku
 
                     ItemGamePole item_pole_test = ObjGamePole.GetItemGamePole(x_gamePole_test, y_gamePole_test);
                     MessageWin(item_pole_test);
-                    this.CurentPlayer.Text = playerBlack.NamePlayer;
+                    
+                    nextColorPlayer = "черной";
+                    this.CurentPlayer.Text = "Ходит игрок с " + nextColorPlayer + " фишкой: " + playerBlack.NamePlayer;
                 }
             }
             else
@@ -143,8 +147,9 @@ namespace GameGomoku
                 playerNum = itgame.playerNumber.ToString();
 
                 MessageWin(itgame);
-
-                this.CurentPlayer.Text = playerBlack.NamePlayer;
+               
+                nextColorPlayer = "черной";
+                this.CurentPlayer.Text = "Ходит игрок с " + nextColorPlayer + " фишкой: " + playerBlack.NamePlayer;
             }
         }
 
@@ -196,7 +201,7 @@ namespace GameGomoku
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void buttonClickStartGameTwoPlayersu(object sender, EventArgs e)
+        private void buttonClickStartGameTwoPlayers(object sender, EventArgs e)
         {
             BoolComp = gameSetting.GetGameVsComp();
             SetNamePlayer();
@@ -228,8 +233,8 @@ namespace GameGomoku
 
         private void RadioButtonClickSetNameBlack(object sender, EventArgs e)
         {            
-            if (playerBlack == null)
-            {
+           // if (playerBlack == null)
+            //{
                 RadioButton button = (RadioButton)sender;
                 int tag = (int)button.Tag;
                 var item = listOfPlayers.ListPlayers[tag];
@@ -238,7 +243,7 @@ namespace GameGomoku
                 playerBlack.NamePlayer = name;
                 playerBlack.IdPlayer = tag;
                 playerBlack.ColorPlayerBlack = true;
-            };    
+           // };    
         }
 
         private void RadioButtonClickSetNameWhite(object sender, EventArgs e)
@@ -328,7 +333,10 @@ namespace GameGomoku
             RunGame();
             activePlayerBlack = true;
 
-            this.CurentPlayer.Text = playerBlack.NamePlayer;
+            string nextColorPlayer = "черной";
+            this.CurentPlayer.Text = "Ходит игрок с " + nextColorPlayer + " фишкой: " + playerBlack.NamePlayer;
+
+           // this.CurentPlayer.Text = playerBlack.NamePlayer;
         }
 
         /// <summary>
