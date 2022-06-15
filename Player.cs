@@ -54,10 +54,10 @@ namespace GameGomoku
             
             var _count = fl.Length;
 
-            var pl = fl[_count - 1];
+            var pl = fl[_count-1];
 
             string[] arr = pl.Split(',');
-            string _id = arr[0];
+            string _id = arr[0] + 1;
             string itemplayer = _id + "," + nameplayer;
 
             List<string> ienstr = new List<string>();

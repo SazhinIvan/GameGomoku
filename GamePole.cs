@@ -77,6 +77,13 @@ namespace GameGomoku
             gamePoleList[num].busy_cell = 1;
         }
 
+        public void SetItemNotBusyGamePole(int x, int y, int num, int bb)
+        {
+            gamePole[x - 1, y - 1].busy_cell = 0;
+
+            gamePoleList[num].busy_cell = bb;
+        }
+
         public bool checkFive(int[] array)
         {
             bool result = false;
@@ -251,5 +258,39 @@ namespace GameGomoku
             return five_vert | five_horiz | five_diag | five_diag_2;
 
         }
+
+        public bool Check_noOne(ItemGamePole item_pole)
+        {
+
+            var item = GetItemGamePole(item_pole.x_gamePole, item_pole.y_gamePole);
+            //var item_x = item.x_gamePole;
+            //var item_y = item.y_gamePole;
+            var item_buzy = item.busy_cell;
+            var item_num = item.num;
+            SetItemBusyGamePole(item_pole.x_gamePole, item_pole.y_gamePole, item_pole.num);
+
+
+            var ss = from obj in gamePoleList
+                     where obj.busy_cell == 0
+                     select obj;
+
+            var count_ss = ss.Count();
+            if (count_ss > 0)
+            {
+                SetItemNotBusyGamePole(item_pole.x_gamePole, item_pole.y_gamePole, item_num, item_buzy);
+                return false;
+                
+            }
+            else
+            {
+                return true;
+            }
+            // проверка на победу
+             
+                
+
+        }
+
+
     }
 }

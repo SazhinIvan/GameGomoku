@@ -50,16 +50,18 @@ namespace GameGomoku
             int playerNum = item_pole_test.playerNumber;
             if (ObjGamePole.Check_win(item_pole_test))
             {
-                rating.csvAddItem(playerBlack.NamePlayer);
+                
 
                 string nn = "";
                 if (playerNum == 1)
                 {
                     nn = playerBlack.NamePlayer;
+                    rating.csvAddItem(nn);
                 }
                 else if (playerNum == 2)
                 {
                     nn = playerWhite.NamePlayer;
+                    rating.csvAddItem(nn);
                 }
 
                 MessageBox.Show("Победил " + nn);
@@ -70,6 +72,15 @@ namespace GameGomoku
                 this.buttonBackGame.Visible = false;
 
 
+            }
+            else if (ObjGamePole.Check_noOne(item_pole_test))
+            {
+                MessageBox.Show("Ничья");
+                this.GroupGamePole.Controls.Clear();
+                this.panelMenu.Visible = true;
+                this.panelGamePole.Visible = false;
+                this.panelSetting.Visible = false;
+                this.buttonBackGame.Visible = false;
             }
         }
 
@@ -204,8 +215,41 @@ namespace GameGomoku
         private void buttonClickStartGameTwoPlayers(object sender, EventArgs e)
         {
             BoolComp = gameSetting.GetGameVsComp();
-            SetNamePlayer();
+            //SetNamePlayer();
 
+            playerBlack = new Player();
+            playerBlack.NamePlayer = "Игрок 1";
+            playerBlack.IdPlayer = 0;
+            playerBlack.ColorPlayerBlack = true;
+
+            if (BoolComp == false)
+            {
+                playerWhite = new Player();
+                playerWhite.NamePlayer = "Игрок 2";
+                playerWhite.IdPlayer = 1;
+                playerWhite.ColorPlayerBlack = false;
+
+            }
+            else
+            {
+                playerWhite = new Player();
+                playerWhite.NamePlayer = "Компьютер";
+                playerWhite.IdPlayer = 2;
+                playerWhite.ColorPlayerBlack = false;
+            }
+
+            this.panelMenu.Visible = false;
+            this.panelGamePole.Visible = true;
+            this.ButtonOpenMenuFromSetting.Visible = false;
+            this.buttonBackGame.Visible = true;           
+            this.panelSetting.Visible = false;
+            this.panelRating.Visible = false;
+
+            RunGame();
+            activePlayerBlack = true;
+
+            string nextColorPlayer = "черной";
+            this.CurentPlayer.Text = "Ходит игрок с " + nextColorPlayer + " фишкой: " + playerBlack.NamePlayer;
             //this.panelMenu.Visible = false;
             //this.panelGamePole.Visible = true;
             //this.ButtonOpenMenuFromSetting.Visible = true;
@@ -213,7 +257,7 @@ namespace GameGomoku
 
             // RunGameTwoPlayers();
 
-            
+
         }
 
         private void SetNamePlayer()
@@ -396,6 +440,7 @@ namespace GameGomoku
             this.panelMenu.Visible = true;
             this.panelGamePole.Visible = false;
             this.panelSetting.Visible = false;
+            this.panelRating.Visible = false;
         }
 
         /// <summary>

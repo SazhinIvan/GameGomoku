@@ -398,6 +398,7 @@ namespace GameGomoku
             //
             // ButtonOpenMenuFromSetting
             //
+            this.panelRating.Controls.Clear();
             this.ButtonOpenMenuFromRating.Location = new System.Drawing.Point(300, 50);
             this.ButtonOpenMenuFromRating.Name = "Menu";
             this.ButtonOpenMenuFromRating.Size = new System.Drawing.Size(150, 30);
