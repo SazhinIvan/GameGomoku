@@ -48,7 +48,18 @@ namespace GameGomoku
         public void MessageWin(ItemGamePole item_pole_test)
         {
             int playerNum = item_pole_test.playerNumber;
-            if (ObjGamePole.Check_win(item_pole_test))
+
+
+           if (ObjGamePole.Check_noOne(item_pole_test))
+            {
+                MessageBox.Show("Ничья");
+                this.GroupGamePole.Controls.Clear();
+                this.panelMenu.Visible = true;
+                this.panelGamePole.Visible = false;
+                this.panelSetting.Visible = false;
+                this.buttonBackGame.Visible = false;
+            }
+            else if (ObjGamePole.Check_win(item_pole_test))
             {
                 
 
@@ -73,15 +84,7 @@ namespace GameGomoku
 
 
             }
-            else if (ObjGamePole.Check_noOne(item_pole_test))
-            {
-                MessageBox.Show("Ничья");
-                this.GroupGamePole.Controls.Clear();
-                this.panelMenu.Visible = true;
-                this.panelGamePole.Visible = false;
-                this.panelSetting.Visible = false;
-                this.buttonBackGame.Visible = false;
-            }
+            
         }
 
         /// <summary>

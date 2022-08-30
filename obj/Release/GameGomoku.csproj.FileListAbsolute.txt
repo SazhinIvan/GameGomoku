@@ -27,3 +27,4 @@ D:\GameGomoku\obj\Release\GameGomoku.exe
 D:\GameGomoku\obj\Release\GameGomoku.pdb
 D:\GameGomoku\bin\Release\Rating.csv
 D:\GameGomoku\bin\Release\Players.csv
+D:\GameGomoku\obj\Release\GameGomoku.csprojAssemblyReference.cache

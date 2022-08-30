@@ -79,7 +79,7 @@ namespace GameGomoku
 
         public void SetItemNotBusyGamePole(int x, int y, int num, int bb)
         {
-            gamePole[x - 1, y - 1].busy_cell = 0;
+            gamePole[x - 1, y - 1].busy_cell = bb;
 
             gamePoleList[num].busy_cell = bb;
         }
@@ -104,7 +104,7 @@ namespace GameGomoku
             int x_gamePolePrevious = 0;
             int playerNumberPrevious = 0;
 
-            for (int i = 1; i < array_tmp.Count(); i++)
+            for (int i = 1; i <= array_tmp.Count(); i++)
             {
                 var cellCurrent = gamePole[x_pole - 1, y_pole - 1];
 
